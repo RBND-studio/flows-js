@@ -1,0 +1,7 @@
+{
+  "extends": "@vercel/style-guide/typescript",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["src/**/*"]
+}
