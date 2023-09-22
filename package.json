@@ -8,15 +8,19 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup && pnpm tsc -p tsconfig.dist.json",
-    "lint": "eslint"
+    "lint": "eslint",
+    "commitlint": "commitlint --edit"
   },
   "prettier": "@vercel/style-guide/prettier",
   "dependencies": {
     "@floating-ui/dom": "^1.5.3"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
     "@vercel/style-guide": "^5.0.1",
     "eslint": "^8.49.0",
+    "husky": "^8.0.3",
     "prettier": "^3.0.3",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2"
