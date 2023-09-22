@@ -1,7 +1,9 @@
 {
   "extends": "@vercel/style-guide/typescript",
   "compilerOptions": {
-    "noEmit": true
+    "noEmit": true,
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext"
   },
   "include": ["src/**/*"]
 }

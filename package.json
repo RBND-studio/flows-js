@@ -1,13 +1,19 @@
 {
-  "name": "flows",
+  "name": "flows-js",
   "version": "0.0.0",
   "description": "",
   "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && pnpm tsc -p tsconfig.dist.json",
     "lint": "eslint"
   },
   "prettier": "@vercel/style-guide/prettier",
+  "dependencies": {
+    "@floating-ui/dom": "^1.5.3"
+  },
   "devDependencies": {
     "@vercel/style-guide": "^5.0.1",
     "eslint": "^8.49.0",
