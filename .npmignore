@@ -1,5 +1,8 @@
 pnpm-lock.yaml
-tsconfig.json
+tsconfig*
 tsup.config.ts
 .eslintrc.js
 .eslintignore
+examples
+commitlint*
+src

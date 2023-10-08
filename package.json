@@ -1,5 +1,5 @@
 {
-  "name": "flows-js",
+  "name": "@rbnd/flows",
   "version": "0.0.0",
   "description": "",
   "license": "MIT",
@@ -8,8 +8,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup && pnpm tsc -p tsconfig.dist.json",
+    "commitlint": "commitlint --edit",
     "lint": "eslint",
-    "commitlint": "commitlint --edit"
+    "release": "pnpm build && pnpm publish --access=public"
   },
   "prettier": "@vercel/style-guide/prettier",
   "dependencies": {
