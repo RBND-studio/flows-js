@@ -1,18 +1,23 @@
 {
   "name": "@rbnd/flows",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "A better way to onboard users and drive product adoption.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RBND-studio/flows-js"
+  },
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup && pnpm tsc -p tsconfig.dist.json",
+    "build": "tsup &&  pnpm tsc -p tsconfig.dist.json",
     "commitlint": "commitlint --edit",
+    "dev": "tsup --watch",
+    "dev:vanilla": "concurrently \"pnpm dev\" \"cd examples/vanilla-js && pnpm start\"",
     "lint": "eslint",
     "release": "pnpm build && pnpm publish --access=public"
   },
-  "prettier": "@vercel/style-guide/prettier",
   "dependencies": {
     "@floating-ui/dom": "^1.5.3"
   },
@@ -20,6 +25,7 @@
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@vercel/style-guide": "^5.0.1",
+    "concurrently": "^8.2.1",
     "eslint": "^8.49.0",
     "husky": "^8.0.3",
     "prettier": "^3.0.3",

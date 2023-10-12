@@ -1,0 +1,17 @@
+:root {
+  --flows-background: #ffffff;
+  --flows-text: #222222;
+  --flows-border: 1px solid #cccccc;
+  --flows-borderRadius: 4px;
+  --flows-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.flows-tooltip {
+  background-color: var(--flows-background);
+  border: var(--flows-border);
+  color: var(--flows-text);
+  border-radius: var(--flows-borderRadius);
+  position: absolute;
+  padding: 8px;
+  box-shadow: var(--flows-shadow);
+}

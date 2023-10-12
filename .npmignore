@@ -6,3 +6,5 @@ tsup.config.ts
 examples
 commitlint*
 src
+.husky
+.prettierrc

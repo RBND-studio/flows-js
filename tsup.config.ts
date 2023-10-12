@@ -1,10 +1,10 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: ["src/index.ts"],
   clean: true,
-  format: ['cjs', 'esm', 'iife'],
-  globalName: 'FlowsJS',
+  format: ["cjs", "esm", "iife"],
+  globalName: "FlowsJS",
   minify: true,
   dts: true,
 });
