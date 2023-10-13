@@ -1,5 +1,5 @@
 import { computePosition, offset, flip, shift, autoUpdate } from "@floating-ui/dom";
-import type { FlowStep, FlowTooltipStep, FlowsContext } from "./types";
+import type { FlowStep, FlowTooltipStep } from "./types";
 import type { FlowState } from "./flow-state";
 
 const updateTooltip = ({
@@ -41,6 +41,7 @@ const renderTooltip = ({
     <div className="flows-tooltip">
       <div>{step.title}</div>
       <div className="flows-tooltip-footer" test="a">
+        {state.hasPrevStep && <button className="flows-back">Back</button>}
         {state.hasNextStep ? (
           <button className="flows-continue">Continue</button>
         ) : (
@@ -59,10 +60,8 @@ const renderTooltip = ({
 
 const isTooltipStep = (step: FlowStep): step is FlowTooltipStep => "element" in step;
 
-export const render = ({ state, context }: { state: FlowState; context: FlowsContext }): void => {
-  const flow = context.flowsById?.[state.flowId];
-  if (!flow) return;
-  const step = flow.steps[state.step];
+export const render = (state: FlowState): void => {
+  const step = state.currentStep;
   if (!step) return;
 
   state.cleanup();

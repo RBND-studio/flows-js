@@ -5,11 +5,19 @@ export interface FlowTooltipStep {
 export interface FlowModalStep {
   title: string;
 }
-export type FlowStep = FlowModalStep | FlowTooltipStep;
+interface WaitStepOptions {
+  element: string;
+  action?: number;
+}
+export interface FlowWaitStep {
+  wait: WaitStepOptions | WaitStepOptions[];
+}
+export type FlowStep = FlowModalStep | FlowTooltipStep | FlowWaitStep;
+type Step = FlowStep | FlowStep[][];
 export interface Flow {
   id: string;
   element: string;
-  steps: FlowStep[];
+  steps: Step[];
 }
 
 export interface FlowsOptions {

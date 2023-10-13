@@ -6,8 +6,8 @@
     <title>Vanilla JS example - Flows JS</title>
 
     <!-- How you would use Flows in your own code -->
-    <script src="https://cdn.jsdelivr.net/npm/@rbnd/flows@0.0.1/dist/index.global.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@rbnd/flows@0.0.1/public/flows.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@rbnd/flows@0.0.2/dist/index.global.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@rbnd/flows@0.0.2/public/flows.css" />
 
     <!-- Development scripts -->
     <!-- <script src="node_modules/flows/dist/index.global.js"></script> -->
@@ -18,7 +18,34 @@
   <body>
     <div>
       <h1>Vanilla JS example - Flows JS</h1>
+      <h2>Flow 1</h2>
       <button id="start-flow-1">Start flow</button>
+      <hr />
+      <h2>Flow 2</h2>
+      <button id="start-flow-2">Start flow</button>
+      <div>
+        <br />
+        <span class="flow-2-text">Text</span>
+      </div>
+      <br />
+      <button id="continue-flow-2">Continue</button>
+      <hr />
+      <h2>Flow 3</h2>
+      <button id="start-flow-3">Start flow</button>
+      <button id="flow-3-A">Variant A</button>
+      <button id="flow-3-B">Variant B</button>
+      <div>
+        <br />
+        <span class="flow-3-A-text">Variant A text</span>
+      </div>
+      <div>
+        <br />
+        <span class="flow-3-B-text">Variant B text</span>
+      </div>
+      <div>
+        <br />
+        <span class="flow-3-final">This is final step</span>
+      </div>
     </div>
   </body>
 </html>

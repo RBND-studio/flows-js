@@ -30,6 +30,20 @@ export const init = (options: FlowsOptions): void => {
       if (eventTarget.matches(flow.element)) startFlow(flow.id);
     });
 
+    instances.forEach((state) => {
+      const step = state.currentStep;
+      if (!step || !("wait" in step)) return;
+      if (Array.isArray(step.wait)) {
+        const matchingWait = step.wait.find((wait) => eventTarget.matches(wait.element));
+        if (matchingWait) state.nextStep(matchingWait.action).render();
+      } else if (eventTarget.matches(step.wait.element)) state.nextStep().render();
+    });
+
+    if (eventTarget.matches(".flows-back")) {
+      const flow = instances.find((state) => state.flowElement?.element.contains(eventTarget));
+      if (!flow) return;
+      flow.prevStep().render();
+    }
     if (eventTarget.matches(".flows-continue")) {
       const flow = instances.find((state) => state.flowElement?.element.contains(eventTarget));
       if (!flow) return;
@@ -43,7 +57,4 @@ export const init = (options: FlowsOptions): void => {
       });
     }
   });
-
-  // eslint-disable-next-line no-console -- this is a demo
-  console.log("You initialized FlowsJS", options);
 };

@@ -10,11 +10,8 @@ window.React = {
       }
     });
     children.forEach((child) => {
-      if (typeof child === "string") {
-        el.appendChild(document.createTextNode(child));
-      } else {
-        el.appendChild(child);
-      }
+      if (typeof child === "string") el.appendChild(document.createTextNode(child));
+      else if (child instanceof HTMLElement) el.appendChild(child);
     });
     return el;
   },
