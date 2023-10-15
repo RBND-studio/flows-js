@@ -4,7 +4,9 @@
     "noEmit": true,
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
-    "jsx": "react"
+    "jsx": "react",
+    "jsxFactory": "_fjsx.el",
+    "jsxFragmentFactory": "_fjsx.frag"
   },
   "include": ["src/**/*"]
 }

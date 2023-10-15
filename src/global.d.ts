@@ -1,17 +1,18 @@
 type CreateElement = (
   tag: string,
   props: Record<string, string>,
-  ...children: (string | HTMLElement)[]
-) => HTMLElement;
+  ...children: (string | HTMLElement | DocumentFragment)[]
+) => HTMLElement | DocumentFragment;
 
 interface Window {
-  React: {
-    createElement: CreateElement;
+  _fjsx: {
+    el: CreateElement;
+    frag: "fjsx-frag";
   };
 }
 
-declare namespace React {
-  const createElement: CreateElement;
+declare namespace _fjsx {
+  const frag: "fjsx-frag";
 }
 
 declare namespace JSX {
