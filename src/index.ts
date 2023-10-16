@@ -1,6 +1,7 @@
 import { FlowState } from "./flow-state";
-import type { Flow, FlowsContext, FlowsOptions } from "./types";
+import { addHandlers } from "./handlers";
 import "./react";
+import type { Flow, FlowsContext, FlowsOptions } from "./types";
 
 let instances: FlowState[] = [];
 const context: FlowsContext = {};
@@ -21,7 +22,7 @@ export const init = (options: FlowsOptions): void => {
     {} as Record<string, Flow>,
   );
 
-  document.addEventListener("click", (event) => {
+  const handleClick = (event: MouseEvent): void => {
     const eventTarget = event.target;
     if (!eventTarget || !(eventTarget instanceof Element)) return;
 
@@ -56,5 +57,7 @@ export const init = (options: FlowsOptions): void => {
         return false;
       });
     }
-  });
+  };
+
+  addHandlers([{ type: "click", handler: handleClick }]);
 };

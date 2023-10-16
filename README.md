@@ -6,8 +6,8 @@
 
 ## Examples
 
-- [Vanilla JS](https://vanilla.flows.sh)
-- React (coming soon)
+- [Javascript](https://github.com/RBND-studio/flows-js/tree/main/examples/vanilla-js) ([Demo](https://vanilla.flows.sh))
+- [React](https://github.com/RBND-studio/flows-js/tree/main/examples/react-nextjs) ([Demo](http://react-nextjs.flows.sh))
 
 ## Getting Started
 
@@ -20,8 +20,8 @@ npm install @rbnd/flows
 ### Via CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@rbnd/flows@0.0.2/dist/index.global.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@rbnd/flows@0.0.2/public/flows.css" />
+<script src="https://cdn.jsdelivr.net/npm/@rbnd/flows@0.0.4/dist/index.global.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@rbnd/flows@0.0.4/public/flows.css" />
 ```
 
 ### Usage
