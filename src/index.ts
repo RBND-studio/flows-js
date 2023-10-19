@@ -1,4 +1,5 @@
 import { FlowState } from "./flow-state";
+import { formWaitMatch } from "./form";
 import { addHandlers } from "./handlers";
 import "./react";
 import type { Flow, FlowsContext, FlowsOptions } from "./types";
@@ -35,9 +36,14 @@ export const init = (options: FlowsOptions): void => {
       const step = state.currentStep;
       if (!step || !("wait" in step)) return;
       if (Array.isArray(step.wait)) {
-        const matchingWait = step.wait.find((wait) => eventTarget.matches(wait.element));
+        const matchingWait = step.wait.find((wait) => {
+          if (wait.element) return eventTarget.matches(wait.element);
+          return false;
+        });
         if (matchingWait) state.nextStep(matchingWait.action).render();
-      } else if (eventTarget.matches(step.wait.element)) state.nextStep().render();
+      } else if (step.wait.element && eventTarget.matches(step.wait.element)) {
+        state.nextStep().render();
+      }
     });
 
     if (eventTarget.matches(".flows-back")) {
@@ -58,6 +64,24 @@ export const init = (options: FlowsOptions): void => {
       });
     }
   };
+  const handleSubmit = (event: SubmitEvent): void => {
+    const eventTarget = event.target;
+    if (!eventTarget || !(eventTarget instanceof Element)) return;
 
-  addHandlers([{ type: "click", handler: handleClick }]);
+    instances.forEach((state) => {
+      const step = state.currentStep;
+      if (!step || !("wait" in step)) return;
+      if (Array.isArray(step.wait)) {
+        const matchingWait = step.wait.find((wait) => formWaitMatch({ form: eventTarget, wait }));
+        if (matchingWait) state.nextStep(matchingWait.action).render();
+      } else if (formWaitMatch({ form: eventTarget, wait: step.wait })) {
+        state.nextStep().render();
+      }
+    });
+  };
+
+  addHandlers([
+    { type: "click", handler: handleClick },
+    { type: "submit", handler: handleSubmit },
+  ]);
 };

@@ -5,8 +5,12 @@ export interface FlowTooltipStep {
 export interface FlowModalStep {
   title: string;
 }
-interface WaitStepOptions {
-  element: string;
+export interface WaitStepOptions {
+  element?: string;
+  form?: {
+    element: string;
+    values: { element: string; value: string }[];
+  };
   action?: number;
 }
 export interface FlowWaitStep {

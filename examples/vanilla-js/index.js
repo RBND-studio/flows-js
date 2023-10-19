@@ -55,5 +55,41 @@ window.FlowsJS?.init({
         { element: ".flow-3-final", title: "Goodbye" },
       ],
     },
+    {
+      id: "vanilla-demo-flow-4",
+      element: "#start-flow-4",
+      steps: [
+        {
+          element: "#start-flow-4",
+          title: "Hello from Flow 4!",
+        },
+        {
+          wait: [
+            {
+              form: {
+                element: ".flow-4-form",
+                values: [{ element: ".flow-4-select", value: "1" }],
+              },
+              action: 0,
+            },
+            {
+              form: {
+                element: ".flow-4-form",
+                values: [{ element: ".flow-4-select", value: "2" }],
+              },
+              action: 1,
+            },
+          ],
+        },
+        [
+          [{ element: ".flow-4-form button", title: "You selected Option 1" }],
+          [{ element: ".flow-4-form button", title: "You selected Option 2" }],
+        ],
+      ],
+    },
   ],
+});
+
+document.addEventListener("submit", (e) => {
+  e.preventDefault();
 });
