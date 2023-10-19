@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   "@rbnd/flows":
-    specifier: 0.0.5
-    version: 0.0.5
+    specifier: 0.0.6
+    version: 0.0.6
   next:
     specifier: 13.5.4
     version: 13.5.4(react-dom@18.2.0)(react@18.2.0)
@@ -174,7 +174,7 @@ packages:
     dev: false
     optional: true
 
-  /@rbnd/flows@0.0.5:
+  /@rbnd/flows@0.0.6:
     resolution:
       {
         integrity: sha512-KmNgjXjbTypruotRJZLGf7lHLYa//LWm4qgYZ7MZ39ZXubv9UdNYWbwppeMCHAnwKBB9zZYiQHgra62RAGvrZQ==,

@@ -41,6 +41,7 @@ const renderTooltip = ({
     <div className="flows-tooltip">
       <div>{step.title}</div>
       <div className="flows-tooltip-footer" test="a">
+        {state.hasNextStep && <button className="flows-cancel">Close</button>}
         {state.hasPrevStep && <button className="flows-back">Back</button>}
         {state.hasNextStep ? (
           <button className="flows-continue">Continue</button>

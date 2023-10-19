@@ -13,8 +13,15 @@ export const startFlow = (flowId: string): void => {
   state.render();
 };
 
+export const identifyUser = (userId: string): void => {
+  context.userId = userId;
+};
+
 export const init = (options: FlowsOptions): void => {
   context.customerId = options.customerId;
+  context.onNextStep = options.onNextStep;
+  context.onPrevStep = options.onPrevStep;
+  context.tracking = options.tracking;
   context.flowsById = options.flows?.reduce(
     (acc, flow) => {
       acc[flow.id] = flow;
@@ -59,7 +66,14 @@ export const init = (options: FlowsOptions): void => {
     if (eventTarget.matches(".flows-finish")) {
       instances = instances.filter((state) => {
         if (!state.flowElement?.element.contains(eventTarget)) return true;
-        state.cleanup();
+        state.finish();
+        return false;
+      });
+    }
+    if (eventTarget.matches(".flows-cancel")) {
+      instances = instances.filter((state) => {
+        if (!state.flowElement?.element.contains(eventTarget)) return true;
+        state.cancel();
         return false;
       });
     }

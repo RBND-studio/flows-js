@@ -23,10 +23,21 @@ export interface Flow {
   element: string;
   steps: Step[];
 }
+export type FlowStepIndex = number | number[];
+export interface TrackingEvent {
+  type: "startFlow" | "nextStep" | "prevStep" | "finishFlow" | "cancelFlow";
+  flowId: string;
+  step: FlowStepIndex;
+  userId?: string;
+  customerId?: string;
+}
 
 export interface FlowsOptions {
   customerId?: string;
   flows?: Flow[];
+  onNextStep?: (step: Step) => void;
+  onPrevStep?: (step: Step) => void;
+  tracking?: (event: TrackingEvent) => void;
 }
 export interface Instance {
   element: Element;
@@ -34,5 +45,9 @@ export interface Instance {
 }
 export interface FlowsContext {
   customerId?: string;
+  userId?: string;
   flowsById?: Record<string, Flow>;
+  onNextStep?: (step: Step) => void;
+  onPrevStep?: (step: Step) => void;
+  tracking?: (event: TrackingEvent) => void;
 }

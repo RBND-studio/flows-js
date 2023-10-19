@@ -1,11 +1,10 @@
 import { render } from "./render";
-import type { Flow, FlowStep, FlowsContext } from "./types";
+import type { Flow, FlowStep, FlowStepIndex, FlowsContext, TrackingEvent } from "./types";
 
 interface InterfaceFlowState {
   flowId: string;
   flowElement?: { element: HTMLElement; cleanup: () => void };
 }
-export type FlowStepIndex = number | number[];
 
 const getStep = ({ flow, step }: { flow: Flow; step: FlowStepIndex }): FlowStep | undefined => {
   if (!Array.isArray(step)) return flow.steps[step] as FlowStep | undefined;
@@ -25,6 +24,7 @@ export class FlowState implements InterfaceFlowState {
     this.flowId = data.flowId;
     this.flowElement = data.flowElement;
     this.flowsContext = context;
+    this.track({ type: "startFlow" });
   }
 
   setState(stateUpdates: Partial<InterfaceFlowState>): this {
@@ -41,6 +41,18 @@ export class FlowState implements InterfaceFlowState {
   get currentStep(): FlowStep | undefined {
     if (!this.flow) return undefined;
     return getStep({ flow: this.flow, step: this.step });
+  }
+
+  track(props: Pick<TrackingEvent, "type">): this {
+    if (!this.flowsContext.tracking) return this;
+    this.flowsContext.tracking({
+      flowId: this.flowId,
+      step: this.step,
+      userId: this.flowsContext.userId,
+      customerId: this.flowsContext.customerId,
+      ...props,
+    });
+    return this;
   }
 
   nextStep(branch?: number): this {
@@ -67,6 +79,8 @@ export class FlowState implements InterfaceFlowState {
 
     this.stepHistory = [...this.stepHistory, newStepIndex];
 
+    if (this.currentStep) this.flowsContext.onNextStep?.(this.currentStep);
+    this.track({ type: "nextStep" });
     return this;
   }
   get hasNextStep(): boolean {
@@ -90,6 +104,8 @@ export class FlowState implements InterfaceFlowState {
     this.stepHistory = this.stepHistory.slice(0, -1);
     while (this.currentStep && "wait" in this.currentStep)
       this.stepHistory = this.stepHistory.slice(0, -1);
+    if (this.currentStep) this.flowsContext.onPrevStep?.(this.currentStep);
+    this.track({ type: "prevStep" });
     return this;
   }
   get hasPrevStep(): boolean {
@@ -100,13 +116,27 @@ export class FlowState implements InterfaceFlowState {
     return this.flowsContext.flowsById?.[this.flowId];
   }
 
-  render(): void {
+  render(): this {
     render(this);
+    return this;
   }
 
-  cleanup(): void {
-    if (!this.flowElement) return;
+  cancel(): this {
+    this.track({ type: "cancelFlow" });
+    this.cleanup();
+    return this;
+  }
+
+  finish(): this {
+    this.track({ type: "finishFlow" });
+    this.cleanup();
+    return this;
+  }
+
+  cleanup(): this {
+    if (!this.flowElement) return this;
     this.flowElement.cleanup();
     this.flowElement.element.remove();
+    return this;
   }
 }

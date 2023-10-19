@@ -88,6 +88,7 @@ window.FlowsJS?.init({
       ],
     },
   ],
+  tracking: console.log,
 });
 
 document.addEventListener("submit", (e) => {
