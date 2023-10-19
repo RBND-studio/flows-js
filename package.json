@@ -16,7 +16,7 @@
     "dev": "tsup --watch",
     "dev:vanilla": "concurrently \"pnpm dev\" \"cd examples/vanilla-js && pnpm start\"",
     "lint": "eslint",
-    "release": "pnpm build && pnpm publish --access=public"
+    "release": "pnpm build && pnpm publish --access=public --no-git-checks"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3"
