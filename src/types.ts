@@ -11,6 +11,10 @@ export interface WaitStepOptions {
     element: string;
     values: { element: string; value: string }[];
   };
+  change?: {
+    element: string;
+    value: string | RegExp;
+  }[];
   action?: number;
 }
 export interface FlowWaitStep {

@@ -1,5 +1,5 @@
 import { FlowState } from "./flow-state";
-import { formWaitMatch } from "./form";
+import { changeWaitMatch, formWaitMatch } from "./form";
 import { addHandlers } from "./handlers";
 import "./jsx";
 import type { Flow, FlowsContext, FlowsOptions } from "./types";
@@ -93,9 +93,27 @@ export const init = (options: FlowsOptions): void => {
       }
     });
   };
+  const handleChange = (event: Event): void => {
+    const eventTarget = event.target;
+    if (!eventTarget || !(eventTarget instanceof Element)) return;
+
+    instances.forEach((state) => {
+      const step = state.currentStep;
+      if (!step || !("wait" in step)) return;
+      if (Array.isArray(step.wait)) {
+        const matchingWait = step.wait.find((wait) =>
+          changeWaitMatch({ target: eventTarget, wait }),
+        );
+        if (matchingWait) state.nextStep(matchingWait.action).render();
+      } else if (changeWaitMatch({ target: eventTarget, wait: step.wait })) {
+        state.nextStep().render();
+      }
+    });
+  };
 
   addHandlers([
     { type: "click", handler: handleClick },
     { type: "submit", handler: handleSubmit },
+    { type: "change", handler: handleChange },
   ]);
 };

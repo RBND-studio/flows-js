@@ -90,6 +90,28 @@ window.FlowsJS?.init({
         ],
       ],
     },
+    {
+      id: "vanilla-demo-flow-5",
+      element: "#start-flow-5",
+      steps: [
+        {
+          element: "#start-flow-5",
+          title: "Hello from Flow 5!",
+        },
+        {
+          wait: {
+            change: [
+              { element: ".flow-5-email", value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ },
+              { element: ".flow-5-password", value: /^......+$/ },
+            ],
+          },
+        },
+        {
+          element: ".flow-5-submit",
+          title: "Thanks for filling out the values, now you can proceed to submit.",
+        },
+      ],
+    },
   ],
   tracking: console.log,
 });
