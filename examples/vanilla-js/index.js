@@ -9,6 +9,9 @@ window.FlowsJS?.init({
           element: "#start-flow-1",
           title: "Hey!",
         },
+        {
+          title: "This is modal",
+        },
       ],
     },
     {

@@ -4,6 +4,12 @@
   --flows-border: 1px solid #cccccc;
   --flows-borderRadius: 4px;
   --flows-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  --flows-tooltip-padding: 8px;
+
+  --flows-modal-overlayBackground: rgba(0, 0, 0, 0.5);
+  --flows-modal-padding: 16px;
+  --flows-modal-minWidth: 300px;
 }
 
 .flows-tooltip {
@@ -12,6 +18,26 @@
   color: var(--flows-text);
   border-radius: var(--flows-borderRadius);
   position: absolute;
-  padding: 8px;
+  padding: var(--flows-tooltip-padding);
   box-shadow: var(--flows-shadow);
+}
+
+.flows-modal-overlay {
+  background-color: var(--flows-modal-overlayBackground);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.flows-modal {
+  background-color: var(--flows-background);
+  border: var(--flows-border);
+  color: var(--flows-text);
+  border-radius: var(--flows-borderRadius);
+  box-shadow: var(--flows-shadow);
+  padding: var(--flows-modal-padding);
+  min-width: var(--flows-modal-minWidth);
 }

@@ -1,5 +1,5 @@
 import { computePosition, offset, flip, shift, autoUpdate } from "@floating-ui/dom";
-import type { FlowStep, FlowTooltipStep } from "./types";
+import type { FlowModalStep, FlowStep, FlowTooltipStep } from "./types";
 import type { FlowState } from "./flow-state";
 
 const updateTooltip = ({
@@ -59,7 +59,36 @@ const renderTooltip = ({
   return { cleanup };
 };
 
+const renderModal = ({
+  root,
+  step,
+  state,
+}: {
+  root: HTMLElement;
+  step: FlowModalStep;
+  state: FlowState;
+}): void => {
+  const modal = (
+    <div className="flows-modal-overlay">
+      <div className="flows-modal">
+        <div>{step.title}</div>
+        <div className="flows-modal-footer">
+          {state.hasNextStep && <button className="flows-cancel">Close</button>}
+          {state.hasPrevStep && <button className="flows-back">Back</button>}
+          {state.hasNextStep ? (
+            <button className="flows-continue">Continue</button>
+          ) : (
+            <button className="flows-finish">Finish</button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+  root.appendChild(modal);
+};
+
 const isTooltipStep = (step: FlowStep): step is FlowTooltipStep => "element" in step;
+const isModalStep = (step: FlowStep): step is FlowModalStep => !isTooltipStep(step);
 
 export const render = (state: FlowState): void => {
   const step = state.currentStep;
@@ -67,10 +96,15 @@ export const render = (state: FlowState): void => {
 
   state.cleanup();
 
+  if ("wait" in step) return;
   const root = document.createElement("div");
   document.body.appendChild(root);
   if (isTooltipStep(step)) {
     const { cleanup } = renderTooltip({ root, step, state });
     state.flowElement = { element: root, cleanup };
+  }
+  if (isModalStep(step)) {
+    renderModal({ root, step, state });
+    state.flowElement = { element: root };
   }
 };

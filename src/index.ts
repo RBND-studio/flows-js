@@ -1,7 +1,7 @@
 import { FlowState } from "./flow-state";
 import { formWaitMatch } from "./form";
 import { addHandlers } from "./handlers";
-import "./react";
+import "./jsx";
 import type { Flow, FlowsContext, FlowsOptions } from "./types";
 
 let instances: FlowState[] = [];

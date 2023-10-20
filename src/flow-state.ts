@@ -3,7 +3,7 @@ import type { Flow, FlowStep, FlowStepIndex, FlowsContext, TrackingEvent } from 
 
 interface InterfaceFlowState {
   flowId: string;
-  flowElement?: { element: HTMLElement; cleanup: () => void };
+  flowElement?: { element: HTMLElement; cleanup?: () => void };
 }
 
 const getStep = ({ flow, step }: { flow: Flow; step: FlowStepIndex }): FlowStep | undefined => {
@@ -16,7 +16,7 @@ const getStep = ({ flow, step }: { flow: Flow; step: FlowStepIndex }): FlowStep 
 export class FlowState implements InterfaceFlowState {
   flowId: string;
   stepHistory: FlowStepIndex[] = [0];
-  flowElement?: { element: HTMLElement; cleanup: () => void };
+  flowElement?: { element: HTMLElement; cleanup?: () => void };
 
   flowsContext: FlowsContext;
 
@@ -135,7 +135,7 @@ export class FlowState implements InterfaceFlowState {
 
   cleanup(): this {
     if (!this.flowElement) return this;
-    this.flowElement.cleanup();
+    this.flowElement.cleanup?.();
     this.flowElement.element.remove();
     return this;
   }
