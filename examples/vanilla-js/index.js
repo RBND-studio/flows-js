@@ -7,10 +7,12 @@ window.FlowsJS?.init({
       steps: [
         {
           element: "#start-flow-1",
-          title: "Hey!",
+          title: "Welcome to FlowsJS!",
+          body: "This is a demo of FlowsJS. Click the button below to start the demo.",
         },
         {
           title: "This is modal",
+          body: "This is a modal. It is an useful way to show larger amounts of information with detailed descriptions. For smaller amounts of information, you can use a tooltip. Click the button below to continue.",
         },
       ],
     },

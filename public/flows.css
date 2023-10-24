@@ -1,16 +1,94 @@
 :root {
   --flows-background: #ffffff;
+  --flows-background-subtle: #f5f5f5;
+  --flows-background-hover: #f0f0f0;
   --flows-text: #222222;
+  --flows-primary: #0070f3;
+  --flows-primary-hover: #006ae6;
+
   --flows-border: 1px solid #cccccc;
-  --flows-borderRadius: 4px;
   --flows-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
 
-  --flows-tooltip-padding: 8px;
+  --flows-borderRadius: 8px;
+
+  --flows-tooltip-padding: 16px;
 
   --flows-modal-overlayBackground: rgba(0, 0, 0, 0.5);
   --flows-modal-padding: 16px;
   --flows-modal-minWidth: 300px;
+  --flows-model-maxWidth: 600px;
+
+  --flows-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu,
+    Cantarell, "Helvetica Neue", sans-serif;
+  --flows-base-font-size: 14px;
+  --flows-base-line-height: 20px;
+
+  --flows-heading-font-size: 16px;
+  --flows-heading-line-height: 24px;
+  --flows-heading-font-weight: 600;
 }
+
+/* Shared styles */
+
+.flows-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: var(--flows-font-family);
+  font-size: var(--flows-heading-font-size);
+  line-height: var(--flows-heading-line-height);
+  font-weight: var(--flows-heading-font-weight);
+}
+
+.flows-body {
+  margin-top: 12px;
+  margin-bottom: 12px;
+
+  font-family: var(--flows-font-family);
+  font-size: var(--flows-base-font-size);
+  line-height: var(--flows-base-line-height);
+}
+
+.flows-button {
+  background-color: var(--flows-background-subtle);
+  border: var(--flows-border);
+  color: var(--flows-text);
+  border-radius: calc(var(--flows-borderRadius) - 2px);
+  padding: 4px 8px;
+  font-family: var(--flows-font-family);
+  font-size: var(--flows-base-font-size);
+  line-height: var(--flows-base-line-height);
+  cursor: pointer;
+}
+
+.flows-button:hover {
+  background-color: var(--flows-background-hover);
+}
+
+.flows-continue {
+  background-color: var(--flows-primary);
+  border: 1px solid var(--flows-primary);
+  color: #ffffff;
+}
+
+.flows-continue:hover {
+  background-color: var(--flows-primary-hover);
+  border: 1px solid var(--flows-primary-hover);
+}
+
+.flows-finish {
+  background-color: var(--flows-primary);
+  border: 1px solid var(--flows-primary);
+  color: #ffffff;
+}
+
+.flows-finish:hover {
+  background-color: var(--flows-primary-hover);
+  border: 1px solid var(--flows-primary-hover);
+}
+
+/* Tooltip styles */
 
 .flows-tooltip {
   background-color: var(--flows-background);
@@ -20,7 +98,22 @@
   position: absolute;
   padding: var(--flows-tooltip-padding);
   box-shadow: var(--flows-shadow);
+
+  font-family: var(--flows-font-family);
+  font-size: var(--flows-base-font-size);
+  line-height: var(--flows-base-line-height);
+
+  max-width: 280px;
 }
+
+.flows-tooltip-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  gap: 8px;
+}
+
+/* Modal styles */
 
 .flows-modal-overlay {
   background-color: var(--flows-modal-overlayBackground);
@@ -32,6 +125,7 @@
   display: grid;
   place-items: center;
 }
+
 .flows-modal {
   background-color: var(--flows-background);
   border: var(--flows-border);
@@ -40,4 +134,12 @@
   box-shadow: var(--flows-shadow);
   padding: var(--flows-modal-padding);
   min-width: var(--flows-modal-minWidth);
+  max-width: var(--flows-model-maxWidth);
+}
+
+.flows-modal-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+  gap: 8px;
 }

@@ -1,10 +1,12 @@
 export interface FlowTooltipStep {
   title: string;
+  body?: string;
   element: string;
   options?: { text: string; action: number }[];
 }
 export interface FlowModalStep {
   title: string;
+  body?: string;
   options?: { text: string; action: number }[];
 }
 export interface WaitStepOptions {

@@ -19,7 +19,10 @@ if (typeof window !== "undefined")
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- props may be null
         Object.entries(props ?? {}).forEach(([key, value]) => {
           if (key === "className") {
-            el.classList.add(value);
+            const classes = value.split(" ");
+            classes.forEach((className) => {
+              el.classList.add(className);
+            });
           } else {
             el.setAttribute(key, value);
           }
