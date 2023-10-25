@@ -43,8 +43,8 @@ export interface TrackingEvent {
 export interface FlowsOptions {
   customerId?: string;
   flows?: Flow[];
-  onNextStep?: (step: Step) => void;
-  onPrevStep?: (step: Step) => void;
+  onNextStep?: (step: FlowStep) => void;
+  onPrevStep?: (step: FlowStep) => void;
   tracking?: (event: TrackingEvent) => void;
 }
 export interface Instance {
@@ -55,7 +55,7 @@ export interface FlowsContext {
   customerId?: string;
   userId?: string;
   flowsById?: Record<string, Flow>;
-  onNextStep?: (step: Step) => void;
-  onPrevStep?: (step: Step) => void;
+  onNextStep?: (step: FlowStep) => void;
+  onPrevStep?: (step: FlowStep) => void;
   tracking?: (event: TrackingEvent) => void;
 }

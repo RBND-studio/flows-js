@@ -2,13 +2,14 @@ import { FlowState } from "./flow-state";
 import { changeWaitMatch, formWaitMatch } from "./form";
 import { addHandlers } from "./handlers";
 import "./jsx";
-import type { Flow, FlowsContext, FlowsOptions } from "./types";
+import type { Flow, FlowsContext, FlowsOptions, TrackingEvent, FlowStep } from "./types";
 
 let instances: FlowState[] = [];
 const context: FlowsContext = {};
 let observer: MutationObserver | null = null;
 
 export const startFlow = (flowId: string): void => {
+  if (instances.some((state) => state.flowId === flowId)) return;
   const state = new FlowState({ flowId }, context);
   instances.push(state);
   state.render();
@@ -37,7 +38,6 @@ export const init = (options: FlowsOptions): void => {
 
     Object.values(context.flowsById ?? {}).forEach((flow) => {
       if (!flow.element) return;
-      if (instances.some((state) => state.flowId === flow.id)) return;
       if (eventTarget.matches(flow.element)) startFlow(flow.id);
     });
 
@@ -138,3 +138,5 @@ export const init = (options: FlowsOptions): void => {
     { type: "change", handler: handleChange },
   ]);
 };
+
+export type { FlowsOptions, Flow, TrackingEvent, FlowStep };
