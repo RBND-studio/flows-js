@@ -36,7 +36,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  gap: 8px;
+}
+.flows-title {
   font-family: var(--flows-font-family);
   font-size: var(--flows-heading-font-size);
   line-height: var(--flows-heading-line-height);

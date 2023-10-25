@@ -16,10 +16,19 @@ if (typeof window !== "undefined")
       const el = tag === "fjsx-frag" ? new DocumentFragment() : document.createElement(tag);
 
       if (el instanceof HTMLElement) {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- props may be null
-        Object.entries(props ?? {}).forEach(([key, value]) => {
-          if (key === "className") el.className = value;
-          else el.setAttribute(key, value);
+        (Object.keys(props) as (keyof typeof props)[]).forEach((key) => {
+          if (key === "className") {
+            const value = props[key];
+            if (value) el.className = value;
+            return;
+          }
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- props may contain other keys
+          if (key === "dangerouslySetInnerHTML") {
+            const value = props[key];
+            if (value) el.innerHTML = value.__html;
+            return;
+          }
+          el.setAttribute(key, props[key]);
         });
       }
 

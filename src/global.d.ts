@@ -1,8 +1,12 @@
 type Child = string | HTMLElement | DocumentFragment;
+interface Props {
+  className?: string;
+  dangerouslySetInnerHTML?: { __html: string };
+}
 
 type CreateElement = (
   tag: string,
-  props: Record<string, string>,
+  props: Props,
   ...children: (Child | Child[])[]
 ) => HTMLElement | DocumentFragment;
 
@@ -18,6 +22,6 @@ declare namespace _fjsx {
 }
 
 declare namespace JSX {
-  type IntrinsicElements = Record<string, { className?: strings } & Record<string, string>>;
+  type IntrinsicElements = Record<string, Props>;
   type Element = HTMLElement;
 }

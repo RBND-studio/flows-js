@@ -58,11 +58,11 @@ const renderTooltip = ({
   const tooltip = (
     <div className="flows-tooltip">
       <div className="flows-header">
-        {step.title}
+        <h1 className="flows-title" dangerouslySetInnerHTML={{ __html: step.title }} />
         {state.hasNextStep && <button className="flows-cancel flows-button">Close</button>}
       </div>
-      {step.body && <div className="flows-body">{step.body}</div>}
-      <div className="flows-tooltip-footer" test="a">
+      {step.body && <div className="flows-body" dangerouslySetInnerHTML={{ __html: step.body }} />}
+      <div className="flows-tooltip-footer">
         {state.hasPrevStep && <button className="flows-back flows-button">Back</button>}
         {getStepContinueButton({ state, step })}
       </div>
@@ -87,10 +87,12 @@ const renderModal = ({
     <div className="flows-modal-overlay">
       <div className="flows-modal">
         <div className="flows-header">
-          {step.title}
+          <h1 className="flows-title" dangerouslySetInnerHTML={{ __html: step.title }} />
           {state.hasNextStep && <button className="flows-cancel flows-button">Close</button>}
         </div>
-        {step.body && <div className="flows-body">{step.body}</div>}
+        {step.body && (
+          <div className="flows-body" dangerouslySetInnerHTML={{ __html: step.body }} />
+        )}
         <div className="flows-modal-footer">
           {state.hasPrevStep && <button className="flows-back flows-button">Back</button>}
           {getStepContinueButton({ state, step })}

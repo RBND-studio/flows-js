@@ -6,6 +6,7 @@ import type { Flow, FlowsContext, FlowsOptions } from "./types";
 
 let instances: FlowState[] = [];
 const context: FlowsContext = {};
+let observer: MutationObserver | null = null;
 
 export const startFlow = (flowId: string): void => {
   const state = new FlowState({ flowId }, context);
@@ -16,12 +17,6 @@ export const startFlow = (flowId: string): void => {
 export const identifyUser = (userId: string): void => {
   context.userId = userId;
 };
-
-const observer = new MutationObserver(() => {
-  instances.forEach((state) => {
-    if (state.waitingForElement) state.render();
-  });
-});
 
 export const init = (options: FlowsOptions): void => {
   context.customerId = options.customerId;
@@ -126,7 +121,12 @@ export const init = (options: FlowsOptions): void => {
     });
   };
 
-  observer.disconnect();
+  observer?.disconnect();
+  observer = new MutationObserver(() => {
+    instances.forEach((state) => {
+      if (state.waitingForElement) state.render();
+    });
+  });
   observer.observe(document, {
     subtree: true,
     attributes: true,

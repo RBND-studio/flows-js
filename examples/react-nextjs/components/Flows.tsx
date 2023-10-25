@@ -15,6 +15,7 @@ export const Flows = () => {
             {
               element: "#start-flow-1",
               title: "Hey!",
+              body: "This is a demo of FlowsJS. <br/>Click the button below to continue.",
             },
           ],
         },
