@@ -71,13 +71,15 @@
   background-color: var(--flows-background-hover);
 }
 
-.flows-continue {
+.flows-continue,
+.flows-option {
   background-color: var(--flows-primary);
   border: 1px solid var(--flows-primary);
   color: #ffffff;
 }
 
-.flows-continue:hover {
+.flows-continue:hover,
+.flows-option:hover {
   background-color: var(--flows-primary-hover);
   border: 1px solid var(--flows-primary-hover);
 }
@@ -96,9 +98,12 @@
 .flows-cancel {
   background: var(--flows-close-icon);
   background-position: center;
+  background-repeat: no-repeat;
   width: 20px;
   height: 20px;
   border: none;
+  color: transparent;
+  user-select: none;
 }
 
 /* Tooltip styles */
