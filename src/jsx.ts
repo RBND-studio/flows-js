@@ -18,11 +18,8 @@ if (typeof window !== "undefined")
       if (el instanceof HTMLElement) {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- props may be null
         Object.entries(props ?? {}).forEach(([key, value]) => {
-          if (key === "className") {
-            el.classList.add(value);
-          } else {
-            el.setAttribute(key, value);
-          }
+          if (key === "className") el.className = value;
+          else el.setAttribute(key, value);
         });
       }
 

@@ -35,10 +35,10 @@ const getStepContinueButton = ({
   state: FlowState;
   step: FlowModalStep | FlowTooltipStep;
 }): HTMLElement | HTMLElement[] => {
-  if (!state.hasNextStep) return <button className="flows-finish">Finish</button>;
-  if (!step.options) return <button className="flows-continue">Continue</button>;
+  if (!state.hasNextStep) return <button className="flows-finish flows-button">Finish</button>;
+  if (!step.options) return <button className="flows-continue flows-button">Continue</button>;
   return step.options.map((option) => (
-    <button className="flows-option" data-action={option.action}>
+    <button className="flows-option flows-button" data-action={option.action}>
       {option.text}
     </button>
   ));
@@ -57,10 +57,13 @@ const renderTooltip = ({
 }): { cleanup: () => void } => {
   const tooltip = (
     <div className="flows-tooltip">
-      <div>{step.title}</div>
+      <div className="flows-header">
+        {step.title}
+        {state.hasNextStep && <button className="flows-cancel flows-button">Close</button>}
+      </div>
+      {step.body && <div className="flows-body">{step.body}</div>}
       <div className="flows-tooltip-footer" test="a">
-        {state.hasNextStep && <button className="flows-cancel">Close</button>}
-        {state.hasPrevStep && <button className="flows-back">Back</button>}
+        {state.hasPrevStep && <button className="flows-back flows-button">Back</button>}
         {getStepContinueButton({ state, step })}
       </div>
     </div>
@@ -83,10 +86,13 @@ const renderModal = ({
   const modal = (
     <div className="flows-modal-overlay">
       <div className="flows-modal">
-        <div>{step.title}</div>
+        <div className="flows-header">
+          {step.title}
+          {state.hasNextStep && <button className="flows-cancel flows-button">Close</button>}
+        </div>
+        {step.body && <div className="flows-body">{step.body}</div>}
         <div className="flows-modal-footer">
-          {state.hasNextStep && <button className="flows-cancel">Close</button>}
-          {state.hasPrevStep && <button className="flows-back">Back</button>}
+          {state.hasPrevStep && <button className="flows-back flows-button">Back</button>}
           {getStepContinueButton({ state, step })}
         </div>
       </div>
