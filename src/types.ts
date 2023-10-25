@@ -24,7 +24,7 @@ export type FlowStep = FlowModalStep | FlowTooltipStep | FlowWaitStep;
 type Step = FlowStep | FlowStep[][];
 export interface Flow {
   id: string;
-  element: string;
+  element?: string;
   steps: Step[];
 }
 export type FlowStepIndex = number | number[];

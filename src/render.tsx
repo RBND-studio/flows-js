@@ -32,10 +32,12 @@ const renderTooltip = ({
   root,
   step,
   state,
+  target,
 }: {
   root: HTMLElement;
   step: FlowTooltipStep;
   state: FlowState;
+  target: Element;
 }): { cleanup: () => void } => {
   const tooltip = (
     <div className="flows-tooltip">
@@ -52,8 +54,6 @@ const renderTooltip = ({
     </div>
   );
   root.appendChild(tooltip);
-  const target = document.querySelector(step.element);
-  if (!target) throw new Error(`Could not find element ${step.element}`);
   // eslint-disable-next-line @typescript-eslint/no-misused-promises -- Promise is handled inside the updateTooltip
   const cleanup = autoUpdate(target, tooltip, () => updateTooltip({ target, tooltip }));
   return { cleanup };
@@ -100,8 +100,15 @@ export const render = (state: FlowState): void => {
   const root = document.createElement("div");
   document.body.appendChild(root);
   if (isTooltipStep(step)) {
-    const { cleanup } = renderTooltip({ root, step, state });
-    state.flowElement = { element: root, cleanup };
+    const target = document.querySelector(step.element);
+    if (target) {
+      state.waitingForElement = false;
+      const { cleanup } = renderTooltip({ root, step, state, target });
+      state.flowElement = { element: root, cleanup };
+    } else {
+      state.waitingForElement = true;
+      root.remove();
+    }
   }
   if (isModalStep(step)) {
     renderModal({ root, step, state });

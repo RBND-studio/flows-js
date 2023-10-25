@@ -17,6 +17,7 @@ export class FlowState implements InterfaceFlowState {
   flowId: string;
   stepHistory: FlowStepIndex[] = [0];
   flowElement?: { element: HTMLElement; cleanup?: () => void };
+  waitingForElement = false;
 
   flowsContext: FlowsContext;
 

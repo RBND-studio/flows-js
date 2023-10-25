@@ -17,6 +17,12 @@ export const identifyUser = (userId: string): void => {
   context.userId = userId;
 };
 
+const observer = new MutationObserver(() => {
+  instances.forEach((state) => {
+    if (state.waitingForElement) state.render();
+  });
+});
+
 export const init = (options: FlowsOptions): void => {
   context.customerId = options.customerId;
   context.onNextStep = options.onNextStep;
@@ -35,6 +41,7 @@ export const init = (options: FlowsOptions): void => {
     if (!eventTarget || !(eventTarget instanceof Element)) return;
 
     Object.values(context.flowsById ?? {}).forEach((flow) => {
+      if (!flow.element) return;
       if (instances.some((state) => state.flowId === flow.id)) return;
       if (eventTarget.matches(flow.element)) startFlow(flow.id);
     });
@@ -110,6 +117,12 @@ export const init = (options: FlowsOptions): void => {
       }
     });
   };
+
+  observer.disconnect();
+  observer.observe(document, {
+    subtree: true,
+    attributes: true,
+  });
 
   addHandlers([
     { type: "click", handler: handleClick },

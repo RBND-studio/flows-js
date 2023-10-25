@@ -1,20 +1,14 @@
 export default function Home() {
   return (
     <main>
-      <h1>Vanilla JS example - Flows JS</h1>
-      <h2>Flow 1</h2>
+      <h2>Home</h2>
+      <h3>Flow 1</h3>
       <button id="start-flow-1">Start flow</button>
       <hr />
-      <h2>Flow 2</h2>
+      <h3>Flow 2</h3>
       <button id="start-flow-2">Start flow</button>
-      <div>
-        <br />
-        <span className="flow-2-text">Text</span>
-      </div>
-      <br />
-      <button id="continue-flow-2">Continue</button>
       <hr />
-      <h2>Flow 3</h2>
+      <h3>Flow 3</h3>
       <button id="start-flow-3">Start flow</button>
       <button id="flow-3-A">Variant A</button>
       <button id="flow-3-B">Variant B</button>
