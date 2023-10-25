@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@rbnd/flows':
-    specifier: 0.0.7
-    version: 0.0.7
+    specifier: 0.0.8
+    version: 0.0.8
   next:
     specifier: 13.5.4
     version: 13.5.4(react-dom@18.2.0)(react@18.2.0)
@@ -136,8 +136,8 @@ packages:
     dev: false
     optional: true
 
-  /@rbnd/flows@0.0.7:
-    resolution: {integrity: sha512-LLfGyr3/pQ8iOB2DiL4k9EBBFZvs6Ru5GlPGNEILD0Q/tLfpu/dJv96Jzrhjq9strY2jfZj6uOmX2mhtP2sUJw==}
+  /@rbnd/flows@0.0.8:
+    resolution: {integrity: sha512-USI2bsB/kY4RZjMBMT+UvTyTN0l2q3JEGRHi7cntwkL8kQrBlNcMXhgOSizT1uotymLGkM1PYDYvsra97Rn10A==}
     dependencies:
       '@floating-ui/dom': 1.5.3
     dev: false
