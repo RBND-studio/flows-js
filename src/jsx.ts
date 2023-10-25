@@ -1,3 +1,14 @@
+const appendSingleChild = ({
+  el,
+  child,
+}: {
+  el: HTMLElement | DocumentFragment;
+  child: string | HTMLElement | DocumentFragment;
+}): void => {
+  if (typeof child === "string") el.appendChild(document.createTextNode(child));
+  if (child instanceof HTMLElement || child instanceof DocumentFragment) el.appendChild(child);
+};
+
 if (typeof window !== "undefined")
   window._fjsx = {
     frag: "fjsx-frag",
@@ -16,9 +27,11 @@ if (typeof window !== "undefined")
       }
 
       children.forEach((child) => {
-        if (typeof child === "string") el.appendChild(document.createTextNode(child));
-        else if (child instanceof HTMLElement || child instanceof DocumentFragment)
-          el.appendChild(child);
+        if (Array.isArray(child))
+          child.forEach((c) => {
+            appendSingleChild({ el, child: c });
+          });
+        else appendSingleChild({ el, child });
       });
       return el;
     },

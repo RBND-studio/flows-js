@@ -1,7 +1,9 @@
+type Child = string | HTMLElement | DocumentFragment;
+
 type CreateElement = (
   tag: string,
   props: Record<string, string>,
-  ...children: (string | HTMLElement | DocumentFragment)[]
+  ...children: (Child | Child[])[]
 ) => HTMLElement | DocumentFragment;
 
 interface Window {

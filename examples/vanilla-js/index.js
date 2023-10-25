@@ -112,6 +112,24 @@ window.FlowsJS?.init({
         },
       ],
     },
+    {
+      id: "vanilla-demo-flow-6",
+      element: "#start-flow-6",
+      steps: [
+        {
+          element: "#start-flow-6",
+          title: "Hello from Flow 6!",
+          options: [
+            { text: "Variant A", action: 0 },
+            { text: "Variant B", action: 1 },
+          ],
+        },
+        [
+          [{ element: ".flow-6-A-text", title: "You selected variant A" }],
+          [{ element: ".flow-6-B-text", title: "You selected variant B" }],
+        ],
+      ],
+    },
   ],
   tracking: console.log,
 });

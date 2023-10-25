@@ -28,6 +28,22 @@ const updateTooltip = ({
       console.warn("Error computing position", err);
     });
 
+const getStepContinueButton = ({
+  state,
+  step,
+}: {
+  state: FlowState;
+  step: FlowModalStep | FlowTooltipStep;
+}): HTMLElement | HTMLElement[] => {
+  if (!state.hasNextStep) return <button className="flows-finish">Finish</button>;
+  if (!step.options) return <button className="flows-continue">Continue</button>;
+  return step.options.map((option) => (
+    <button className="flows-option" data-action={option.action}>
+      {option.text}
+    </button>
+  ));
+};
+
 const renderTooltip = ({
   root,
   step,
@@ -45,11 +61,7 @@ const renderTooltip = ({
       <div className="flows-tooltip-footer" test="a">
         {state.hasNextStep && <button className="flows-cancel">Close</button>}
         {state.hasPrevStep && <button className="flows-back">Back</button>}
-        {state.hasNextStep ? (
-          <button className="flows-continue">Continue</button>
-        ) : (
-          <button className="flows-finish">Finish</button>
-        )}
+        {getStepContinueButton({ state, step })}
       </div>
     </div>
   );
@@ -75,11 +87,7 @@ const renderModal = ({
         <div className="flows-modal-footer">
           {state.hasNextStep && <button className="flows-cancel">Close</button>}
           {state.hasPrevStep && <button className="flows-back">Back</button>}
-          {state.hasNextStep ? (
-            <button className="flows-continue">Continue</button>
-          ) : (
-            <button className="flows-finish">Finish</button>
-          )}
+          {getStepContinueButton({ state, step })}
         </div>
       </div>
     </div>

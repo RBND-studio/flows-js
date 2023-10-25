@@ -70,6 +70,14 @@ export const init = (options: FlowsOptions): void => {
       if (!flow) return;
       flow.nextStep().render();
     }
+    if (eventTarget.matches(".flows-option")) {
+      const action = Number(eventTarget.getAttribute("data-action"));
+      if (Number.isNaN(action)) return;
+      const flow = instances.find((state) => state.flowElement?.element.contains(eventTarget));
+      if (!flow) return;
+      flow.nextStep(action).render();
+    }
+
     if (eventTarget.matches(".flows-finish")) {
       instances = instances.filter((state) => {
         if (!state.flowElement?.element.contains(eventTarget)) return true;
