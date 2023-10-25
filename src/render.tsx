@@ -57,10 +57,12 @@ const renderTooltip = ({
 }): { cleanup: () => void } => {
   const tooltip = (
     <div className="flows-tooltip">
-      <div className="flows-header">{step.title}</div>
+      <div className="flows-header">
+        {step.title}
+        {state.hasNextStep && <button className="flows-cancel flows-button"></button>}
+      </div>
       {step.body && <div className="flows-body">{step.body}</div>}
       <div className="flows-tooltip-footer" test="a">
-        {state.hasNextStep && <button className="flows-cancel flows-button">Close</button>}
         {state.hasPrevStep && <button className="flows-back flows-button">Back</button>}
         {getStepContinueButton({ state, step })}
       </div>
