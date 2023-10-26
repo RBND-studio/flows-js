@@ -19,6 +19,17 @@ export const identifyUser = (userId: string): void => {
   context.userId = userId;
 };
 
+export const getCurrentStep = (flowId: string): FlowStep | null => {
+  const state = instances.find((s) => s.flowId === flowId);
+  if (!state) return null;
+  return state.currentStep ?? null;
+};
+export const nextStep = (flowId: string, action?: number): void => {
+  const state = instances.find((s) => s.flowId === flowId);
+  if (!state) return;
+  state.nextStep(action).render();
+};
+
 export const init = (options: FlowsOptions): void => {
   context.customerId = options.customerId;
   context.onNextStep = options.onNextStep;

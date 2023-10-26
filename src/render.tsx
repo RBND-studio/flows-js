@@ -1,16 +1,18 @@
 import { computePosition, offset, flip, shift, autoUpdate } from "@floating-ui/dom";
-import type { FlowModalStep, FlowStep, FlowTooltipStep } from "./types";
+import type { FlowModalStep, FlowStep, FlowTooltipStep, Placement } from "./types";
 import type { FlowState } from "./flow-state";
 
 const updateTooltip = ({
   target,
   tooltip,
+  placement,
 }: {
   target: Element;
   tooltip: HTMLElement;
+  placement?: Placement;
 }): Promise<void> =>
   computePosition(target, tooltip, {
-    placement: "bottom",
+    placement: placement ?? "bottom",
     middleware: [
       offset(4),
       flip({ fallbackPlacements: ["top", "bottom", "left", "right"] }),
@@ -70,7 +72,9 @@ const renderTooltip = ({
   );
   root.appendChild(tooltip);
   // eslint-disable-next-line @typescript-eslint/no-misused-promises -- Promise is handled inside the updateTooltip
-  const cleanup = autoUpdate(target, tooltip, () => updateTooltip({ target, tooltip }));
+  const cleanup = autoUpdate(target, tooltip, () =>
+    updateTooltip({ target, tooltip, placement: step.placement }),
+  );
   return { cleanup };
 };
 

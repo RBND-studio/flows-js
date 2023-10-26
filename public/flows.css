@@ -7,8 +7,8 @@
   --flows-primary-hover: #0060ce;
 
   --flows-border: 1px solid #cccccc;
-  --flows-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
-
+  --flows-shadow: 0px 8px 12px rgba(28, 26, 39, 0.08), 0px 6px 8px rgba(28, 26, 39, 0.12),
+    0px 0px 1px rgba(28, 26, 39, 0.16);
   --flows-borderRadius: 8px;
 
   --flows-tooltip-padding: 16px;
@@ -43,6 +43,7 @@
   font-size: var(--flows-heading-font-size);
   line-height: var(--flows-heading-line-height);
   font-weight: var(--flows-heading-font-weight);
+  margin: 0;
 }
 
 .flows-body {
@@ -116,6 +117,7 @@
   color: var(--flows-text);
   border-radius: var(--flows-borderRadius);
   position: absolute;
+  z-index: 1500;
   padding: var(--flows-tooltip-padding);
   box-shadow: var(--flows-shadow);
 
