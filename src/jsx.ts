@@ -16,13 +16,15 @@ if (typeof window !== "undefined")
       const el = tag === "fjsx-frag" ? new DocumentFragment() : document.createElement(tag);
 
       if (el instanceof HTMLElement) {
-        (Object.keys(props) as (keyof typeof props)[]).forEach((key) => {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- props can actually be null
+        (Object.keys(props ?? {}) as (keyof typeof props)[]).forEach((key) => {
           if (key === "className") {
             const value = props[key];
             if (value) el.className = value;
             return;
           }
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- props may contain other keys
+
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- there can be other prop keys
           if (key === "dangerouslySetInnerHTML") {
             const value = props[key];
             if (value) el.innerHTML = value.__html;

@@ -107,6 +107,7 @@
   border: none;
   color: transparent;
   user-select: none;
+  oveflow: hidden;
 }
 
 /* Tooltip styles */
@@ -133,6 +134,9 @@
   justify-content: flex-end;
   margin-top: 12px;
   gap: 8px;
+}
+.flows-back-wrap {
+  flex: 1;
 }
 
 /* Modal styles */

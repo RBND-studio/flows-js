@@ -1,5 +1,6 @@
+import type { FlowsContext } from "./flows-context";
 import { render } from "./render";
-import type { Flow, FlowStep, FlowStepIndex, FlowsContext, TrackingEvent } from "./types";
+import type { Flow, FlowStep, FlowStepIndex, TrackingEvent } from "./types";
 
 interface InterfaceFlowState {
   flowId: string;
@@ -45,12 +46,9 @@ export class FlowState implements InterfaceFlowState {
   }
 
   track(props: Pick<TrackingEvent, "type">): this {
-    if (!this.flowsContext.tracking) return this;
-    this.flowsContext.tracking({
+    this.flowsContext.track({
       flowId: this.flowId,
       step: this.step,
-      userId: this.flowsContext.userId,
-      customerId: this.flowsContext.customerId,
       ...props,
     });
     return this;
@@ -124,12 +122,14 @@ export class FlowState implements InterfaceFlowState {
 
   cancel(): this {
     this.track({ type: "cancelFlow" });
+    this.flowsContext.flowSeen(this.flowId);
     this.cleanup();
     return this;
   }
 
   finish(): this {
     this.track({ type: "finishFlow" });
+    this.flowsContext.flowSeen(this.flowId);
     this.cleanup();
     return this;
   }

@@ -54,6 +54,8 @@ export interface FlowsOptions {
   onNextStep?: (step: FlowStep) => void;
   onPrevStep?: (step: FlowStep) => void;
   tracking?: (event: TrackingEvent) => void;
+  seenFlowIds?: string[];
+  onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
 }
 export interface Instance {
   element: Element;
@@ -66,4 +68,6 @@ export interface FlowsContext {
   onNextStep?: (step: FlowStep) => void;
   onPrevStep?: (step: FlowStep) => void;
   tracking?: (event: TrackingEvent) => void;
+  seenFlowIds: string[];
+  onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
 }

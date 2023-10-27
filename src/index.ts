@@ -1,14 +1,16 @@
 import { FlowState } from "./flow-state";
+import { FlowsContext } from "./flows-context";
 import { changeWaitMatch, formWaitMatch } from "./form";
 import { addHandlers } from "./handlers";
 import "./jsx";
-import type { Flow, FlowsContext, FlowsOptions, TrackingEvent, FlowStep } from "./types";
+import type { Flow, FlowsOptions, TrackingEvent, FlowStep } from "./types";
 
 const instances = new Map<string, FlowState>();
-const context: FlowsContext = {};
+const context = new FlowsContext();
 let observer: MutationObserver | null = null;
 
-export const startFlow = (flowId: string): void => {
+export const startFlow = (flowId: string, { again }: { again?: boolean } = {}): void => {
+  if (!again && context.seenFlowIds.includes(flowId)) return;
   if (instances.has(flowId)) return;
   const state = new FlowState({ flowId }, context);
   instances.set(flowId, state);
@@ -43,6 +45,8 @@ export const init = (options: FlowsOptions): void => {
   context.onNextStep = options.onNextStep;
   context.onPrevStep = options.onPrevStep;
   context.tracking = options.tracking;
+  context.seenFlowIds = options.seenFlowIds ?? [];
+  context.onSeenFlowIdsChange = options.onSeenFlowIdsChange;
   context.flowsById = {
     ...context.flowsById,
     ...options.flows?.reduce(

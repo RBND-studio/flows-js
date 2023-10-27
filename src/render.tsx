@@ -65,7 +65,11 @@ const renderTooltip = ({
       </div>
       {step.body && <div className="flows-body" dangerouslySetInnerHTML={{ __html: step.body }} />}
       <div className="flows-tooltip-footer">
-        {state.hasPrevStep && <button className="flows-back flows-button">Back</button>}
+        {state.hasPrevStep && (
+          <div className="flows-back-wrap">
+            <button className="flows-back flows-button">Back</button>
+          </div>
+        )}
         {getStepContinueButton({ state, step })}
       </div>
     </div>
