@@ -62,6 +62,14 @@ export const init = (options: FlowsOptions): void => {
     const eventTarget = event.target;
     if (!eventTarget || !(eventTarget instanceof Element)) return;
 
+    if (
+      Array.from(document.querySelectorAll(".flows-root")).some((root) =>
+        root.contains(eventTarget),
+      )
+    ) {
+      event.stopPropagation();
+    }
+
     Object.values(context.flowsById ?? {}).forEach((flow) => {
       if (!flow.element) return;
       if (eventTarget.matches(flow.element)) startFlow(flow.id);
@@ -153,6 +161,18 @@ export const init = (options: FlowsOptions): void => {
       }
     });
   };
+  const handlePointerDown = (event: PointerEvent): void => {
+    const eventTarget = event.target;
+    if (!eventTarget || !(eventTarget instanceof Element)) return;
+
+    if (
+      Array.from(document.querySelectorAll(".flows-root")).some((root) =>
+        root.contains(eventTarget),
+      )
+    ) {
+      event.stopPropagation();
+    }
+  };
 
   observer?.disconnect();
   observer = new MutationObserver(() => {
@@ -169,6 +189,7 @@ export const init = (options: FlowsOptions): void => {
     { type: "click", handler: handleClick },
     { type: "submit", handler: handleSubmit },
     { type: "change", handler: handleChange },
+    { type: "pointerdown", handler: handlePointerDown },
   ]);
 };
 

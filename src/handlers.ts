@@ -8,10 +8,10 @@ let handlers: Handler[] = [];
 
 export const addHandlers = (handlersToAdd: Handler[]): void => {
   handlers.forEach(({ type, handler }) => {
-    document.removeEventListener(type, handler);
+    document.removeEventListener(type, handler, true);
   });
   handlersToAdd.forEach(({ type, handler }) => {
-    document.addEventListener(type, handler);
+    document.addEventListener(type, handler, true);
   });
   handlers = handlersToAdd;
 };

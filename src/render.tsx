@@ -122,6 +122,8 @@ export const render = (state: FlowState): void => {
 
   if ("wait" in step) return;
   const root = document.createElement("div");
+  root.className = "flows-root";
+  root.style.pointerEvents = "auto";
   document.body.appendChild(root);
   if (isTooltipStep(step)) {
     const target = document.querySelector(step.element);
