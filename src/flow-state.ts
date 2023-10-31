@@ -1,6 +1,7 @@
 import type { FlowsContext } from "./flows-context";
 import { render } from "./render";
 import type { Flow, FlowStep, FlowStepIndex, TrackingEvent } from "./types";
+import { isModalStep, isTooltipStep } from "./utils";
 
 interface InterfaceFlowState {
   flowId: string;
@@ -101,7 +102,11 @@ export class FlowState implements InterfaceFlowState {
 
   prevStep(): this {
     this.stepHistory = this.stepHistory.slice(0, -1);
-    while (this.currentStep && "wait" in this.currentStep)
+    while (
+      this.stepHistory.length &&
+      this.currentStep &&
+      !(isTooltipStep(this.currentStep) || isModalStep(this.currentStep))
+    )
       this.stepHistory = this.stepHistory.slice(0, -1);
     if (this.currentStep) this.flowsContext.onPrevStep?.(this.currentStep);
     this.track({ type: "prevStep" });

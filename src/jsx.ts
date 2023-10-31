@@ -27,7 +27,7 @@ if (typeof window !== "undefined")
           // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- there can be other prop keys
           if (key === "dangerouslySetInnerHTML") {
             const value = props[key];
-            if (value) el.innerHTML = value.__html;
+            if (value?.__html) el.innerHTML = value.__html;
             return;
           }
           el.setAttribute(key, props[key]);

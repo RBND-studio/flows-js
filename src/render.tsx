@@ -1,6 +1,7 @@
 import { computePosition, offset, flip, shift, autoUpdate } from "@floating-ui/dom";
-import type { FlowModalStep, FlowStep, FlowTooltipStep, Placement } from "./types";
+import type { FlowModalStep, FlowTooltipStep, Placement } from "./types";
 import type { FlowState } from "./flow-state";
+import { isModalStep, isTooltipStep } from "./utils";
 
 const updateTooltip = ({
   target,
@@ -57,21 +58,28 @@ const renderTooltip = ({
   state: FlowState;
   target: Element;
 }): { cleanup: () => void } => {
+  const backBtn = state.hasPrevStep && (
+    <div className="flows-back-wrap">
+      <button className="flows-back flows-button">Back</button>
+    </div>
+  );
+  const continueBtn = getStepContinueButton({ state, step });
+
   const tooltip = (
     <div className="flows-tooltip">
       <div className="flows-header">
         <h1 className="flows-title" dangerouslySetInnerHTML={{ __html: step.title }} />
-        {state.hasNextStep && <button className="flows-cancel flows-button">Close</button>}
+        {state.hasNextStep && !step.hideClose && (
+          <button className="flows-cancel flows-button">Close</button>
+        )}
       </div>
       {step.body && <div className="flows-body" dangerouslySetInnerHTML={{ __html: step.body }} />}
-      <div className="flows-tooltip-footer">
-        {state.hasPrevStep && (
-          <div className="flows-back-wrap">
-            <button className="flows-back flows-button">Back</button>
-          </div>
-        )}
-        {getStepContinueButton({ state, step })}
-      </div>
+      {(backBtn || (Array.isArray(continueBtn) ? continueBtn.length : continueBtn)) && (
+        <div className="flows-tooltip-footer">
+          {backBtn}
+          {continueBtn}
+        </div>
+      )}
     </div>
   );
   root.appendChild(tooltip);
@@ -111,8 +119,13 @@ const renderModal = ({
   root.appendChild(modal);
 };
 
-const isTooltipStep = (step: FlowStep): step is FlowTooltipStep => "element" in step;
-const isModalStep = (step: FlowStep): step is FlowModalStep => !isTooltipStep(step);
+const createRoot = (): HTMLElement => {
+  const root = document.createElement("div");
+  root.className = "flows-root";
+  root.style.pointerEvents = "auto";
+  document.body.appendChild(root);
+  return root;
+};
 
 export const render = (state: FlowState): void => {
   const step = state.currentStep;
@@ -120,23 +133,19 @@ export const render = (state: FlowState): void => {
 
   state.cleanup();
 
-  if ("wait" in step) return;
-  const root = document.createElement("div");
-  root.className = "flows-root";
-  root.style.pointerEvents = "auto";
-  document.body.appendChild(root);
   if (isTooltipStep(step)) {
     const target = document.querySelector(step.element);
     if (target) {
       state.waitingForElement = false;
+      const root = createRoot();
       const { cleanup } = renderTooltip({ root, step, state, target });
       state.flowElement = { element: root, cleanup };
     } else {
       state.waitingForElement = true;
-      root.remove();
     }
   }
   if (isModalStep(step)) {
+    const root = createRoot();
     renderModal({ root, step, state });
     state.flowElement = { element: root };
   }
