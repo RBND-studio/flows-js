@@ -1,35 +1,69 @@
-import { computePosition, offset, flip, shift, autoUpdate } from "@floating-ui/dom";
+import type { Side } from "@floating-ui/dom";
+import { computePosition, offset, flip, shift, autoUpdate, arrow } from "@floating-ui/dom";
 import type { FlowModalStep, FlowTooltipStep, Placement } from "./types";
 import type { FlowState } from "./flow-state";
 import { isModalStep, isTooltipStep } from "./utils";
+import { Icons } from "./icons";
+
+const DISTANCE = 4;
+const ARROW_SIZE = 6;
 
 const updateTooltip = ({
   target,
   tooltip,
   placement,
+  arrowEls,
 }: {
   target: Element;
   tooltip: HTMLElement;
   placement?: Placement;
-}): Promise<void> =>
-  computePosition(target, tooltip, {
+  arrowEls?: [HTMLElement, HTMLElement];
+}): Promise<void> => {
+  const offsetDistance = DISTANCE + (arrowEls ? ARROW_SIZE : 0);
+  const middleware = [
+    offset(offsetDistance),
+    flip({ fallbackPlacements: ["top", "bottom", "left", "right"] }),
+    shift({ padding: 4 }),
+  ];
+  if (arrowEls) middleware.push(arrow({ element: arrowEls[0] }));
+
+  return computePosition(target, tooltip, {
     placement: placement ?? "bottom",
-    middleware: [
-      offset(4),
-      flip({ fallbackPlacements: ["top", "bottom", "left", "right"] }),
-      shift({ padding: 4 }),
-    ],
+    middleware,
   })
-    .then(({ x, y }) => {
+    .then(({ x, y, middlewareData, placement: finalPlacement }) => {
       Object.assign(tooltip.style, {
         left: `${x}px`,
         top: `${y}px`,
       });
+      if (arrowEls && middlewareData.arrow) {
+        const staticSide = ((): Side => {
+          if (finalPlacement.includes("top")) return "bottom";
+          if (finalPlacement.includes("bottom")) return "top";
+          if (finalPlacement.includes("left")) return "right";
+          return "left";
+        })();
+        const arrowX = middlewareData.arrow.x;
+        const arrowY = middlewareData.arrow.y;
+        const style = {
+          // eslint-disable-next-line eqeqeq -- null check is intended here
+          left: arrowX != null ? `${arrowX}px` : "",
+          // eslint-disable-next-line eqeqeq -- null check is intended here
+          top: arrowY != null ? `${arrowY}px` : "",
+          right: "",
+          bottom: "",
+          [staticSide]: `${-ARROW_SIZE}px`,
+        };
+        arrowEls.forEach((el) => {
+          Object.assign(el.style, style);
+        });
+      }
     })
     .catch((err) => {
       // eslint-disable-next-line no-console -- Error log
       console.warn("Error computing position", err);
     });
+};
 
 const getStepContinueButton = ({
   state,
@@ -64,13 +98,23 @@ const renderTooltip = ({
     </div>
   );
   const continueBtn = getStepContinueButton({ state, step });
+  const arrowEls = step.arrow
+    ? ([
+        <div className="flows-arrow flows-arrow-bottom" />,
+        <div className="flows-arrow flows-arrow-top" />,
+      ] as [HTMLElement, HTMLElement])
+    : undefined;
 
   const tooltip = (
     <div className="flows-tooltip">
       <div className="flows-header">
         <h1 className="flows-title" dangerouslySetInnerHTML={{ __html: step.title }} />
         {state.hasNextStep && !step.hideClose && (
-          <button className="flows-cancel flows-button">Close</button>
+          <button
+            aria-label="Close"
+            className="flows-cancel flows-button"
+            dangerouslySetInnerHTML={{ __html: Icons.close }}
+          />
         )}
       </div>
       {step.body && <div className="flows-body" dangerouslySetInnerHTML={{ __html: step.body }} />}
@@ -80,12 +124,13 @@ const renderTooltip = ({
           {continueBtn}
         </div>
       )}
+      {arrowEls}
     </div>
   );
   root.appendChild(tooltip);
   // eslint-disable-next-line @typescript-eslint/no-misused-promises -- Promise is handled inside the updateTooltip
   const cleanup = autoUpdate(target, tooltip, () =>
-    updateTooltip({ target, tooltip, placement: step.placement }),
+    updateTooltip({ target, tooltip, placement: step.placement, arrowEls }),
   );
   return { cleanup };
 };
@@ -104,7 +149,13 @@ const renderModal = ({
       <div className="flows-modal">
         <div className="flows-header">
           <h1 className="flows-title" dangerouslySetInnerHTML={{ __html: step.title }} />
-          {state.hasNextStep && <button className="flows-cancel flows-button">Close</button>}
+          {state.hasNextStep && (
+            <button
+              aria-label="Close"
+              className="flows-cancel flows-button"
+              dangerouslySetInnerHTML={{ __html: Icons.close }}
+            />
+          )}
         </div>
         {step.body && (
           <div className="flows-body" dangerouslySetInnerHTML={{ __html: step.body }} />

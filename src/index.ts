@@ -1,8 +1,9 @@
+import "./jsx";
+
 import { FlowState } from "./flow-state";
 import { FlowsContext } from "./flows-context";
 import { changeWaitMatch, formWaitMatch } from "./form";
 import { addHandlers } from "./handlers";
-import "./jsx";
 import type { Flow, FlowsOptions, TrackingEvent, FlowStep } from "./types";
 
 const instances = new Map<string, FlowState>();

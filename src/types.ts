@@ -10,6 +10,7 @@ export interface FlowTooltipStep {
   options?: { text: string; action: number }[];
   placement?: Placement;
   hideClose?: boolean;
+  arrow?: boolean;
 }
 export interface FlowModalStep {
   key?: string;

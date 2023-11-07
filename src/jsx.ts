@@ -30,7 +30,10 @@ if (typeof window !== "undefined")
             if (value?.__html) el.innerHTML = value.__html;
             return;
           }
-          el.setAttribute(key, props[key]);
+          const value = props[key] as unknown;
+          if (typeof value === "string") el.setAttribute(key, value);
+          if (typeof value === "boolean" && value) el.setAttribute(key, "");
+          if (typeof value === "number") el.setAttribute(key, value.toString());
         });
       }
 
