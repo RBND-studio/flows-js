@@ -4,13 +4,13 @@ import { FlowState } from "./flow-state";
 import { FlowsContext } from "./flows-context";
 import { changeWaitMatch, formWaitMatch } from "./form";
 import { addHandlers } from "./handlers";
-import type { Flow, FlowsOptions, TrackingEvent, FlowStep } from "./types";
+import type { Flow, FlowsOptions, TrackingEvent, FlowStep, StartFlowOptions } from "./types";
 
 const instances = new Map<string, FlowState>();
 const context = new FlowsContext();
 let observer: MutationObserver | null = null;
 
-export const startFlow = (flowId: string, { again }: { again?: boolean } = {}): void => {
+export const startFlow = (flowId: string, { again }: StartFlowOptions = {}): void => {
   if (!again && context.seenFlowIds.includes(flowId)) return;
   if (instances.has(flowId)) return;
   const state = new FlowState({ flowId }, context);
@@ -194,4 +194,4 @@ export const init = (options: FlowsOptions): void => {
   ]);
 };
 
-export type { FlowsOptions, Flow, TrackingEvent, FlowStep };
+export type { FlowsOptions, Flow, TrackingEvent, FlowStep, StartFlowOptions };

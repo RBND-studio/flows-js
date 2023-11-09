@@ -13,6 +13,7 @@
   --flows-borderRadius: 8px;
 
   --flows-tooltip-padding: 16px;
+  --flows-toltip-maxWidth: 280px;
 
   --flows-modal-overlayBackground: rgba(0, 0, 0, 0.5);
   --flows-modal-padding: 16px;
@@ -131,7 +132,7 @@
   font-size: var(--flows-base-font-size);
   line-height: var(--flows-base-line-height);
 
-  max-width: 280px;
+  max-width: var(--flows-toltip-maxWidth);
 }
 .flows-tooltip .flows-cancel {
   top: var(--flows-tooltip-padding);

@@ -11,6 +11,10 @@ export interface FlowTooltipStep {
   placement?: Placement;
   hideClose?: boolean;
   arrow?: boolean;
+  /**
+   * The element to scroll to when the tooltip is shown.
+   */
+  scrollElement?: string;
 }
 export interface FlowModalStep {
   key?: string;
@@ -72,4 +76,11 @@ export interface FlowsContext {
   tracking?: (event: TrackingEvent) => void;
   seenFlowIds: string[];
   onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
+}
+
+export interface StartFlowOptions {
+  /**
+   * If true, the flow will be started again even if it has already been seen.
+   */
+  again?: boolean;
 }

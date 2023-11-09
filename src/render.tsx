@@ -25,7 +25,7 @@ const updateTooltip = ({
     flip({ fallbackPlacements: ["top", "bottom", "left", "right"] }),
     shift({ padding: 4 }),
   ];
-  if (arrowEls) middleware.push(arrow({ element: arrowEls[0] }));
+  if (arrowEls) middleware.push(arrow({ element: arrowEls[0], padding: 8 }));
 
   return computePosition(target, tooltip, {
     placement: placement ?? "bottom",

@@ -121,6 +121,12 @@ export class FlowState implements InterfaceFlowState {
   }
 
   render(): this {
+    const step = this.currentStep;
+    if (step && isTooltipStep(step) && step.scrollElement) {
+      const scrollEl = document.querySelector(step.scrollElement);
+      scrollEl?.scrollIntoView({ behavior: "smooth" });
+    }
+
     render(this);
     return this;
   }
