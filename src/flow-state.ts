@@ -1,7 +1,7 @@
 import type { FlowsContext } from "./flows-context";
 import { render } from "./render";
 import type { Flow, FlowStep, FlowStepIndex, TrackingEvent } from "./types";
-import { isModalStep, isTooltipStep } from "./utils";
+import { hash, isModalStep, isTooltipStep } from "./utils";
 
 interface InterfaceFlowState {
   flowId: string;
@@ -47,11 +47,17 @@ export class FlowState implements InterfaceFlowState {
   }
 
   track(props: Pick<TrackingEvent, "type">): this {
-    this.flowsContext.track({
-      flowId: this.flowId,
-      step: this.step,
-      ...props,
-    });
+    void (async () => {
+      if (!this.flow) return;
+      this.flowsContext.track({
+        flowId: this.flowId,
+        stepIndex: this.step,
+        stepHash: this.currentStep ? await hash(JSON.stringify(this.currentStep)) : undefined,
+        flowHash: await hash(JSON.stringify(this.flow)),
+        ...props,
+      });
+    })();
+
     return this;
   }
 

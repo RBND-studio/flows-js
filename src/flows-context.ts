@@ -1,9 +1,19 @@
-import type { Flow, FlowStep, FlowsOptions, TrackingEvent } from "./types";
+import type { Flow, FlowStep, FlowsInitOptions, TrackingEvent } from "./types";
 
 export class FlowsContext {
+  private static instance: FlowsContext | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function -- needed for singleton
+  private constructor() {}
+  public static getInstance(): FlowsContext {
+    if (!FlowsContext.instance) {
+      FlowsContext.instance = new FlowsContext();
+    }
+    return FlowsContext.instance;
+  }
+
   seenFlowIds: string[] = [];
 
-  customerId?: string;
+  projectId = "";
   userId?: string;
   flowsById?: Record<string, Flow>;
   onNextStep?: (step: FlowStep) => void;
@@ -11,8 +21,8 @@ export class FlowsContext {
   tracking?: (event: TrackingEvent) => void;
   onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
 
-  updateFromOptions(options: FlowsOptions): void {
-    this.customerId = options.customerId;
+  updateFromOptions(options: FlowsInitOptions): void {
+    if (options.projectId) this.projectId = options.projectId;
     this.onNextStep = options.onNextStep;
     this.onPrevStep = options.onPrevStep;
     this.tracking = options.tracking;
@@ -30,11 +40,11 @@ export class FlowsContext {
     };
   }
 
-  track(props: TrackingEvent): this {
+  track(props: Omit<TrackingEvent, "userId" | "projectId">): this {
     if (!this.tracking) return this;
     this.tracking({
       userId: this.userId,
-      customerId: this.customerId,
+      projectId: this.projectId,
       ...props,
     });
     return this;

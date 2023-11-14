@@ -49,13 +49,23 @@ export type FlowStepIndex = number | number[];
 export interface TrackingEvent {
   type: "startFlow" | "nextStep" | "prevStep" | "finishFlow" | "cancelFlow";
   flowId: string;
-  step: FlowStepIndex;
+  stepIndex?: FlowStepIndex;
+  /**
+   * Hash of the step definition
+   */
+  stepHash?: string;
+  /**
+   * Hash of the flow definition
+   */
+  flowHash: string;
   userId?: string;
-  customerId?: string;
+  projectId: string;
 }
 
+/**
+ * Options for Flows `init` function
+ */
 export interface FlowsOptions {
-  customerId?: string;
   flows?: Flow[];
   onNextStep?: (step: FlowStep) => void;
   onPrevStep?: (step: FlowStep) => void;
@@ -63,12 +73,22 @@ export interface FlowsOptions {
   seenFlowIds?: string[];
   onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
 }
+/**
+ * Options for Flows with Cloud `init` function
+ */
+export interface FlowsCloudOptions extends FlowsOptions {
+  projectId: string;
+}
+/**
+ * Options for internal `init` function
+ */
+export type FlowsInitOptions = FlowsOptions & { projectId?: string };
 export interface Instance {
   element: Element;
   flowId: string;
 }
 export interface FlowsContext {
-  customerId?: string;
+  projectId: string;
   userId?: string;
   flowsById?: Record<string, Flow>;
   onNextStep?: (step: FlowStep) => void;

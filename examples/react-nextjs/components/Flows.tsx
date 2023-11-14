@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { init } from "@rbnd/flows";
-import "@rbnd/flows/public/flows.css";
+import "@rbnd/flows/flows.css";
 
 export const Flows = () => {
   useEffect(() => {

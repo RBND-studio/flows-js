@@ -1,5 +1,5 @@
 window.FlowsJS?.init({
-  customerId: "vanilla-demo",
+  projectId: "vanilla-demo",
   flows: [
     {
       id: "vanilla-demo-flow-1",
@@ -170,6 +170,7 @@ window.FlowsJS?.init({
   ],
   tracking: console.log,
 });
+window.FlowsJS?.identifyUser("vanilla@flows.sh");
 
 document.addEventListener("submit", (e) => {
   e.preventDefault();

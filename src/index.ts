@@ -4,16 +4,22 @@ import { FlowState } from "./flow-state";
 import { FlowsContext } from "./flows-context";
 import { changeWaitMatch, formWaitMatch } from "./form";
 import { addHandlers } from "./handlers";
-import type { Flow, FlowsOptions, TrackingEvent, FlowStep, StartFlowOptions } from "./types";
+import type {
+  Flow,
+  FlowsOptions,
+  TrackingEvent,
+  FlowStep,
+  StartFlowOptions,
+  FlowsInitOptions,
+} from "./types";
 
 const instances = new Map<string, FlowState>();
-const context = new FlowsContext();
 let observer: MutationObserver | null = null;
 
 export const startFlow = (flowId: string, { again }: StartFlowOptions = {}): void => {
-  if (!again && context.seenFlowIds.includes(flowId)) return;
+  if (!again && FlowsContext.getInstance().seenFlowIds.includes(flowId)) return;
   if (instances.has(flowId)) return;
-  const state = new FlowState({ flowId }, context);
+  const state = new FlowState({ flowId }, FlowsContext.getInstance());
   instances.set(flowId, state);
   state.render();
 };
@@ -27,7 +33,7 @@ export const endFlow = (flowId: string): void => {
 };
 
 export const identifyUser = (userId: string): void => {
-  context.userId = userId;
+  FlowsContext.getInstance().userId = userId;
 };
 
 export const getCurrentStep = (flowId: string): FlowStep | null => {
@@ -41,23 +47,9 @@ export const nextStep = (flowId: string, action?: number): void => {
   state.nextStep(action).render();
 };
 
-export const init = (options: FlowsOptions): void => {
-  context.customerId = options.customerId;
-  context.onNextStep = options.onNextStep;
-  context.onPrevStep = options.onPrevStep;
-  context.tracking = options.tracking;
-  context.seenFlowIds = options.seenFlowIds ?? [];
-  context.onSeenFlowIdsChange = options.onSeenFlowIdsChange;
-  context.flowsById = {
-    ...context.flowsById,
-    ...options.flows?.reduce(
-      (acc, flow) => {
-        acc[flow.id] = flow;
-        return acc;
-      },
-      {} as Record<string, Flow>,
-    ),
-  };
+const _init = (options: FlowsInitOptions): void => {
+  const context = FlowsContext.getInstance();
+  context.updateFromOptions(options);
 
   const handleClick = (event: MouseEvent): void => {
     const eventTarget = event.target;
@@ -194,4 +186,5 @@ export const init = (options: FlowsOptions): void => {
   ]);
 };
 
+export const init: (options: FlowsOptions) => void = _init;
 export type { FlowsOptions, Flow, TrackingEvent, FlowStep, StartFlowOptions };
