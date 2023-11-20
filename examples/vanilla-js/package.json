@@ -4,5 +4,8 @@
   "private": true,
   "scripts": {
     "start": "npx browser-sync -w --no-open"
+  },
+  "devDependencies": {
+    "@rbnd/flows": "../../"
   }
 }
