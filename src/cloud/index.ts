@@ -6,12 +6,9 @@ import { api } from "./api";
 export * from "../index";
 
 export const init = async (options: FlowsCloudOptions): Promise<void> => {
-  const API_URL =
-    process.env.NODE_ENV === "production"
-      ? "https://api.flows-cloud.com"
-      : "https://api.stage.flows-cloud.com";
+  const apiUrl = options.customApiUrl ?? "https://api.flows-cloud.com";
 
-  const flows = await api(API_URL)
+  const flows = await api(apiUrl)
     .getFlows(options.projectId)
     .catch((err) => {
       // eslint-disable-next-line no-console -- useful for debugging
@@ -27,7 +24,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       const { flowHash, flowId, type, projectId, stepIndex, stepHash, userId } = event;
 
       void (async () =>
-        api(API_URL).sendEvent({
+        api(apiUrl).sendEvent({
           eventTime: new Date().toISOString(),
           flowHash,
           flowId,

@@ -20,6 +20,7 @@ export class FlowsContext {
   onPrevStep?: (step: FlowStep) => void;
   tracking?: (event: TrackingEvent) => void;
   onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
+  rootElement?: string;
 
   updateFromOptions(options: FlowsInitOptions): void {
     if (options.projectId) this.projectId = options.projectId;
@@ -28,6 +29,7 @@ export class FlowsContext {
     this.tracking = options.tracking;
     this.seenFlowIds = [...(options.seenFlowIds ?? [])];
     this.onSeenFlowIdsChange = options.onSeenFlowIdsChange;
+    this.rootElement = options.rootElement;
     this.flowsById = {
       ...this.flowsById,
       ...options.flows?.reduce(

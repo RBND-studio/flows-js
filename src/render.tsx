@@ -170,11 +170,12 @@ const renderModal = ({
   root.appendChild(modal);
 };
 
-const createRoot = (): HTMLElement => {
+const createRoot = (parent?: string): HTMLElement => {
   const root = document.createElement("div");
   root.className = "flows-root";
   root.style.pointerEvents = "auto";
-  document.body.appendChild(root);
+  if (parent) document.querySelector(parent)?.appendChild(root);
+  else document.body.appendChild(root);
   return root;
 };
 
@@ -188,7 +189,7 @@ export const render = (state: FlowState): void => {
     const target = document.querySelector(step.element);
     if (target) {
       state.waitingForElement = false;
-      const root = createRoot();
+      const root = createRoot(state.flowsContext.rootElement);
       const { cleanup } = renderTooltip({ root, step, state, target });
       state.flowElement = { element: root, cleanup };
     } else {
@@ -196,7 +197,7 @@ export const render = (state: FlowState): void => {
     }
   }
   if (isModalStep(step)) {
-    const root = createRoot();
+    const root = createRoot(state.flowsContext.rootElement);
     renderModal({ root, step, state });
     state.flowElement = { element: root };
   }

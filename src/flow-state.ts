@@ -30,13 +30,6 @@ export class FlowState implements InterfaceFlowState {
     this.track({ type: "startFlow" });
   }
 
-  setState(stateUpdates: Partial<InterfaceFlowState>): this {
-    this.flowId = stateUpdates.flowId ?? this.flowId;
-    this.flowElement = stateUpdates.flowElement ?? this.flowElement;
-    this.render();
-    return this;
-  }
-
   get step(): FlowStepIndex {
     return this.stepHistory.at(-1) ?? 0;
   }

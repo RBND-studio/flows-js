@@ -72,12 +72,17 @@ export interface FlowsOptions {
   tracking?: (event: TrackingEvent) => void;
   seenFlowIds?: string[];
   onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
+  /**
+   * The element to use as the root for elements created by Flows
+   */
+  rootElement?: string;
 }
 /**
  * Options for Flows with Cloud `init` function
  */
 export interface FlowsCloudOptions extends FlowsOptions {
   projectId: string;
+  customApiUrl?: string;
 }
 /**
  * Options for internal `init` function

@@ -10,7 +10,11 @@ const f = <T>(
       "Content-Type": "application/json",
     },
     body: body ? JSON.stringify(body) : undefined,
-  }).then((res) => res.json() as Promise<T>);
+  }).then(async (res) => {
+    const text = await res.text();
+    const resBody = (text ? JSON.parse(text) : undefined) as T;
+    return resBody;
+  });
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- not needed
 export const api = (baseUrl: string) => ({
@@ -24,9 +28,10 @@ export const api = (baseUrl: string) => ({
     stepHash?: string;
     flowHash: string;
   }): Promise<void> =>
-    f(`${baseUrl}/events`, {
+    f(`${baseUrl}/sdk/events`, {
       method: "POST",
       body,
     }),
-  getFlows: (projectId: string): Promise<Flow[]> => f(`${baseUrl}/flows?projectId=${projectId}`),
+  getFlows: (projectId: string): Promise<Flow[]> =>
+    f(`${baseUrl}/sdk/flows?projectId=${projectId}`),
 });
