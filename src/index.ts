@@ -6,12 +6,14 @@ import { changeWaitMatch, formWaitMatch } from "./form";
 import { addHandlers } from "./handlers";
 import type {
   Flow,
-  FlowsOptions,
-  TrackingEvent,
   FlowStep,
-  StartFlowOptions,
+  FlowSteps,
   FlowsInitOptions,
+  FlowsOptions,
+  StartFlowOptions,
+  TrackingEvent,
 } from "./types";
+import { isValidFlow, isValidFlowsOptions, validateFlow, validateFlowsOptions } from "./validation";
 
 const instances = new Map<string, FlowState>();
 let observer: MutationObserver | null = null;
@@ -48,6 +50,15 @@ export const nextStep = (flowId: string, action?: number): void => {
 };
 
 const _init = (options: FlowsInitOptions): void => {
+  const validationResult = validateFlowsOptions(options);
+  if (validationResult.error)
+    // eslint-disable-next-line no-console -- useful for user debugging
+    console.error(
+      `Error validating options at: options.${validationResult.error.path.join(".")} with value:`,
+      validationResult.error.value,
+    );
+  if (!validationResult.valid) return;
+
   const context = FlowsContext.getInstance();
   context.updateFromOptions(options);
 
@@ -187,4 +198,5 @@ const _init = (options: FlowsInitOptions): void => {
 };
 
 export const init: (options: FlowsOptions) => void = _init;
-export type { FlowsOptions, Flow, TrackingEvent, FlowStep, StartFlowOptions };
+export { isValidFlow, isValidFlowsOptions, validateFlow, validateFlowsOptions };
+export type { Flow, FlowStep, FlowSteps, FlowsOptions, StartFlowOptions, TrackingEvent };

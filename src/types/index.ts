@@ -2,12 +2,16 @@ import type { Placement as FloatingUiPlacement } from "@floating-ui/dom";
 
 export type Placement = FloatingUiPlacement;
 
+export interface StepOption {
+  text: string;
+  action: number;
+}
 export interface FlowTooltipStep {
   key?: string;
   title: string;
   body?: string;
   element: string;
-  options?: { text: string; action: number }[];
+  options?: StepOption[];
   placement?: Placement;
   hideClose?: boolean;
   arrow?: boolean;
@@ -20,7 +24,7 @@ export interface FlowModalStep {
   key?: string;
   title: string;
   body?: string;
-  options?: { text: string; action: number }[];
+  options?: StepOption[];
 }
 export interface WaitStepOptions {
   element?: string;
@@ -40,6 +44,7 @@ export interface FlowWaitStep {
 }
 export type FlowStep = FlowModalStep | FlowTooltipStep | FlowWaitStep;
 type Step = FlowStep | FlowStep[][];
+export type FlowSteps = Step[];
 export interface Flow {
   id: string;
   element?: string;

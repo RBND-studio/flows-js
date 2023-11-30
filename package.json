@@ -29,19 +29,20 @@
     "release": "pnpm build && pnpm publish --access=public --no-git-checks"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.5.3"
+    "@floating-ui/dom": "^1.5.3",
+    "superstruct": "^1.0.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.7.1",
-    "@commitlint/config-conventional": "^17.7.0",
-    "@types/node": "^20.9.0",
-    "@vercel/style-guide": "^5.0.1",
-    "concurrently": "^8.2.1",
-    "eslint": "^8.49.0",
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@types/node": "^20.10.1",
+    "@vercel/style-guide": "^5.1.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.54.0",
     "husky": "^8.0.3",
-    "prettier": "^3.0.3",
-    "tsup": "^7.2.0",
-    "typescript": "^5.2.2"
+    "prettier": "^3.1.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.2"
   },
   "packageManager": "pnpm@8.7.5"
 }

@@ -2,8 +2,8 @@
   "extends": "@vercel/style-guide/typescript",
   "compilerOptions": {
     "noEmit": true,
-    "moduleResolution": "NodeNext",
-    "module": "NodeNext",
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
     "jsx": "react",
     "jsxFactory": "_fjsx.el",
     "jsxFragmentFactory": "_fjsx.frag"
