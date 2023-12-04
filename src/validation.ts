@@ -97,6 +97,7 @@ const FlowStepsStruct = array(union([StepStruct, array(array(StepStruct))]));
 
 const FlowStruct: Describe<Flow> = type({
   id: string(),
+  frequency: optional(enums(["once", "every-time"])),
   element: optional(string()),
   steps: FlowStepsStruct,
 });
@@ -106,6 +107,7 @@ const OptionsStruct: Describe<FlowsOptions> = type({
   onNextStep: optional(func()) as Describe<FlowsOptions["onNextStep"]>,
   onPrevStep: optional(func()) as Describe<FlowsOptions["onPrevStep"]>,
   tracking: optional(func()) as Describe<FlowsOptions["tracking"]>,
+  userId: optional(string()),
   seenFlowIds: optional(array(string())),
   onSeenFlowIdsChange: optional(func()) as Describe<FlowsOptions["onSeenFlowIdsChange"]>,
   rootElement: optional(string()),

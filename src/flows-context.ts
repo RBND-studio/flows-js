@@ -30,6 +30,7 @@ export class FlowsContext {
     this.seenFlowIds = [...(options.seenFlowIds ?? [])];
     this.onSeenFlowIdsChange = options.onSeenFlowIdsChange;
     this.rootElement = options.rootElement;
+    this.userId = options.userId;
     this.flowsById = {
       ...this.flowsById,
       ...options.flows?.reduce(

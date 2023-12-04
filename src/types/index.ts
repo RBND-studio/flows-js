@@ -45,8 +45,11 @@ export interface FlowWaitStep {
 export type FlowStep = FlowModalStep | FlowTooltipStep | FlowWaitStep;
 type Step = FlowStep | FlowStep[][];
 export type FlowSteps = Step[];
+
+export type FlowFrequency = "once" | "every-time";
 export interface Flow {
   id: string;
+  frequency?: FlowFrequency;
   element?: string;
   steps: Step[];
 }
@@ -75,6 +78,7 @@ export interface FlowsOptions {
   onNextStep?: (step: FlowStep) => void;
   onPrevStep?: (step: FlowStep) => void;
   tracking?: (event: TrackingEvent) => void;
+  userId?: string;
   seenFlowIds?: string[];
   onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
   /**

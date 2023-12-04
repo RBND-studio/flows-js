@@ -9,7 +9,10 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
   const apiUrl = options.customApiUrl ?? "https://api.flows-cloud.com";
 
   const flows = await api(apiUrl)
-    .getFlows(options.projectId)
+    .getFlows({
+      projectId: options.projectId,
+      userHash: options.userId ? await hash(options.userId) : undefined,
+    })
     .catch((err) => {
       // eslint-disable-next-line no-console -- useful for debugging
       console.error(`Failed to fetch flows from cloud with projectId: ${options.projectId}`, err);

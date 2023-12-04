@@ -19,7 +19,10 @@ const instances = new Map<string, FlowState>();
 let observer: MutationObserver | null = null;
 
 export const startFlow = (flowId: string, { again }: StartFlowOptions = {}): void => {
-  if (!again && FlowsContext.getInstance().seenFlowIds.includes(flowId)) return;
+  const flow = FlowsContext.getInstance().flowsById?.[flowId];
+  const flowFrequency = flow?.frequency ?? "once";
+  if (!again && FlowsContext.getInstance().seenFlowIds.includes(flowId) && flowFrequency === "once")
+    return;
   if (instances.has(flowId)) return;
   const state = new FlowState({ flowId }, FlowsContext.getInstance());
   instances.set(flowId, state);

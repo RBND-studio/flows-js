@@ -32,6 +32,6 @@ export const api = (baseUrl: string) => ({
       method: "POST",
       body,
     }),
-  getFlows: (projectId: string): Promise<Flow[]> =>
-    f(`${baseUrl}/sdk/flows?projectId=${projectId}`),
+  getFlows: ({ projectId, userHash }: { projectId: string; userHash?: string }): Promise<Flow[]> =>
+    f(`${baseUrl}/sdk/flows?projectId=${projectId}${userHash ? `&userHash=${userHash}` : ""}`),
 });
