@@ -35,3 +35,11 @@ export const changeWaitMatch = ({
   });
   return allValuesMatch;
 };
+
+export const locationMatch = ({
+  location,
+  pathname,
+}: {
+  location: string;
+  pathname: string;
+}): boolean => new RegExp(location).test(pathname);

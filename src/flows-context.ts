@@ -1,3 +1,4 @@
+import type { FlowState } from "./flow-state";
 import type { Flow, FlowStep, FlowsInitOptions, TrackingEvent } from "./types";
 
 export class FlowsContext {
@@ -12,6 +13,7 @@ export class FlowsContext {
   }
 
   seenFlowIds: string[] = [];
+  readonly instances = new Map<string, FlowState>();
 
   projectId = "";
   userId?: string;

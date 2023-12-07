@@ -63,6 +63,34 @@ export const Flows = () => {
             { element: ".flow-3-final", title: "Goodbye" },
           ],
         },
+        {
+          id: "vanilla-about-flow",
+          frequency: "every-time",
+          steps: [
+            {
+              element: ".lorem-ipsum-paragraph",
+              title: "This is a paragraph",
+              body: "This paragraph doesn't make sense.",
+              arrow: true,
+              options: [],
+              wait: {
+                element: ".home-nav-link",
+              },
+            },
+            {
+              wait: {
+                location: "/",
+              },
+            },
+            {
+              title: "This is a paragraph",
+              body: "This paragraph doesn't make sense.",
+              element: "#start-flow-1",
+              arrow: true,
+            },
+          ],
+          location: "/about",
+        },
       ],
     });
   });

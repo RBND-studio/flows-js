@@ -9,6 +9,12 @@ export default function About() {
       </div>
       <br />
       <button id="continue-flow-2">Continue</button>
+      <hr />
+      <h3>About Flow</h3>
+      <p className="lorem-ipsum-paragraph">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus blanditiis et
+        necessitatibus, voluptate nihil repellendus ducimus atque maxime corrupti cumque.
+      </p>
     </main>
   );
 }

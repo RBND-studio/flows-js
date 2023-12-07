@@ -44,6 +44,7 @@ const WaitOptionsStruct: Describe<WaitStepOptions> = type({
     ),
   ),
   action: optional(number()),
+  location: optional(string()),
 });
 
 const StepOptionStruct: Describe<StepOption> = type({ text: string(), action: number() });
@@ -98,6 +99,7 @@ const FlowStepsStruct = array(union([StepStruct, array(array(StepStruct))]));
 const FlowStruct: Describe<Flow> = type({
   id: string(),
   frequency: optional(enums(["once", "every-time"])),
+  location: optional(string()),
   element: optional(string()),
   steps: FlowStepsStruct,
 });
