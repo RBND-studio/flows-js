@@ -11,6 +11,8 @@ import {
   type,
   func,
   assert,
+  nullable,
+  date,
 } from "superstruct";
 import type {
   FlowTooltipStep,
@@ -20,6 +22,10 @@ import type {
   FlowWaitStep,
   Flow,
   FlowsOptions,
+  UserPropertyMatch,
+  PrimitiveValue,
+  CompareValue,
+  UserPropertyMatchGroup,
 } from "./types";
 
 const WaitOptionsStruct: Describe<WaitStepOptions> = type({
@@ -96,12 +102,34 @@ const StepStruct = union([TooltipStepStruct, ModalStepStruct, WaitStepStruct]);
 
 const FlowStepsStruct = array(union([StepStruct, array(array(StepStruct))]));
 
+const PrimitiveValueStruct: Describe<PrimitiveValue> = optional(
+  nullable(union([string(), number(), boolean()])),
+);
+const CompareValueStruct: Describe<CompareValue> = union([number(), date(), string()]);
+const UserPropertyMatchStruct: Describe<UserPropertyMatch> = type({
+  key: string(),
+  regex: optional(string()),
+  eq: optional(union([PrimitiveValueStruct, array(PrimitiveValueStruct)])),
+  ne: optional(union([PrimitiveValueStruct, array(PrimitiveValueStruct)])),
+  gt: optional(CompareValueStruct),
+  gte: optional(CompareValueStruct),
+  lt: optional(CompareValueStruct),
+  lte: optional(CompareValueStruct),
+  contains: optional(union([string(), array(string())])),
+  notContains: optional(union([string(), array(string())])),
+});
+const UserPropertyMatchGroupStruct: Describe<UserPropertyMatchGroup> =
+  array(UserPropertyMatchStruct);
+
 const FlowStruct: Describe<Flow> = type({
   id: string(),
   frequency: optional(enums(["once", "every-time"])),
   location: optional(string()),
   element: optional(string()),
   steps: FlowStepsStruct,
+  userProperties: optional(
+    union([UserPropertyMatchGroupStruct, array(UserPropertyMatchGroupStruct)]),
+  ),
 });
 
 const OptionsStruct: Describe<FlowsOptions> = type({
@@ -110,6 +138,7 @@ const OptionsStruct: Describe<FlowsOptions> = type({
   onPrevStep: optional(func()) as Describe<FlowsOptions["onPrevStep"]>,
   tracking: optional(func()) as Describe<FlowsOptions["tracking"]>,
   userId: optional(string()),
+  userProperties: optional(type({})) as unknown as Describe<FlowsOptions["userProperties"]>,
   seenFlowIds: optional(array(string())),
   onSeenFlowIdsChange: optional(func()) as Describe<FlowsOptions["onSeenFlowIdsChange"]>,
   rootElement: optional(string()),

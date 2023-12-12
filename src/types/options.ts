@@ -1,4 +1,5 @@
 import type { Flow, FlowStep } from "./flow";
+import type { UserProperties } from "./user";
 
 export type FlowStepIndex = number | number[];
 export interface TrackingEvent {
@@ -26,6 +27,10 @@ export interface FlowsOptions {
   onPrevStep?: (step: FlowStep) => void;
   tracking?: (event: TrackingEvent) => void;
   userId?: string;
+  /**
+   * Properties to set for the user used for targeting flows.
+   */
+  userProperties?: UserProperties;
   seenFlowIds?: string[];
   onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
   /**
@@ -47,16 +52,6 @@ export type FlowsInitOptions = FlowsOptions & { projectId?: string };
 export interface Instance {
   element: Element;
   flowId: string;
-}
-export interface FlowsContext {
-  projectId: string;
-  userId?: string;
-  flowsById?: Record<string, Flow>;
-  onNextStep?: (step: FlowStep) => void;
-  onPrevStep?: (step: FlowStep) => void;
-  tracking?: (event: TrackingEvent) => void;
-  seenFlowIds: string[];
-  onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
 }
 
 export interface StartFlowOptions {

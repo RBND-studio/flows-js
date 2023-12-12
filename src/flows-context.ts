@@ -1,5 +1,5 @@
 import type { FlowState } from "./flow-state";
-import type { Flow, FlowStep, FlowsInitOptions, TrackingEvent } from "./types";
+import type { Flow, FlowStep, FlowsInitOptions, TrackingEvent, UserProperties } from "./types";
 
 export class FlowsContext {
   private static instance: FlowsContext | undefined;
@@ -17,6 +17,7 @@ export class FlowsContext {
 
   projectId = "";
   userId?: string;
+  userProperties?: UserProperties;
   flowsById?: Record<string, Flow>;
   onNextStep?: (step: FlowStep) => void;
   onPrevStep?: (step: FlowStep) => void;
@@ -33,6 +34,7 @@ export class FlowsContext {
     this.onSeenFlowIdsChange = options.onSeenFlowIdsChange;
     this.rootElement = options.rootElement;
     this.userId = options.userId;
+    this.userProperties = this.userProperties ?? options.userProperties;
     this.flowsById = {
       ...this.flowsById,
       ...options.flows?.reduce(

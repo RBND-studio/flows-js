@@ -26,7 +26,9 @@
     "dev": "tsup --watch --env.NODE_ENV development",
     "dev:vanilla": "concurrently \"pnpm dev\" \"cd examples/vanilla-js && pnpm start\"",
     "lint": "eslint",
-    "release": "pnpm build && pnpm publish --access=public --no-git-checks"
+    "release": "pnpm build && pnpm publish --access=public --no-git-checks",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
@@ -35,12 +37,15 @@
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
+    "@types/jest": "^29.5.11",
     "@types/node": "^20.10.1",
     "@vercel/style-guide": "^5.1.0",
     "concurrently": "^8.2.2",
     "eslint": "^8.54.0",
     "husky": "^8.0.3",
+    "jest": "^29.7.0",
     "prettier": "^3.1.0",
+    "ts-jest": "^29.1.1",
     "tsup": "^8.0.1",
     "typescript": "^5.3.2"
   },

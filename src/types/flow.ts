@@ -58,6 +58,58 @@ export type FlowSteps = Step[];
 
 export type FlowFrequency = "once" | "every-time";
 
+export type PrimitiveValue = string | number | boolean | null | undefined;
+export type CompareValue = number | Date | string;
+export interface UserPropertyMatch {
+  /**
+   * Key of the user property to perform the match on.
+   */
+  key: string;
+  /**
+   * Value must be a string and match the given regular expression.
+   */
+  regex?: string;
+  /**
+   * Value must be equal to the given value.
+   */
+  eq?: PrimitiveValue | PrimitiveValue[];
+  /**
+   * Value must not be equal to the given value.
+   */
+  ne?: PrimitiveValue | PrimitiveValue[];
+  /**
+   * Value must be greater than the given value.
+   */
+  gt?: CompareValue;
+  /**
+   * Value must be greater than or equal to the given value.
+   */
+  gte?: CompareValue;
+  /**
+   * Value must be less than the given value.
+   */
+  lt?: CompareValue;
+  /**
+   * Value must be less than or equal to the given value.
+   */
+  lte?: CompareValue;
+  /**
+   * Value must be found within string.
+   * When array is given, at least one of the values must be contained.
+   */
+  contains?: string | string[];
+  /**
+   * Value must not be found within string.
+   * When array is given, none of the values must be contained.
+   */
+  notContains?: string | string[];
+}
+/**
+ * A group of user property matchers.
+ * Each of the matchers must match for the group to match.
+ */
+export type UserPropertyMatchGroup = UserPropertyMatch[];
+
 export interface Flow {
   id: string;
   frequency?: FlowFrequency;
@@ -73,4 +125,38 @@ export interface Flow {
    * ```
    */
   location?: string;
+  /**
+   * Matchers for user properties.
+   *
+   * **One group**
+   *
+   * When array of matchers is given, all matchers must match for the Flow to run.
+   * @example
+   * *`plan` is "premium" AND `age` is grater then 18*
+   * ```
+   * [
+   *   { key: "plan", eq: "premium" },
+   *   { key: "age", gt: 18 },
+   * ]
+   * ```
+   *
+   * **Array of groups**
+   *
+   * When array of arrays of matchers is given, each of the array is a group of matchers. At least one of the groups must match for the Flow to run.
+   *
+   * @example
+   * *(`plan` is "premium" AND `age` is grater then 18) OR (`age` is grater then 65)*
+   * ```
+   * [
+   *   [
+   *     { key: "plan", eq: "premium" },
+   *     { key: "age", gt: 18 }
+   *   ],
+   *   [
+   *     { key: "age", gt: 65 }
+   *   ]
+   * ]
+   * ```
+   */
+  userProperties?: UserPropertyMatchGroup | UserPropertyMatchGroup[];
 }
