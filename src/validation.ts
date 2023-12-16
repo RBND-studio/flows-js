@@ -102,8 +102,8 @@ const StepStruct = union([TooltipStepStruct, ModalStepStruct, WaitStepStruct]);
 
 const FlowStepsStruct = array(union([StepStruct, array(array(StepStruct))]));
 
-const PrimitiveValueStruct: Describe<PrimitiveValue> = optional(
-  nullable(union([string(), number(), boolean()])),
+const PrimitiveValueStruct: Describe<PrimitiveValue> = nullable(
+  union([string(), number(), boolean()]),
 );
 const CompareValueStruct: Describe<CompareValue> = union([number(), date(), string()]);
 const UserPropertyMatchStruct: Describe<UserPropertyMatch> = type({

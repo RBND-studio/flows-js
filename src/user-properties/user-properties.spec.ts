@@ -21,20 +21,23 @@ describe("$regex", () => {
 });
 
 describe("$eq", () => {
+  it("should return true if expected is undefined", () => {
+    expect(matchers.$eq("undefined", undefined)).toBe(true);
+    expect(matchers.$eq(undefined, undefined)).toBe(true);
+  });
   it("should return false if value is not equal to expected", () => {
     expect(matchers.$eq("bar", "foo")).toBe(false);
     expect(matchers.$eq(undefined, "foo")).toBe(false);
-    expect(matchers.$eq("undefined", undefined)).toBe(false);
     expect(matchers.$eq(1, "1")).toBe(false);
     expect(matchers.$eq(true, "true")).toBe(false);
     expect(matchers.$eq(null, "null")).toBe(false);
+    expect(matchers.$eq("foo", null)).toBe(false);
   });
   it("should return true if value is equal to expected", () => {
     expect(matchers.$eq("foo", "foo")).toBe(true);
     expect(matchers.$eq(1, 1)).toBe(true);
     expect(matchers.$eq(false, false)).toBe(true);
     expect(matchers.$eq(null, null)).toBe(true);
-    expect(matchers.$eq(undefined, undefined)).toBe(true);
   });
   it("should call itself recursively if expected is an array", () => {
     const spy = jest.spyOn(matchers, "$eq");
@@ -46,6 +49,10 @@ describe("$eq", () => {
 });
 
 describe("$ne", () => {
+  it("should return true if expected is undefined", () => {
+    expect(matchers.$ne("undefined", undefined)).toBe(true);
+    expect(matchers.$ne(undefined, undefined)).toBe(true);
+  });
   it("should return true if value is not equal to expected", () => {
     expect(matchers.$ne("bar", "foo")).toBe(true);
     expect(matchers.$ne(undefined, "foo")).toBe(true);
@@ -53,13 +60,13 @@ describe("$ne", () => {
     expect(matchers.$ne(1, "1")).toBe(true);
     expect(matchers.$ne(true, "true")).toBe(true);
     expect(matchers.$ne(null, "null")).toBe(true);
+    expect(matchers.$ne("foo", null)).toBe(true);
   });
   it("should return false if value is equal to expected", () => {
     expect(matchers.$ne("foo", "foo")).toBe(false);
     expect(matchers.$ne(1, 1)).toBe(false);
     expect(matchers.$ne(false, false)).toBe(false);
     expect(matchers.$ne(null, null)).toBe(false);
-    expect(matchers.$ne(undefined, undefined)).toBe(false);
   });
   it("should call itself recursively if expected is an array", () => {
     const spy = jest.spyOn(matchers, "$ne");
@@ -92,10 +99,14 @@ describe("$gt", () => {
     expect(matchers.$gt(new Date("2020-01-01"), new Date("2020-01-01"))).toBe(false);
     expect(matchers.$gt(new Date("2020-01-01"), new Date("2020-01-02"))).toBe(false);
   });
+  it("should return false when comparing date with date string not in ISO 8601 format", () => {
+    expect(matchers.$gt(new Date("2020-01-02"), "2020-01-01")).toBe(false);
+  });
   it("should return true if value is greater than expected", () => {
     expect(matchers.$gt(2, 1)).toBe(true);
     expect(matchers.$gt("foobar", "foo")).toBe(true);
     expect(matchers.$gt(new Date("2020-01-02"), new Date("2020-01-01"))).toBe(true);
+    expect(matchers.$gt(new Date("2020-01-02"), "2020-01-01T00:00:00.000Z")).toBe(true);
   });
 });
 
@@ -118,6 +129,9 @@ describe("$gte", () => {
     expect(matchers.$gte("foo", "foobar")).toBe(false);
     expect(matchers.$gte(new Date("2020-01-01"), new Date("2020-01-02"))).toBe(false);
   });
+  it("should return false when comparing date with date string not in ISO 8601 format", () => {
+    expect(matchers.$gte(new Date("2020-01-01"), "2020-01-01")).toBe(false);
+  });
   it("should return true if value is greater than or equal to expected", () => {
     expect(matchers.$gte(1, 1)).toBe(true);
     expect(matchers.$gte(2, 1)).toBe(true);
@@ -125,6 +139,8 @@ describe("$gte", () => {
     expect(matchers.$gte("foobar", "foo")).toBe(true);
     expect(matchers.$gte(new Date("2020-01-01"), new Date("2020-01-01"))).toBe(true);
     expect(matchers.$gte(new Date("2020-01-02"), new Date("2020-01-01"))).toBe(true);
+    expect(matchers.$gte(new Date("2020-01-01"), "2020-01-01T00:00:00.000Z")).toBe(true);
+    expect(matchers.$gte("2020-01-01T00:00:00.000Z", new Date("2020-01-01"))).toBe(true);
   });
 });
 
@@ -150,10 +166,16 @@ describe("$lt", () => {
     expect(matchers.$lt(new Date("2020-01-01"), new Date("2020-01-01"))).toBe(false);
     expect(matchers.$lt(new Date("2020-01-02"), new Date("2020-01-01"))).toBe(false);
   });
+
+  it("should return false when comparing date with date string not in ISO 8601 format", () => {
+    expect(matchers.$lt(new Date("2020-01-01"), "2020-01-02")).toBe(false);
+  });
   it("should return true if value is less than expected", () => {
     expect(matchers.$lt(1, 2)).toBe(true);
     expect(matchers.$lt("foo", "foobar")).toBe(true);
     expect(matchers.$lt(new Date("2020-01-01"), new Date("2020-01-02"))).toBe(true);
+    expect(matchers.$lt(new Date("2020-01-01"), "2020-01-02T00:00:00.000Z")).toBe(true);
+    expect(matchers.$lt("2020-01-01T00:00:00.000Z", new Date("2020-01-02"))).toBe(true);
   });
 });
 
@@ -176,6 +198,9 @@ describe("$lte", () => {
     expect(matchers.$lte("foobar", "foo")).toBe(false);
     expect(matchers.$lte(new Date("2020-01-02"), new Date("2020-01-01"))).toBe(false);
   });
+  it("should return false when comparing date with date string not in ISO 8601 format", () => {
+    expect(matchers.$lte(new Date("2020-01-01"), "2020-01-01")).toBe(false);
+  });
   it("should return true if value is less than or equal to expected", () => {
     expect(matchers.$lte(1, 1)).toBe(true);
     expect(matchers.$lte(1, 2)).toBe(true);
@@ -183,6 +208,8 @@ describe("$lte", () => {
     expect(matchers.$lte("foo", "foobar")).toBe(true);
     expect(matchers.$lte(new Date("2020-01-01"), new Date("2020-01-01"))).toBe(true);
     expect(matchers.$lte(new Date("2020-01-01"), new Date("2020-01-02"))).toBe(true);
+    expect(matchers.$lte(new Date("2020-01-01"), "2020-01-01T00:00:00.000Z")).toBe(true);
+    expect(matchers.$lte("2020-01-01T00:00:00.000Z", new Date("2020-01-01"))).toBe(true);
   });
 });
 

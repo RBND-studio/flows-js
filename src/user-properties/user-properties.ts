@@ -6,45 +6,64 @@ import type {
   UserPropertyMatchGroup,
 } from "../types";
 
+const parseDate = (date: unknown): Date | null => {
+  if (date instanceof Date) return date;
+  if (typeof date !== "string") return null;
+  const parsed = Date.parse(date);
+  if (isNaN(parsed)) return null;
+  if (new Date(parsed).toISOString() !== date) return null;
+  return new Date(parsed);
+};
+
 export const $regex = (value?: unknown, regex?: string): boolean => {
   if (!regex) return true;
   if (typeof value !== "string") return false;
   return new RegExp(regex).test(value);
 };
 export const $eq = (value?: unknown, expected?: PrimitiveValue | PrimitiveValue[]): boolean => {
+  if (expected === undefined) return true;
   if (Array.isArray(expected)) return expected.some((v) => $eq(value, v));
   return value === expected;
 };
 export const $ne = (value?: unknown, expected?: PrimitiveValue | PrimitiveValue[]): boolean => {
+  if (expected === undefined) return true;
   if (Array.isArray(expected)) return expected.every((v) => $ne(value, v));
   return value !== expected;
 };
 export const $gt = (value?: unknown, expected?: CompareValue): boolean => {
   if (!expected) return true;
   if (typeof value === "number" && typeof expected === "number") return value > expected;
+  const expectedDate = parseDate(expected);
+  const valueDate = parseDate(value);
+  if (expectedDate && valueDate) return valueDate > expectedDate;
   if (typeof value === "string" && typeof expected === "string") return value > expected;
-  if (value instanceof Date && expected instanceof Date) return value > expected;
   return false;
 };
 export const $gte = (value?: unknown, expected?: CompareValue): boolean => {
   if (!expected) return true;
   if (typeof value === "number" && typeof expected === "number") return value >= expected;
+  const expectedDate = parseDate(expected);
+  const valueDate = parseDate(value);
+  if (expectedDate && valueDate) return valueDate >= expectedDate;
   if (typeof value === "string" && typeof expected === "string") return value >= expected;
-  if (value instanceof Date && expected instanceof Date) return value >= expected;
   return false;
 };
 export const $lt = (value?: unknown, expected?: CompareValue): boolean => {
   if (!expected) return true;
   if (typeof value === "number" && typeof expected === "number") return value < expected;
+  const expectedDate = parseDate(expected);
+  const valueDate = parseDate(value);
+  if (expectedDate && valueDate) return valueDate < expectedDate;
   if (typeof value === "string" && typeof expected === "string") return value < expected;
-  if (value instanceof Date && expected instanceof Date) return value < expected;
   return false;
 };
 export const $lte = (value?: unknown, expected?: CompareValue): boolean => {
   if (!expected) return true;
   if (typeof value === "number" && typeof expected === "number") return value <= expected;
+  const expectedDate = parseDate(expected);
+  const valueDate = parseDate(value);
+  if (expectedDate && valueDate) return valueDate <= expectedDate;
   if (typeof value === "string" && typeof expected === "string") return value <= expected;
-  if (value instanceof Date && expected instanceof Date) return value <= expected;
   return false;
 };
 export const $contains = (value?: unknown, expected?: string | string[]): boolean => {

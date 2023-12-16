@@ -58,7 +58,12 @@ export type FlowSteps = Step[];
 
 export type FlowFrequency = "once" | "every-time";
 
-export type PrimitiveValue = string | number | boolean | null | undefined;
+export type PrimitiveValue = string | number | boolean | null;
+/**
+ * Data types that can be compared.
+ *
+ * `Date` can also be supplied in ISO 8601 format to support sending dates in JSON.
+ */
 export type CompareValue = number | Date | string;
 export interface UserPropertyMatch {
   /**
