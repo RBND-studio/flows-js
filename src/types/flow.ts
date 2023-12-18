@@ -12,6 +12,10 @@ export interface FlowTooltipStep {
   body?: string;
   element: string;
   options?: StepOption[];
+  /**
+   * On which side of the target element the tooltip should be placed.
+   * @defaultValue `bottom`
+   */
   placement?: Placement;
   hideClose?: boolean;
   arrow?: boolean;

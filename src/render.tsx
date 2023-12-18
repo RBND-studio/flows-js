@@ -21,14 +21,14 @@ const updateTooltip = ({
 }): Promise<void> => {
   const offsetDistance = DISTANCE + (arrowEls ? ARROW_SIZE : 0);
   const middleware = [
-    offset(offsetDistance),
     flip({ fallbackPlacements: ["top", "bottom", "left", "right"] }),
     shift({ padding: 4 }),
   ];
   if (arrowEls) middleware.push(arrow({ element: arrowEls[0], padding: 8 }));
+  middleware.push(offset(offsetDistance));
 
   return computePosition(target, tooltip, {
-    placement: placement ?? "bottom",
+    placement,
     middleware,
   })
     .then(({ x, y, middlewareData, placement: finalPlacement }) => {
