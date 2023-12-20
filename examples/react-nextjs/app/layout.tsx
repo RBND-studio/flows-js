@@ -1,4 +1,3 @@
-import { Flows } from "@/components/Flows";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -27,11 +26,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <li>
                 <Link href="/about">About</Link>
               </li>
+              <li>
+                <Link href="/cloud">Cloud</Link>
+              </li>
             </ul>
           </nav>
         </header>
         {children}
-        <Flows />
       </body>
     </html>
   );

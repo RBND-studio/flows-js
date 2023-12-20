@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { init } from "@rbnd/flows";
 import "@rbnd/flows/flows.css";
 
-export const Flows = () => {
+export const LocalFlows = () => {
   useEffect(() => {
     init({
       flows: [
@@ -16,6 +16,8 @@ export const Flows = () => {
               element: "#start-flow-1",
               title: "Hey!",
               body: "This is a demo of FlowsJS. <br/>Click the button below to continue.",
+              arrow: true,
+              placement: "right-start",
             },
           ],
         },
