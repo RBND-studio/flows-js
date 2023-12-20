@@ -8,11 +8,11 @@ import {
   string,
   union,
   enums,
-  type,
   func,
   assert,
   nullable,
   date,
+  object,
 } from "superstruct";
 import type {
   FlowTooltipStep,
@@ -28,13 +28,13 @@ import type {
   UserPropertyMatchGroup,
 } from "./types";
 
-const WaitOptionsStruct: Describe<WaitStepOptions> = type({
+const WaitOptionsStruct: Describe<WaitStepOptions> = object({
   element: optional(string()),
   form: optional(
-    type({
+    object({
       element: string(),
       values: array(
-        type({
+        object({
           element: string(),
           value: string(),
         }),
@@ -43,7 +43,7 @@ const WaitOptionsStruct: Describe<WaitStepOptions> = type({
   ),
   change: optional(
     array(
-      type({
+      object({
         element: string(),
         value: union([string(), regexp()]),
       }),
@@ -53,9 +53,9 @@ const WaitOptionsStruct: Describe<WaitStepOptions> = type({
   location: optional(string()),
 });
 
-const StepOptionStruct: Describe<StepOption> = type({ text: string(), action: number() });
+const StepOptionStruct: Describe<StepOption> = object({ text: string(), action: number() });
 
-const TooltipStepStruct: Describe<FlowTooltipStep> = type({
+const TooltipStepStruct: Describe<FlowTooltipStep> = object({
   element: string(),
   title: string(),
   body: optional(string()),
@@ -83,7 +83,7 @@ const TooltipStepStruct: Describe<FlowTooltipStep> = type({
   wait: optional(union([WaitOptionsStruct, array(WaitOptionsStruct)])),
 });
 
-const ModalStepStruct: Describe<FlowModalStep> = type({
+const ModalStepStruct: Describe<FlowModalStep> = object({
   title: string(),
   body: optional(string()),
   key: optional(string()),
@@ -91,7 +91,7 @@ const ModalStepStruct: Describe<FlowModalStep> = type({
   wait: optional(union([WaitOptionsStruct, array(WaitOptionsStruct)])),
 });
 
-const WaitStepStruct: Describe<FlowWaitStep> = type({
+const WaitStepStruct: Describe<FlowWaitStep> = object({
   key: optional(string()),
   wait: union([WaitOptionsStruct, array(WaitOptionsStruct)]) as unknown as Describe<
     WaitStepOptions | WaitStepOptions[]
@@ -106,7 +106,7 @@ const PrimitiveValueStruct: Describe<PrimitiveValue> = nullable(
   union([string(), number(), boolean()]),
 );
 const CompareValueStruct: Describe<CompareValue> = union([number(), date(), string()]);
-const UserPropertyMatchStruct: Describe<UserPropertyMatch> = type({
+const UserPropertyMatchStruct: Describe<UserPropertyMatch> = object({
   key: string(),
   regex: optional(string()),
   eq: optional(union([PrimitiveValueStruct, array(PrimitiveValueStruct)])),
@@ -121,7 +121,7 @@ const UserPropertyMatchStruct: Describe<UserPropertyMatch> = type({
 const UserPropertyMatchGroupStruct: Describe<UserPropertyMatchGroup> =
   array(UserPropertyMatchStruct);
 
-const FlowStruct: Describe<Flow> = type({
+const FlowStruct: Describe<Flow> = object({
   id: string(),
   frequency: optional(enums(["once", "every-time"])),
   location: optional(string()),
@@ -132,13 +132,13 @@ const FlowStruct: Describe<Flow> = type({
   ),
 });
 
-const OptionsStruct: Describe<FlowsOptions> = type({
+const OptionsStruct: Describe<FlowsOptions> = object({
   flows: optional(array(FlowStruct)),
   onNextStep: optional(func()) as Describe<FlowsOptions["onNextStep"]>,
   onPrevStep: optional(func()) as Describe<FlowsOptions["onPrevStep"]>,
   tracking: optional(func()) as Describe<FlowsOptions["tracking"]>,
   userId: optional(string()),
-  userProperties: optional(type({})) as unknown as Describe<FlowsOptions["userProperties"]>,
+  userProperties: optional(object({})) as unknown as Describe<FlowsOptions["userProperties"]>,
   seenFlowIds: optional(array(string())),
   onSeenFlowIdsChange: optional(func()) as Describe<FlowsOptions["onSeenFlowIdsChange"]>,
   rootElement: optional(string()),
