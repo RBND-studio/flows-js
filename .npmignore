@@ -8,3 +8,5 @@ commitlint*
 src
 .husky
 .prettierrc
+.github
+jest.config.js
