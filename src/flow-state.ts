@@ -40,6 +40,8 @@ export class FlowState implements InterfaceFlowState {
   }
 
   track(props: Pick<TrackingEvent, "type">): this {
+    if (this.flow?.draft) return this;
+
     void (async () => {
       if (!this.flow) return;
       this.flowsContext.track({
