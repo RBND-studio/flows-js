@@ -34,4 +34,6 @@ export const api = (baseUrl: string) => ({
     }),
   getFlows: ({ projectId, userHash }: { projectId: string; userHash?: string }): Promise<Flow[]> =>
     f(`${baseUrl}/sdk/flows?projectId=${projectId}${userHash ? `&userHash=${userHash}` : ""}`),
+  getPreviewFlow: ({ flowId, projectId }: { projectId: string; flowId: string }): Promise<Flow> =>
+    f(`${baseUrl}/sdk/flows/${flowId}?projectId=${projectId}`),
 });

@@ -1,3 +1,4 @@
+import type { FlowsContext } from "../flows-context";
 import type { Flow, FlowStep } from "./flow";
 import type { UserProperties } from "./user";
 
@@ -48,7 +49,10 @@ export interface FlowsCloudOptions extends FlowsOptions {
 /**
  * Options for internal `init` function
  */
-export type FlowsInitOptions = FlowsOptions & { projectId?: string };
+export type FlowsInitOptions = FlowsOptions & {
+  projectId?: string;
+  onLocationChange?: (pathname: string, context: FlowsContext) => void;
+};
 export interface Instance {
   element: Element;
   flowId: string;
@@ -59,6 +63,10 @@ export interface StartFlowOptions {
    * If true, the flow will be started again even if it has already been seen.
    */
   again?: boolean;
+  /**
+   * If true draft flow can be started.
+   */
+  startDraft?: boolean;
 }
 export interface EndFlowOptions {
   /**

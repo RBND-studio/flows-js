@@ -123,6 +123,12 @@ export interface Flow {
   id: string;
   frequency?: FlowFrequency;
   element?: string;
+  /**
+   * Draft flow will not be shown to users.
+   * Draft flows can be started by calling `startFlow` draft parameter.
+   * @defaultValue `false`
+   */
+  draft?: boolean;
   steps: Step[];
   /**
    * A regular expression that matches the current pathname.

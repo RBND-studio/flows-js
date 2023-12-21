@@ -13,6 +13,7 @@ import {
   nullable,
   date,
   object,
+  type,
 } from "superstruct";
 import type {
   FlowTooltipStep,
@@ -26,6 +27,7 @@ import type {
   PrimitiveValue,
   CompareValue,
   UserPropertyMatchGroup,
+  FlowsInitOptions,
 } from "./types";
 
 const WaitOptionsStruct: Describe<WaitStepOptions> = object({
@@ -132,18 +134,19 @@ const FlowStruct: Describe<Flow> = object({
   ),
 });
 
-const OptionsStruct: Describe<FlowsOptions> = object({
+const OptionsStruct: Describe<FlowsInitOptions> = object({
   flows: optional(array(FlowStruct)),
-  onNextStep: optional(func()) as Describe<FlowsOptions["onNextStep"]>,
-  onPrevStep: optional(func()) as Describe<FlowsOptions["onPrevStep"]>,
-  tracking: optional(func()) as Describe<FlowsOptions["tracking"]>,
+  onNextStep: optional(func()) as Describe<FlowsInitOptions["onNextStep"]>,
+  onPrevStep: optional(func()) as Describe<FlowsInitOptions["onPrevStep"]>,
+  tracking: optional(func()) as Describe<FlowsInitOptions["tracking"]>,
   userId: optional(string()),
-  userProperties: optional(object({})) as unknown as Describe<FlowsOptions["userProperties"]>,
+  userProperties: optional(type({})) as unknown as Describe<FlowsInitOptions["userProperties"]>,
   seenFlowIds: optional(array(string())),
-  onSeenFlowIdsChange: optional(func()) as Describe<FlowsOptions["onSeenFlowIdsChange"]>,
+  onSeenFlowIdsChange: optional(func()) as Describe<FlowsInitOptions["onSeenFlowIdsChange"]>,
   rootElement: optional(string()),
   projectId: optional(string()),
   customApiUrl: optional(string()),
+  onLocationChange: optional(func()) as Describe<FlowsInitOptions["onLocationChange"]>,
 });
 
 const validateStruct =

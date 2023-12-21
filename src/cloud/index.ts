@@ -1,4 +1,5 @@
-import { init as flowsInit } from "../index";
+import { startFlow } from "../public-methods";
+import { init as flowsInit } from "../init";
 import type { FlowsCloudOptions } from "../types";
 import { hash } from "../utils";
 import { api } from "./api";
@@ -38,5 +39,20 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
           userHash: userId ? await hash(userId) : undefined,
         }))();
     },
+    onLocationChange: (pathname, context) => {
+      const params = new URLSearchParams(pathname.split("?")[1] ?? "");
+      const flowId = params.get("flows-flow-id");
+      const projectId = params.get("flows-project-id");
+      if (!flowId || !projectId) return;
+
+      void api(apiUrl)
+        .getPreviewFlow({ flowId, projectId })
+        .then((flow) => {
+          context.addFlow({ ...flow, draft: true });
+          startFlow(flow.id, { startDraft: true });
+        });
+    },
   });
 };
+
+// TODO: identifyUser should load flows according to the userHash

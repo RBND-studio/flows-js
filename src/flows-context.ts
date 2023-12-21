@@ -47,6 +47,12 @@ export class FlowsContext {
     };
   }
 
+  addFlow(flow: Flow): this {
+    if (!this.flowsById) this.flowsById = {};
+    this.flowsById[flow.id] = flow;
+    return this;
+  }
+
   track(props: Omit<TrackingEvent, "userId" | "projectId">): this {
     if (!this.tracking) return this;
     this.tracking({

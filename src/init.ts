@@ -137,9 +137,11 @@ export const init = (options: FlowsInitOptions): void => {
   let prevPathname: string | null = null;
   observer?.disconnect();
   observer = new MutationObserver(() => {
-    const pathname = window.location.pathname;
+    const pathname = window.location.pathname + window.location.search;
     const locationChanged = prevPathname !== pathname;
     if (locationChanged) {
+      options.onLocationChange?.(pathname, FlowsContext.getInstance());
+
       Object.values(context.flowsById ?? {}).forEach((flow) => {
         if (!flow.location) return;
         if (locationMatch({ location: flow.location, pathname })) startFlow(flow.id);

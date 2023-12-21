@@ -3,23 +3,29 @@ import { FlowsContext } from "./flows-context";
 import type { EndFlowOptions, FlowStep, IdentifyUserOptions, StartFlowOptions } from "./types";
 import { flowUserPropertyGroupMatch } from "./user-properties";
 
-export const startFlow = (flowId: string, { again }: StartFlowOptions = {}): void => {
+export const startFlow = (flowId: string, { again, startDraft }: StartFlowOptions = {}): void => {
   const instances = FlowsContext.getInstance().instances;
+  if (instances.has(flowId)) return;
+
   const flow = FlowsContext.getInstance().flowsById?.[flowId];
   if (!flow) return;
 
-  const flowFrequency = flow.frequency ?? "once";
-  const flowSeen = FlowsContext.getInstance().seenFlowIds.includes(flowId);
-  const frequencyMatch = !flowSeen || flowFrequency === "every-time" || again;
-  if (!frequencyMatch) return;
+  if (flow.draft && !startDraft) return;
 
-  const userPropertiesMatch = flowUserPropertyGroupMatch(
-    FlowsContext.getInstance().userProperties,
-    flow.userProperties,
-  );
-  if (!userPropertiesMatch) return;
+  // If the flow is draft, we ignore targeting and frequency
+  if (!flow.draft) {
+    const flowFrequency = flow.frequency ?? "once";
+    const flowSeen = FlowsContext.getInstance().seenFlowIds.includes(flowId);
+    const frequencyMatch = !flowSeen || flowFrequency === "every-time" || again;
+    if (!frequencyMatch) return;
 
-  if (instances.has(flowId)) return;
+    const userPropertiesMatch = flowUserPropertyGroupMatch(
+      FlowsContext.getInstance().userProperties,
+      flow.userProperties,
+    );
+    if (!userPropertiesMatch) return;
+  }
+
   const state = new FlowState({ flowId }, FlowsContext.getInstance());
   instances.set(flowId, state);
   state.render();
