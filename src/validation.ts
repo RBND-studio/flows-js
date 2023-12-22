@@ -28,6 +28,7 @@ import type {
   CompareValue,
   UserPropertyMatchGroup,
   FlowsInitOptions,
+  FlowsCloudOptions,
 } from "./types";
 
 const WaitOptionsStruct: Describe<WaitStepOptions> = object({
@@ -134,7 +135,7 @@ const FlowStruct: Describe<Flow> = object({
   ),
 });
 
-const OptionsStruct: Describe<FlowsInitOptions> = object({
+const OptionsStruct: Describe<FlowsInitOptions> = type({
   flows: optional(array(FlowStruct)),
   onNextStep: optional(func()) as Describe<FlowsInitOptions["onNextStep"]>,
   onPrevStep: optional(func()) as Describe<FlowsInitOptions["onPrevStep"]>,
@@ -147,6 +148,9 @@ const OptionsStruct: Describe<FlowsInitOptions> = object({
   projectId: optional(string()),
   customApiUrl: optional(string()),
   onLocationChange: optional(func()) as Describe<FlowsInitOptions["onLocationChange"]>,
+});
+const CloudOptionsStruct: Describe<Omit<FlowsCloudOptions, keyof FlowsInitOptions>> = type({
+  customApiUrl: optional(string()),
 });
 
 const validateStruct =
@@ -164,6 +168,7 @@ const validateStruct =
 export const isValidFlowsOptions = (options: unknown): options is FlowsOptions =>
   OptionsStruct.is(options);
 export const validateFlowsOptions = validateStruct(OptionsStruct);
+export const validateCloudFlowsOptions = validateStruct(CloudOptionsStruct);
 
 export const isValidFlow = (flow: unknown): flow is Flow => FlowStruct.is(flow);
 export const validateFlow = validateStruct(FlowStruct);

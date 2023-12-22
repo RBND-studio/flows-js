@@ -4,6 +4,7 @@ import type { FlowModalStep, FlowTooltipStep, Placement } from "./types";
 import type { FlowState } from "./flow-state";
 import { isModalStep, isTooltipStep } from "./utils";
 import { Icons } from "./icons";
+import { log } from "./log";
 
 const DISTANCE = 4;
 const ARROW_SIZE = 6;
@@ -60,8 +61,7 @@ const updateTooltip = ({
       }
     })
     .catch((err) => {
-      // eslint-disable-next-line no-console -- Error log
-      console.warn("Error computing position", err);
+      log.error("Error computing position\n", err);
     });
 };
 

@@ -1,6 +1,7 @@
 import { FlowsContext } from "./flows-context";
 import { changeWaitMatch, formWaitMatch, locationMatch } from "./form";
 import { addHandlers } from "./handlers";
+import { log } from "./log";
 import { endFlow, startFlow } from "./public-methods";
 import type { FlowsInitOptions } from "./types";
 import { validateFlowsOptions } from "./validation";
@@ -15,8 +16,7 @@ export const init = (options: FlowsInitOptions): void => {
 const _init = (options: FlowsInitOptions): void => {
   const validationResult = validateFlowsOptions(options);
   if (validationResult.error)
-    // eslint-disable-next-line no-console -- useful for user debugging
-    console.error(
+    log.error(
       `Error validating options at: options.${validationResult.error.path.join(".")} with value:`,
       validationResult.error.value,
     );

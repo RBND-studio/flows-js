@@ -13,6 +13,10 @@ const f = <T>(
   }).then(async (res) => {
     const text = await res.text();
     const resBody = (text ? JSON.parse(text) : undefined) as T;
+    if (!res.ok) {
+      const errorBody = resBody as undefined | { message?: string };
+      throw new Error(errorBody?.message ?? res.statusText);
+    }
     return resBody;
   });
 
