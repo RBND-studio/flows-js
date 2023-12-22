@@ -4,6 +4,7 @@ import type { EndFlowOptions, FlowStep, IdentifyUserOptions, StartFlowOptions } 
 import { flowUserPropertyGroupMatch } from "./user-properties";
 
 export const startFlow = (flowId: string, { again, startDraft }: StartFlowOptions = {}): void => {
+  if (!flowId) return;
   const instances = FlowsContext.getInstance().instances;
   if (instances.has(flowId)) return;
 
@@ -26,8 +27,8 @@ export const startFlow = (flowId: string, { again, startDraft }: StartFlowOption
     if (!userPropertiesMatch) return;
   }
 
-  const state = new FlowState({ flowId }, FlowsContext.getInstance());
-  instances.set(flowId, state);
+  const state = new FlowState(flowId, FlowsContext.getInstance());
+  FlowsContext.getInstance().addInstance(flowId, state);
   state.render();
 };
 
@@ -37,7 +38,7 @@ export const endFlow = (flowId: string, { variant = "cancel" }: EndFlowOptions =
   if (!state) return;
   if (variant === "finish") state.finish();
   else state.cancel();
-  instances.delete(flowId);
+  state.destroy();
 };
 
 export const identifyUser = (userId: string, options?: IdentifyUserOptions): void => {

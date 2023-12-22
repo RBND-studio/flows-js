@@ -183,7 +183,7 @@ export const render = (state: FlowState): void => {
   const step = state.currentStep;
   if (!step) return;
 
-  state.cleanup();
+  state.unmount();
 
   if (isTooltipStep(step)) {
     const target = document.querySelector(step.element);
@@ -191,7 +191,7 @@ export const render = (state: FlowState): void => {
       state.waitingForElement = false;
       const root = createRoot(state.flowsContext.rootElement);
       const { cleanup } = renderTooltip({ root, step, state, target });
-      state.flowElement = { element: root, cleanup };
+      state.flowElement = { element: root, cleanup, target };
     } else {
       state.waitingForElement = true;
     }

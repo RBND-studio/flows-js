@@ -48,7 +48,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       void api(apiUrl)
         .getPreviewFlow({ flowId, projectId })
         .then((flow) => {
-          context.addFlow({ ...flow, draft: true });
+          context.addFlowData({ ...flow, draft: true });
           startFlow(flow.id, { startDraft: true });
         });
     },

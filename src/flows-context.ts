@@ -1,5 +1,12 @@
-import type { FlowState } from "./flow-state";
-import type { Flow, FlowStep, FlowsInitOptions, TrackingEvent, UserProperties } from "./types";
+import { FlowState } from "./flow-state";
+import type {
+  Flow,
+  FlowStep,
+  FlowsInitOptions,
+  TrackingEvent,
+  UserProperties,
+  ImmutableMap,
+} from "./types";
 
 export class FlowsContext {
   private static instance: FlowsContext | undefined;
@@ -13,7 +20,42 @@ export class FlowsContext {
   }
 
   seenFlowIds: string[] = [];
-  readonly instances = new Map<string, FlowState>();
+  readonly #instances = new Map<string, FlowState>();
+  get instances(): ImmutableMap<string, FlowState> {
+    return this.#instances;
+  }
+  saveInstances(): this {
+    try {
+      window.localStorage.setItem("flows.instances", JSON.stringify([...this.#instances.keys()]));
+    } catch {
+      // Do nothing
+    }
+    return this;
+  }
+  addInstance(flowId: string, state: FlowState): this {
+    this.#instances.set(flowId, state);
+    return this.saveInstances();
+  }
+  deleteInstance(flowId: string): this {
+    this.#instances.delete(flowId);
+    return this.saveInstances();
+  }
+  startInstancesFromLocalStorage(): this {
+    try {
+      const instances = JSON.parse(
+        window.localStorage.getItem("flows.instances") ?? "[]",
+      ) as string[];
+      instances.forEach((flowId) => {
+        if (this.#instances.has(flowId) || !this.flowsById?.[flowId]) return;
+        const state = new FlowState(flowId, this);
+        this.#instances.set(flowId, state);
+        state.render();
+      });
+    } catch {
+      // Do nothing
+    }
+    return this;
+  }
 
   projectId = "";
   userId?: string;
@@ -45,11 +87,13 @@ export class FlowsContext {
         {} as Record<string, Flow>,
       ),
     };
+    this.startInstancesFromLocalStorage();
   }
 
-  addFlow(flow: Flow): this {
+  addFlowData(flow: Flow): this {
     if (!this.flowsById) this.flowsById = {};
     this.flowsById[flow.id] = flow;
+    this.startInstancesFromLocalStorage();
     return this;
   }
 

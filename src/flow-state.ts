@@ -3,11 +3,6 @@ import { render } from "./render";
 import type { Flow, FlowStep, FlowStepIndex, TrackingEvent } from "./types";
 import { hash, isModalStep, isTooltipStep } from "./utils";
 
-interface InterfaceFlowState {
-  flowId: string;
-  flowElement?: { element: HTMLElement; cleanup?: () => void };
-}
-
 const getStep = ({ flow, step }: { flow: Flow; step: FlowStepIndex }): FlowStep | undefined => {
   if (!Array.isArray(step)) return flow.steps[step] as FlowStep | undefined;
 
@@ -15,19 +10,37 @@ const getStep = ({ flow, step }: { flow: Flow; step: FlowStepIndex }): FlowStep 
   return step.reduce<any>((acc, index) => acc?.[index], flow.steps ?? []) as FlowStep | undefined;
 };
 
-export class FlowState implements InterfaceFlowState {
+export class FlowState {
   flowId: string;
-  stepHistory: FlowStepIndex[] = [0];
-  flowElement?: { element: HTMLElement; cleanup?: () => void };
+  flowElement?: { element: HTMLElement; cleanup?: () => void; target?: Element };
   waitingForElement = false;
 
   flowsContext: FlowsContext;
 
-  constructor(data: InterfaceFlowState, context: FlowsContext) {
-    this.flowId = data.flowId;
-    this.flowElement = data.flowElement;
+  constructor(flowId: string, context: FlowsContext) {
+    this.flowId = flowId;
     this.flowsContext = context;
     this.track({ type: "startFlow" });
+  }
+
+  get storageKey(): string {
+    return `flows.${this.flowId}.stepHistory`;
+  }
+
+  get stepHistory(): FlowStepIndex[] {
+    try {
+      const data = JSON.parse(window.localStorage.getItem(this.storageKey) ?? "") as unknown;
+      if (!Array.isArray(data)) return [];
+      return data as FlowStepIndex[];
+    } catch {
+      return [];
+    }
+  }
+
+  set stepHistory(value: FlowStepIndex[]) {
+    if (typeof window === "undefined") return;
+    if (!value.length) window.localStorage.removeItem(this.storageKey);
+    else window.localStorage.setItem(this.storageKey, JSON.stringify(value));
   }
 
   get step(): FlowStepIndex {
@@ -135,21 +148,31 @@ export class FlowState implements InterfaceFlowState {
   cancel(): this {
     this.track({ type: "cancelFlow" });
     this.flowsContext.flowSeen(this.flowId);
-    this.cleanup();
+    this.unmount();
     return this;
   }
 
   finish(): this {
     this.track({ type: "finishFlow" });
     this.flowsContext.flowSeen(this.flowId);
-    this.cleanup();
+    this.unmount();
     return this;
   }
 
-  cleanup(): this {
+  /**
+   * Remove the flow element from the DOM. Used before rendering next step and when flow is finished.
+   */
+  unmount(): this {
     if (!this.flowElement) return this;
     this.flowElement.cleanup?.();
     this.flowElement.element.remove();
+    return this;
+  }
+
+  destroy(): this {
+    this.unmount();
+    this.stepHistory = [];
+    this.flowsContext.deleteInstance(this.flowId);
     return this;
   }
 }

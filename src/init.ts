@@ -8,6 +8,11 @@ import { validateFlowsOptions } from "./validation";
 let observer: MutationObserver | null = null;
 
 export const init = (options: FlowsInitOptions): void => {
+  setTimeout(() => {
+    _init(options);
+  }, 0);
+};
+const _init = (options: FlowsInitOptions): void => {
   const validationResult = validateFlowsOptions(options);
   if (validationResult.error)
     // eslint-disable-next-line no-console -- useful for user debugging
@@ -174,6 +179,13 @@ export const init = (options: FlowsInitOptions): void => {
 
     FlowsContext.getInstance().instances.forEach((state) => {
       if (state.waitingForElement) state.render();
+
+      const step = state.currentStep;
+      if (step && "element" in step) {
+        const el = document.querySelector(step.element);
+        const targetChanged = state.flowElement?.target && el !== state.flowElement.target;
+        if (targetChanged) state.render();
+      }
     });
   });
   observer.observe(document, {
