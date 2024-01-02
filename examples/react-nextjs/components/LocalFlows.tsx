@@ -95,7 +95,7 @@ export const LocalFlows = () => {
         },
       ],
     });
-  });
+  }, []);
 
   return null;
 };

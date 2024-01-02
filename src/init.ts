@@ -140,8 +140,7 @@ const _init = (options: FlowsInitOptions): void => {
   };
 
   let prevPathname: string | null = null;
-  observer?.disconnect();
-  observer = new MutationObserver(() => {
+  const handleDocumentChange = (): void => {
     const pathname = window.location.pathname + window.location.search;
     const locationChanged = prevPathname !== pathname;
     if (locationChanged) {
@@ -187,7 +186,10 @@ const _init = (options: FlowsInitOptions): void => {
         if (targetChanged) state.render();
       }
     });
-  });
+  };
+
+  observer?.disconnect();
+  observer = new MutationObserver(handleDocumentChange);
   observer.observe(document, {
     subtree: true,
     attributes: true,
@@ -200,4 +202,6 @@ const _init = (options: FlowsInitOptions): void => {
     { type: "change", handler: handleChange },
     { type: "pointerdown", handler: handlePointerDown },
   ]);
+
+  handleDocumentChange();
 };

@@ -8,7 +8,8 @@ export const CloudFlows = () => {
   useEffect(() => {
     init({
       customApiUrl: "https://api.stage.flows-cloud.com",
-      projectId: "My-proj",
+      // customApiUrl: "http://localhost:3005",
+      projectId: "993b3bc3-ebce-4a3e-ba8e-44ca62e3fc9e",
       userProperties: {
         email: "bob@gmail.com",
         role: "admin",
