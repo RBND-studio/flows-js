@@ -9,11 +9,6 @@ import { validateFlowsOptions } from "./validation";
 let observer: MutationObserver | null = null;
 
 export const init = (options: FlowsInitOptions): void => {
-  setTimeout(() => {
-    _init(options);
-  }, 0);
-};
-const _init = (options: FlowsInitOptions): void => {
   const validationResult = validateFlowsOptions(options);
   if (validationResult.error)
     log.error(
@@ -146,11 +141,6 @@ const _init = (options: FlowsInitOptions): void => {
     if (locationChanged) {
       options.onLocationChange?.(pathname, FlowsContext.getInstance());
 
-      Object.values(context.flowsById ?? {}).forEach((flow) => {
-        if (!flow.location) return;
-        if (locationMatch({ location: flow.location, pathname })) startFlow(flow.id);
-      });
-
       FlowsContext.getInstance().instances.forEach((state) => {
         const step = state.currentStep;
         if (!step) return;
@@ -172,6 +162,11 @@ const _init = (options: FlowsInitOptions): void => {
             state.nextStep().render();
           }
         }
+      });
+
+      Object.values(context.flowsById ?? {}).forEach((flow) => {
+        if (!flow.location) return;
+        if (locationMatch({ location: flow.location, pathname })) startFlow(flow.id);
       });
     }
     prevPathname = pathname;
