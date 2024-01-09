@@ -2,43 +2,155 @@ import type { Placement as FloatingUiPlacement } from "@floating-ui/dom";
 
 export type Placement = FloatingUiPlacement;
 
-export interface StepOption {
+export interface FooterActionItem {
   text: string;
-  action: number;
+  /**
+   * The branch of the next step to go to.
+   */
+  action?: number;
+  /**
+   * Act as a previous step button
+   */
+  prev?: boolean;
+  /**
+   * Act as a next step button
+   */
+  next?: boolean;
+  /**
+   * Act as a link to the given URL
+   */
+  href?: string;
+  /**
+   * `target="_blank"` - open the link in a new tab.
+   */
+  external?: boolean;
+}
+export interface FooterActions {
+  left?: FooterActionItem[];
+  center?: FooterActionItem[];
+  right?: FooterActionItem[];
 }
 export interface FlowTooltipStep {
+  /**
+   * Optional key to identify the step. Useful for controlling the flow programmatically with `getCurrentStep()`.
+   */
   key?: string;
+  /**
+   * Title of the tooltip.
+   */
   title: string;
+  /**
+   * Body of the tooltip. Supports HTML.
+   */
   body?: string;
+  /**
+   * Element to attach tooltip to.
+   */
   element: string;
-  options?: StepOption[];
   /**
    * On which side of the target element the tooltip should be placed.
    * @defaultValue `bottom`
    */
   placement?: Placement;
+  /**
+   * Hide the arrow pointing to the target element.
+   */
+  hideArrow?: boolean;
+  /**
+   * Hide the close button. Without the close button the user will not be able to close the tooltip.
+   */
   hideClose?: boolean;
-  arrow?: boolean;
+  /**
+   * Hide the previous button. Without the previous button the user will not be able to go back.
+   */
+  hidePrev?: boolean;
+  /**
+   * Hide the next button.
+   * This option should be used with `footerActions` to provide a way to go to the next step or by controlling the flow programmatically with `nextStep()`.
+   */
+  hideNext?: boolean;
+  /**
+   * Text of the previous and next buttons.
+   * @defaultValue `Back`
+   */
+  prevText?: string;
+  /**
+   * Text of the previous and next buttons.
+   * @defaultValue `Continue` and `Finish` for the last step
+   */
+  nextText?: string;
+  /**
+   * Custom buttons to be shown in the footer.
+   */
+  footerActions?: FooterActions;
   /**
    * The element to scroll to when the tooltip is shown.
    */
   scrollElement?: string;
+
+  wait?: WaitStepOptions | WaitStepOptions[];
 }
 export interface FlowModalStep {
+  /**
+   * Optional key to identify the step. Useful for controlling the flow programmatically with `getCurrentStep()`.
+   */
   key?: string;
+  /**
+   * Title of the modal. Supports HTML.
+   */
   title: string;
+  /**
+   * Body of the modal. Supports HTML.
+   */
   body?: string;
-  options?: StepOption[];
+  /**
+   * Hide the close button. Without the close button the user will not be able to close the tooltip.
+   */
+  hideClose?: boolean;
+  /**
+   * Hide the previous button. Without the previous button the user will not be able to go back.
+   */
+  hidePrev?: boolean;
+  /**
+   * Hide the next button.
+   * This option should be used with `footerActions` to provide a way to go to the next step or by controlling the flow programmatically with `nextStep()`.
+   */
+  hideNext?: boolean;
+  /**
+   * Text of the previous and next buttons.
+   * @defaultValue `Back`
+   */
+  prevText?: string;
+  /**
+   * Text of the previous and next buttons.
+   * @defaultValue `Continue` and `Finish` for the last step
+   */
+  nextText?: string;
+  /**
+   * Custom buttons to be shown in the footer.
+   */
+  footerActions?: FooterActions;
+
+  wait?: WaitStepOptions | WaitStepOptions[];
 }
 export interface WaitStepOptions {
   element?: string;
   form?: {
     element: string;
-    values: { element: string; value: string }[];
+    values: {
+      element: string;
+      /**
+       * Regex string to match the value against.
+       */
+      value: string;
+    }[];
   };
   change?: {
     element: string;
-    value: string | RegExp;
+    /**
+     * Regex string to match the value against.
+     */
+    value: string;
   }[];
   /**
    * A regular expression that matches the current pathname.

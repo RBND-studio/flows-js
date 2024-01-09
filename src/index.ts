@@ -10,12 +10,13 @@ import type {
   FlowTooltipStep,
   FlowModalStep,
   FlowWaitStep,
+  WaitStepOptions,
 } from "./types";
 import { isValidFlow, isValidFlowsOptions, validateFlow, validateFlowsOptions } from "./validation";
 import { init as _init } from "./init";
 
 export * from "./public-methods";
-export const init: (options: FlowsOptions) => void = _init;
+export const init: (options: FlowsOptions) => Promise<void> = _init;
 export { isValidFlow, isValidFlowsOptions, validateFlow, validateFlowsOptions };
 export type {
   Flow,
@@ -27,4 +28,5 @@ export type {
   FlowTooltipStep,
   FlowModalStep,
   FlowWaitStep,
+  WaitStepOptions,
 };

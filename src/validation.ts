@@ -4,7 +4,6 @@ import {
   boolean,
   number,
   optional,
-  regexp,
   string,
   union,
   enums,
@@ -19,7 +18,6 @@ import type {
   FlowTooltipStep,
   FlowModalStep,
   WaitStepOptions,
-  StepOption,
   FlowWaitStep,
   Flow,
   FlowsOptions,
@@ -29,6 +27,8 @@ import type {
   UserPropertyMatchGroup,
   FlowsInitOptions,
   FlowsCloudOptions,
+  FooterActions,
+  FooterActionItem,
 } from "./types";
 
 const WaitOptionsStruct: Describe<WaitStepOptions> = object({
@@ -48,7 +48,7 @@ const WaitOptionsStruct: Describe<WaitStepOptions> = object({
     array(
       object({
         element: string(),
-        value: union([string(), regexp()]),
+        value: string(),
       }),
     ),
   ),
@@ -56,16 +56,32 @@ const WaitOptionsStruct: Describe<WaitStepOptions> = object({
   location: optional(string()),
 });
 
-const StepOptionStruct: Describe<StepOption> = object({ text: string(), action: number() });
+const FooterActionItemStruct: Describe<FooterActionItem> = object({
+  text: string(),
+  action: optional(number()),
+  href: optional(string()),
+  external: optional(boolean()),
+  next: optional(boolean()),
+  prev: optional(boolean()),
+});
+const FooterActionsStruct: Describe<FooterActions> = object({
+  center: optional(array(FooterActionItemStruct)),
+  left: optional(array(FooterActionItemStruct)),
+  right: optional(array(FooterActionItemStruct)),
+});
 
 const TooltipStepStruct: Describe<FlowTooltipStep> = object({
   element: string(),
   title: string(),
   body: optional(string()),
-  arrow: optional(boolean()),
+  hideArrow: optional(boolean()),
   hideClose: optional(boolean()),
+  hidePrev: optional(boolean()),
+  hideNext: optional(boolean()),
+  prevText: optional(string()),
+  nextText: optional(string()),
   key: optional(string()),
-  options: optional(array(StepOptionStruct)),
+  footerActions: optional(FooterActionsStruct),
   placement: optional(
     enums([
       "top",
@@ -90,7 +106,12 @@ const ModalStepStruct: Describe<FlowModalStep> = object({
   title: string(),
   body: optional(string()),
   key: optional(string()),
-  options: optional(array(StepOptionStruct)),
+  hideClose: optional(boolean()),
+  hidePrev: optional(boolean()),
+  hideNext: optional(boolean()),
+  prevText: optional(string()),
+  nextText: optional(string()),
+  footerActions: optional(FooterActionsStruct),
   wait: optional(union([WaitOptionsStruct, array(WaitOptionsStruct)])),
 });
 

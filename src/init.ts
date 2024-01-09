@@ -1,6 +1,8 @@
+import { handleDocumentChange } from "./document-change";
 import { FlowsContext } from "./flows-context";
-import { changeWaitMatch, formWaitMatch, locationMatch } from "./form";
+import { changeWaitMatch, formWaitMatch } from "./form";
 import { addHandlers } from "./handlers";
+import { ready } from "./lib/ready";
 import { log } from "./log";
 import { endFlow, startFlow } from "./public-methods";
 import type { FlowsInitOptions } from "./types";
@@ -8,7 +10,15 @@ import { validateFlowsOptions } from "./validation";
 
 let observer: MutationObserver | null = null;
 
-export const init = (options: FlowsInitOptions): void => {
+export const init = (options: FlowsInitOptions): Promise<void> =>
+  new Promise((res) => {
+    ready(() => {
+      _init(options);
+      res();
+    });
+  });
+
+const _init = (options: FlowsInitOptions): void => {
   const validationResult = validateFlowsOptions(options);
   if (validationResult.error)
     log.error(
@@ -39,7 +49,7 @@ export const init = (options: FlowsInitOptions): void => {
 
     FlowsContext.getInstance().instances.forEach((state) => {
       const step = state.currentStep;
-      if (!step || !("wait" in step)) return;
+      if (!step?.wait) return;
       if (Array.isArray(step.wait)) {
         const matchingWait = step.wait.find((wait) => {
           if (wait.element) return eventTarget.matches(wait.element);
@@ -95,7 +105,7 @@ export const init = (options: FlowsInitOptions): void => {
 
     FlowsContext.getInstance().instances.forEach((state) => {
       const step = state.currentStep;
-      if (!step || !("wait" in step)) return;
+      if (!step?.wait) return;
       if (Array.isArray(step.wait)) {
         const matchingWait = step.wait.find((wait) => formWaitMatch({ form: eventTarget, wait }));
         if (matchingWait) state.nextStep(matchingWait.action).render();
@@ -110,7 +120,7 @@ export const init = (options: FlowsInitOptions): void => {
 
     FlowsContext.getInstance().instances.forEach((state) => {
       const step = state.currentStep;
-      if (!step || !("wait" in step)) return;
+      if (!step?.wait) return;
       if (Array.isArray(step.wait)) {
         const matchingWait = step.wait.find((wait) =>
           changeWaitMatch({ target: eventTarget, wait }),
@@ -132,55 +142,6 @@ export const init = (options: FlowsInitOptions): void => {
     ) {
       event.stopPropagation();
     }
-  };
-
-  let prevPathname: string | null = null;
-  const handleDocumentChange = (): void => {
-    const pathname = window.location.pathname + window.location.search;
-    const locationChanged = prevPathname !== pathname;
-    if (locationChanged) {
-      options.onLocationChange?.(pathname, FlowsContext.getInstance());
-
-      FlowsContext.getInstance().instances.forEach((state) => {
-        const step = state.currentStep;
-        if (!step) return;
-        if ("element" in step) {
-          const el = document.querySelector(step.element);
-          if (!el) endFlow(state.flowId, { variant: "cancel" });
-        }
-        if ("wait" in step) {
-          if (Array.isArray(step.wait)) {
-            const matchingWait = step.wait.find((wait) => {
-              if (wait.location) return locationMatch({ location: wait.location, pathname });
-              return false;
-            });
-            if (matchingWait) state.nextStep(matchingWait.action).render();
-          } else if (
-            step.wait.location &&
-            locationMatch({ location: step.wait.location, pathname })
-          ) {
-            state.nextStep().render();
-          }
-        }
-      });
-
-      Object.values(context.flowsById ?? {}).forEach((flow) => {
-        if (!flow.location) return;
-        if (locationMatch({ location: flow.location, pathname })) startFlow(flow.id);
-      });
-    }
-    prevPathname = pathname;
-
-    FlowsContext.getInstance().instances.forEach((state) => {
-      if (state.waitingForElement) state.render();
-
-      const step = state.currentStep;
-      if (step && "element" in step) {
-        const el = document.querySelector(step.element);
-        const targetChanged = state.flowElement?.target && el !== state.flowElement.target;
-        if (targetChanged) state.render();
-      }
-    });
   };
 
   observer?.disconnect();

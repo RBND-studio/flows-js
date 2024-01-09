@@ -66,6 +66,7 @@ export class FlowsContext {
   tracking?: (event: TrackingEvent) => void;
   onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
   rootElement?: string;
+  onLocationChange?: (pathname: string, context: FlowsContext) => void;
 
   updateFromOptions(options: FlowsInitOptions): void {
     if (options.projectId) this.projectId = options.projectId;
@@ -74,9 +75,8 @@ export class FlowsContext {
     this.tracking = options.tracking;
     this.seenFlowIds = [...(options.seenFlowIds ?? [])];
     this.onSeenFlowIdsChange = options.onSeenFlowIdsChange;
+    this.onLocationChange = options.onLocationChange;
     this.rootElement = options.rootElement;
-    this.userId = options.userId;
-    this.userProperties = this.userProperties ?? options.userProperties;
     this.flowsById = {
       ...this.flowsById,
       ...options.flows?.reduce(
@@ -87,8 +87,15 @@ export class FlowsContext {
         {} as Record<string, Flow>,
       ),
     };
+    this.updateUser(options.userId, options.userProperties);
     this.startInstancesFromLocalStorage();
   }
+
+  updateUser = (userId?: string, userProperties?: UserProperties): this => {
+    this.userId = userId ?? this.userId;
+    this.userProperties = userProperties ?? this.userProperties;
+    return this;
+  };
 
   addFlowData(flow: Flow): this {
     if (!this.flowsById) this.flowsById = {};

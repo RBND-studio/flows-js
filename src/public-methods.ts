@@ -42,8 +42,7 @@ export const endFlow = (flowId: string, { variant = "cancel" }: EndFlowOptions =
 };
 
 export const identifyUser = (userId: string, options?: IdentifyUserOptions): void => {
-  FlowsContext.getInstance().userId = userId;
-  FlowsContext.getInstance().userProperties = options?.properties;
+  FlowsContext.getInstance().updateUser(userId, options?.properties);
 };
 
 export const getCurrentStep = (flowId: string): FlowStep | null => {

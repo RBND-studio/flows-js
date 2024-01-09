@@ -10,9 +10,15 @@ export const formWaitMatch = ({
   if (!wait.form) return false;
   if (!form.matches(wait.form.element)) return false;
   const allValuesMatch = wait.form.values.every((valueDef) => {
-    const input = form.querySelector(valueDef.element);
-    if (!input || !("value" in input)) return false;
-    return input.value === valueDef.value;
+    const el = form.querySelector(valueDef.element);
+    if (
+      !el ||
+      !("value" in el) ||
+      typeof el.value !== "string" ||
+      typeof valueDef.value !== "string"
+    )
+      return false;
+    return new RegExp(valueDef.value).test(el.value);
   });
   return allValuesMatch;
 };
@@ -29,9 +35,14 @@ export const changeWaitMatch = ({
   if (!someElementIsTarget) return false;
   const allValuesMatch = wait.change.every((changeDef) => {
     const el = document.querySelector(changeDef.element);
-    if (!el || !("value" in el) || typeof el.value !== "string") return false;
-    if (changeDef.value instanceof RegExp) return changeDef.value.test(el.value);
-    return el.value === changeDef.value;
+    if (
+      !el ||
+      !("value" in el) ||
+      typeof el.value !== "string" ||
+      typeof changeDef.value !== "string"
+    )
+      return false;
+    return new RegExp(changeDef.value).test(el.value);
   });
   return allValuesMatch;
 };

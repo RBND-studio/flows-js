@@ -60,6 +60,17 @@
   line-height: var(--flows-base-line-height);
 }
 
+.flows-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  gap: 8px;
+}
+.flows-footer div {
+  display: flex;
+  gap: 8px;
+}
+
 .flows-button {
   background-color: var(--flows-background-subtle);
   border: var(--flows-border);
@@ -139,12 +150,6 @@
   right: var(--flows-tooltip-padding);
 }
 
-.flows-tooltip-footer {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 12px;
-  gap: 8px;
-}
 .flows-back-wrap {
   flex: 1;
 }
@@ -194,11 +199,4 @@
 .flows-modal .flows-cancel {
   top: var(--flows-tooltip-padding);
   right: var(--flows-tooltip-padding);
-}
-
-.flows-modal-footer {
-  display: flex;
-  justify-content: center;
-  margin-top: 12px;
-  gap: 8px;
 }

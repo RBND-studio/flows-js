@@ -156,10 +156,13 @@ window.FlowsJS?.init({
           element: "#start-flow-6",
           title: "Hello from Flow 6!",
           body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta iure quae soluta quam, eius ullam placeat nobis harum fugiat excepturi?",
-          options: [
-            { text: "Variant A", action: 0 },
-            { text: "Variant B", action: 1 },
-          ],
+          hideNext: true,
+          footerActions: {
+            right: [
+              { text: "Variant A", action: 0 },
+              { text: "Variant B", action: 1 },
+            ],
+          },
         },
         [
           [{ element: ".flow-6-A-text", title: "You selected variant A" }],

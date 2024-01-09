@@ -30,10 +30,11 @@ export class FlowState {
   get stepHistory(): FlowStepIndex[] {
     try {
       const data = JSON.parse(window.localStorage.getItem(this.storageKey) ?? "") as unknown;
-      if (!Array.isArray(data)) return [];
+      if (!Array.isArray(data) || !data.length) throw new Error();
       return data as FlowStepIndex[];
     } catch {
-      return [];
+      this.stepHistory = [0];
+      return [0];
     }
   }
 
@@ -164,6 +165,7 @@ export class FlowState {
    */
   unmount(): this {
     if (!this.flowElement) return this;
+    this.waitingForElement = false;
     this.flowElement.cleanup?.();
     this.flowElement.element.remove();
     return this;
