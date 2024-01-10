@@ -1,7 +1,8 @@
 import { handleDocumentChange } from "./document-change";
 import { FlowsContext } from "./flows-context";
-import { changeWaitMatch, formWaitMatch } from "./form";
+import { changeWaitMatch, formWaitMatch, locationMatch } from "./form";
 import { addHandlers } from "./handlers";
+import { getPathname } from "./lib/location";
 import { ready } from "./lib/ready";
 import { log } from "./log";
 import { endFlow, startFlow } from "./public-methods";
@@ -106,12 +107,15 @@ const _init = (options: FlowsInitOptions): void => {
     FlowsContext.getInstance().instances.forEach((state) => {
       const step = state.currentStep;
       if (!step?.wait) return;
-      if (Array.isArray(step.wait)) {
-        const matchingWait = step.wait.find((wait) => formWaitMatch({ form: eventTarget, wait }));
-        if (matchingWait) state.nextStep(matchingWait.action).render();
-      } else if (formWaitMatch({ form: eventTarget, wait: step.wait })) {
-        state.nextStep().render();
-      }
+      const waitOptions = Array.isArray(step.wait) ? step.wait : [step.wait];
+      const matchingWait = waitOptions.find((wait) => {
+        const formMatch = formWaitMatch({ form: eventTarget, wait });
+        const locMatch = wait.location
+          ? locationMatch({ location: wait.location, pathname: getPathname() })
+          : true;
+        return formMatch && locMatch;
+      });
+      if (matchingWait) state.nextStep(matchingWait.action).render();
     });
   };
   const handleChange = (event: Event): void => {
@@ -121,14 +125,15 @@ const _init = (options: FlowsInitOptions): void => {
     FlowsContext.getInstance().instances.forEach((state) => {
       const step = state.currentStep;
       if (!step?.wait) return;
-      if (Array.isArray(step.wait)) {
-        const matchingWait = step.wait.find((wait) =>
-          changeWaitMatch({ target: eventTarget, wait }),
-        );
-        if (matchingWait) state.nextStep(matchingWait.action).render();
-      } else if (changeWaitMatch({ target: eventTarget, wait: step.wait })) {
-        state.nextStep().render();
-      }
+      const waitOptions = Array.isArray(step.wait) ? step.wait : [step.wait];
+      const matchingWait = waitOptions.find((wait) => {
+        const changeMatch = changeWaitMatch({ target: eventTarget, wait });
+        const locMatch = wait.location
+          ? locationMatch({ location: wait.location, pathname: getPathname() })
+          : true;
+        return changeMatch && locMatch;
+      });
+      if (matchingWait) state.nextStep(matchingWait.action).render();
     });
   };
   const handlePointerDown = (event: PointerEvent): void => {
