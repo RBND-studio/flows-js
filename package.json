@@ -30,7 +30,9 @@
     "lint": "eslint",
     "release": "pnpm build && pnpm publish --access=public --no-git-checks",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "tsc": "tsc -p tsconfig.lib.json",
+    "playwright": "playwright test"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
@@ -39,6 +41,7 @@
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
+    "@playwright/test": "^1.40.1",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.1",
     "@vercel/style-guide": "^5.1.0",

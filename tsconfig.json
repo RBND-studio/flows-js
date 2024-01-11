@@ -1,10 +1,6 @@
 {
-  "extends": "@vercel/style-guide/typescript",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true,
-    "target": "ES2015",
-    "moduleResolution": "Bundler",
-    "module": "ESNext",
     "jsx": "react",
     "jsxFactory": "_fjsx.el",
     "jsxFragmentFactory": "_fjsx.frag"

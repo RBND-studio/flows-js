@@ -1,6 +1,4 @@
-const { resolve } = require("node:path");
-
-const project = resolve(__dirname, "tsconfig.json");
+const project = ["tsconfig.json", "tsconfig.test.json"];
 
 module.exports = {
   root: true,
