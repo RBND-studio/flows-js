@@ -1,10 +1,10 @@
 {
-  "name": "@rbnd/flows",
-  "version": "0.0.28",
+  "name": "@flows/js",
+  "version": "0.0.29",
   "description": "A better way to onboard users and drive product adoption.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/RBND-studio/flows-js"
+    "url": "git+https://github.com/RBND-studio/flows-js.git"
   },
   "license": "MIT",
   "main": "./dist/index.js",
