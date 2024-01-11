@@ -1,4 +1,5 @@
 import { FlowState } from "./flow-state";
+import { getPathname } from "./lib/location";
 import type {
   Flow,
   FlowStep,
@@ -104,11 +105,12 @@ export class FlowsContext {
     return this;
   }
 
-  track(props: Omit<TrackingEvent, "userId" | "projectId">): this {
+  track(props: Omit<TrackingEvent, "userId" | "projectId" | "location">): this {
     if (!this.tracking) return this;
     this.tracking({
       userId: this.userId,
       projectId: this.projectId,
+      location: getPathname(),
       ...props,
     });
     return this;

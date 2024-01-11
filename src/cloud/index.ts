@@ -36,7 +36,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       );
     });
 
-  flowsInit({
+  return flowsInit({
     ...options,
     flows: [...(options.flows ?? []), ...(flows || [])],
     tracking: (event) => {

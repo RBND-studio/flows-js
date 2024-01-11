@@ -17,6 +17,14 @@ export interface TrackingEvent {
   flowHash: string;
   userId?: string;
   projectId: string;
+  /**
+   * Browser location
+   * @example
+   * - "/" - Root
+   * - "/checkout"
+   * - "/search?query=foo" - Query params are included
+   */
+  location: string;
 }
 
 /**
