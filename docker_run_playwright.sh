@@ -2,7 +2,7 @@
 
 # Run this script to start docker container and run all playwright tests
 
-docker run -it --rm --ipc=host \
+docker run --rm --ipc=host \
   --mount type=bind,src=.,dst=/app \
   --mount type=volume,dst=/app/node_modules \
   --mount type=volume,dst=/app/.pnpm-store \
