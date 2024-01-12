@@ -33,6 +33,7 @@
     "test:watch": "jest --watch",
     "tsc": "tsc -p tsconfig.lib.json",
     "playwright": "playwright test",
+    "playwright:docker": "./docker_run_playwright.sh",
     "serve:test": "vite"
   },
   "dependencies": {
