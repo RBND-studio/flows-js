@@ -4,12 +4,14 @@ import { changeWaitMatch, formWaitMatch, locationMatch } from "./form";
 import { addHandlers } from "./handlers";
 import { getPathname } from "./lib/location";
 import { ready } from "./lib/ready";
+import { handleLocationChange, startFlowsBasedOnLocation } from "./location-change";
 import { log } from "./log";
 import { endFlow, startFlow } from "./public-methods";
 import type { FlowsInitOptions } from "./types";
 import { validateFlowsOptions } from "./validation";
 
 let observer: MutationObserver | null = null;
+let locationChangeInterval: number | null = null;
 
 export const init = (options: FlowsInitOptions): Promise<void> =>
   new Promise((res) => {
@@ -157,6 +159,11 @@ const _init = (options: FlowsInitOptions): void => {
     childList: true,
   });
 
+  if (locationChangeInterval !== null) clearInterval(locationChangeInterval);
+  locationChangeInterval = window.setInterval(() => {
+    handleLocationChange();
+  }, 50);
+
   addHandlers([
     { type: "click", handler: handleClick },
     { type: "submit", handler: handleSubmit },
@@ -164,5 +171,5 @@ const _init = (options: FlowsInitOptions): void => {
     { type: "pointerdown", handler: handlePointerDown },
   ]);
 
-  handleDocumentChange();
+  startFlowsBasedOnLocation();
 };
