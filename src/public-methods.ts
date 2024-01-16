@@ -1,30 +1,53 @@
 import { FlowState } from "./flow-state";
 import { FlowsContext } from "./flows-context";
+import { log } from "./log";
 import type { EndFlowOptions, FlowStep, IdentifyUserOptions, StartFlowOptions } from "./types";
 import { flowUserPropertyGroupMatch } from "./user-properties";
 
 export const startFlow = (flowId: string, { again, startDraft }: StartFlowOptions = {}): void => {
-  if (!flowId) return;
+  const warn = (message: string): void => {
+    log.warn(`Failed to start "${flowId}": ${message}`);
+  };
+
+  if (!flowId) {
+    warn("Missing flowId");
+    return;
+  }
   const instances = FlowsContext.getInstance().instances;
-  if (instances.has(flowId)) return;
+  if (instances.has(flowId)) {
+    warn("Flow is already running");
+    return;
+  }
 
   const flow = FlowsContext.getInstance().flowsById?.[flowId];
-  if (!flow) return;
+  if (!flow) {
+    warn("Missing Flow definition");
+    return;
+  }
 
-  if (flow.draft && !startDraft) return;
+  if (flow.draft && !startDraft) {
+    warn("Flow is not published");
+    return;
+  }
 
   // If the flow is draft, we ignore targeting and frequency
   if (!flow.draft) {
     const flowFrequency = flow.frequency ?? "once";
     const flowSeen = FlowsContext.getInstance().seenFlowIds.includes(flowId);
     const frequencyMatch = !flowSeen || flowFrequency === "every-time" || again;
-    if (!frequencyMatch) return;
+    if (!frequencyMatch) {
+      warn("User has already seen the Flow");
+      return;
+    }
 
     const userPropertiesMatch = flowUserPropertyGroupMatch(
       FlowsContext.getInstance().userProperties,
       flow.userProperties,
     );
-    if (!userPropertiesMatch) return;
+    if (!userPropertiesMatch) {
+      warn("User is not allowed to see the Flow");
+      return;
+    }
   }
 
   const state = new FlowState(flowId, FlowsContext.getInstance());

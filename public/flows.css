@@ -62,13 +62,21 @@
 
 .flows-footer {
   display: flex;
-  justify-content: space-between;
+  align-items: flex-start;
   margin-top: 12px;
   gap: 8px;
 }
 .flows-footer div {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+}
+.flows-footer div:nth-child(2) {
+  flex: 1;
+  justify-content: center;
+}
+.flows-footer div:last-child {
+  justify-content: flex-end;
 }
 
 .flows-button {

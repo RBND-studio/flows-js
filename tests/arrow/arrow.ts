@@ -12,6 +12,7 @@ void init({
           placement: new URLSearchParams(window.location.search).get(
             "placement",
           ) as unknown as "top",
+          hideArrow: new URLSearchParams(window.location.search).get("hideArrow") === "true",
         },
       ],
     },

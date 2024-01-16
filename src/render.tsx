@@ -67,34 +67,28 @@ const updateTooltip = ({
 
 const getContinueButton = ({
   state,
-  step,
+  children,
 }: {
-  step: FlowTooltipStep | FlowModalStep;
+  children?: string;
   state: FlowState;
 }): HTMLElement =>
   state.hasNextStep ? (
-    <button className="flows-continue flows-button">{step.nextText || "Continue"}</button>
+    <button className="flows-continue flows-button">{children || "Continue"}</button>
   ) : (
-    <button className="flows-finish flows-button">{step.nextText || "Finish"}</button>
+    <button className="flows-finish flows-button">{children || "Finish"}</button>
   );
-const getBackButton = ({
-  state: _state,
-  step,
-}: {
-  step: FlowTooltipStep | FlowModalStep;
-  state: FlowState;
-}): HTMLElement => <button className="flows-back flows-button">{step.prevText || "Back"}</button>;
+const getBackButton = ({ children }: { children?: string }): HTMLElement => (
+  <button className="flows-back flows-button">{children || "Back"}</button>
+);
 const getStepFooterActionButton = ({
   props,
   state,
-  step,
 }: {
   props: FooterActionItem;
   state: FlowState;
-  step: FlowModalStep | FlowTooltipStep;
 }): HTMLElement => {
-  if (props.prev) return getBackButton({ step, state });
-  if (props.next) return getContinueButton({ step, state });
+  if (props.prev) return getBackButton({ children: props.text });
+  if (props.next) return getContinueButton({ children: props.text, state });
   const buttonClassName = "flows-option flows-button";
   if (props.href)
     return (
@@ -115,13 +109,10 @@ const getStepFooterActionButton = ({
 const getStepFooterActions = ({
   items,
   state,
-  step,
 }: {
   items?: FooterActionItem[];
-  step: FlowModalStep | FlowTooltipStep;
   state: FlowState;
-}): HTMLElement[] =>
-  (items ?? []).map((item) => getStepFooterActionButton({ props: item, state, step }));
+}): HTMLElement[] => (items ?? []).map((item) => getStepFooterActionButton({ props: item, state }));
 const getStepFooter = ({
   state,
   step,
@@ -129,11 +120,11 @@ const getStepFooter = ({
   step: FlowModalStep | FlowTooltipStep;
   state: FlowState;
 }): HTMLElement | null => {
-  const backBtn = state.hasPrevStep && !step.hidePrev && getBackButton({ step, state });
-  const continueBtn = !step.hideNext && getContinueButton({ state, step });
-  const leftOptions = getStepFooterActions({ items: step.footerActions?.left, state, step });
-  const centerOptions = getStepFooterActions({ items: step.footerActions?.center, state, step });
-  const rightOptions = getStepFooterActions({ items: step.footerActions?.right, state, step });
+  const backBtn = state.hasPrevStep && !step.hidePrev && getBackButton({ children: step.prevText });
+  const continueBtn = !step.hideNext && getContinueButton({ state, children: step.nextText });
+  const leftOptions = getStepFooterActions({ items: step.footerActions?.left, state });
+  const centerOptions = getStepFooterActions({ items: step.footerActions?.center, state });
+  const rightOptions = getStepFooterActions({ items: step.footerActions?.right, state });
   const someFooterBtn =
     backBtn || continueBtn || leftOptions.length || centerOptions.length || rightOptions.length;
   if (!someFooterBtn) return null;
