@@ -11,12 +11,12 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "module": "./dist/index.mjs",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
     "./cloud": {
-      "module": "./dist/cloud/index.mjs",
+      "import": "./dist/cloud/index.mjs",
       "require": "./dist/cloud/index.js",
       "types": "./dist/cloud/index.d.ts"
     },
