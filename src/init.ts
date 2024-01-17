@@ -53,15 +53,16 @@ const _init = (options: FlowsInitOptions): void => {
     FlowsContext.getInstance().instances.forEach((state) => {
       const step = state.currentStep;
       if (!step?.wait) return;
-      if (Array.isArray(step.wait)) {
-        const matchingWait = step.wait.find((wait) => {
-          if (wait.element) return eventTarget.matches(wait.element);
-          return false;
-        });
-        if (matchingWait) state.nextStep(matchingWait.action).render();
-      } else if (step.wait.element && eventTarget.matches(step.wait.element)) {
-        state.nextStep().render();
-      }
+      const waitOptions = Array.isArray(step.wait) ? step.wait : [step.wait];
+      const matchingWait = waitOptions.find((wait) => {
+        if (!wait.element) return false;
+        const clickMatch = eventTarget.matches(wait.element);
+        const locMatch = wait.location
+          ? locationMatch({ location: wait.location, pathname: getPathname() })
+          : true;
+        return clickMatch && locMatch;
+      });
+      if (matchingWait) state.nextStep(matchingWait.action).render();
     });
 
     if (eventTarget.matches(".flows-back")) {
@@ -167,7 +168,7 @@ const _init = (options: FlowsInitOptions): void => {
   addHandlers([
     { type: "click", handler: handleClick },
     { type: "submit", handler: handleSubmit },
-    { type: "change", handler: handleChange },
+    { type: "input", handler: handleChange },
     { type: "pointerdown", handler: handlePointerDown },
   ]);
 
