@@ -31,10 +31,11 @@
     "release": "pnpm build && pnpm publish --access=public --no-git-checks",
     "test": "jest",
     "test:watch": "jest --watch",
-    "tsc": "tsc -p tsconfig.lib.json",
+    "tsc": "tsc -p tsconfig.json",
     "playwright": "playwright test",
     "playwright:docker": "./docker_run_playwright.sh",
-    "serve:test": "vite"
+    "serve:test": "vite",
+    "pre-push": "concurrently \"pnpm lint\" \"pnpm test\" \"pnpm tsc\""
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",

@@ -1,11 +1,50 @@
-name: Playwright Tests
+name: Code Checks
 on:
   push:
     branches: [main, dev]
   pull_request:
     branches: [main, dev]
 jobs:
-  test:
+  tsc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
+      - run: pnpm tsc
+
+  jest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
+      - run: pnpm test
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
+      - run: pnpm lint
+
+  playwright:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -13,12 +52,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Install dependencies
-        run: npm install -g pnpm && pnpm install
-      - name: Build dist files
-        run: pnpm run build
-      - name: Run Playwright tests
-        run: pnpm playwright:docker
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
+      - run: pnpm run build
+      - run: pnpm playwright:docker
       - uses: actions/upload-artifact@v3
         if: always()
         with:
