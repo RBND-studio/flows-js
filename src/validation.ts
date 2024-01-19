@@ -170,8 +170,11 @@ const OptionsStruct: Describe<FlowsInitOptions> = type({
   customApiUrl: optional(string()),
   onLocationChange: optional(func()) as Describe<FlowsInitOptions["onLocationChange"]>,
 });
-const CloudOptionsStruct: Describe<Omit<FlowsCloudOptions, keyof FlowsInitOptions>> = type({
+const CloudOptionsStruct: Describe<
+  Omit<FlowsCloudOptions, keyof Omit<FlowsInitOptions, "projectId">>
+> = type({
   customApiUrl: optional(string()),
+  projectId: string(),
 });
 
 const validateStruct =

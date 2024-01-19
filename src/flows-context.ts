@@ -107,12 +107,13 @@ export class FlowsContext {
 
   track(props: Omit<TrackingEvent, "userId" | "projectId" | "location">): this {
     if (!this.tracking) return this;
-    this.tracking({
+    const event: TrackingEvent = {
       userId: this.userId,
-      projectId: this.projectId,
       location: getPathname(),
       ...props,
-    });
+    };
+    if (this.projectId) event.projectId = this.projectId;
+    this.tracking(event);
     return this;
   }
 

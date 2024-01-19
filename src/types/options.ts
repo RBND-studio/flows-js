@@ -16,7 +16,7 @@ export interface TrackingEvent {
    */
   flowHash: string;
   userId?: string;
-  projectId: string;
+  projectId?: string;
   /**
    * Browser location
    * @example

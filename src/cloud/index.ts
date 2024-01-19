@@ -42,7 +42,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
     tracking: (event) => {
       options.tracking?.(event);
 
-      const { flowHash, flowId, type, projectId, stepIndex, stepHash, userId } = event;
+      const { flowHash, flowId, type, projectId = "", stepIndex, stepHash, userId } = event;
 
       void (async () =>
         api(apiUrl)
