@@ -1,7 +1,10 @@
 window.FlowsJS?.init({
-  projectId: "993b3bc3-ebce-4a3e-ba8e-44ca62e3fc9e",
-  customApiUrl: "http://localhost:3005",
+  projectId: "216a2d2d-f4e2-44ae-b7e7-84399780294f",
   userId: "rbnd-test-user",
+  // flows: [{
+  //   id: "flow-id",
+  //   Element:
+  // }]
   flows: [
     {
       id: "vanilla-demo-flow-2",

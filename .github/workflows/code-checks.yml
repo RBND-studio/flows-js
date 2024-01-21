@@ -16,6 +16,7 @@ jobs:
         with:
           version: 8
       - run: pnpm install
+      - run: pnpm js build
       - run: pnpm tsc
 
   jest:
