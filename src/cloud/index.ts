@@ -5,6 +5,7 @@ import { hash } from "../utils";
 import { log } from "../log";
 import { validateFlowsOptions, validateCloudFlowsOptions } from "../validation";
 import { api } from "./api";
+import { loadStyle } from "./style";
 
 export * from "../index";
 
@@ -22,6 +23,8 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
   if (!validationResult.valid) return;
 
   const apiUrl = options.customApiUrl ?? "https://api.flows-cloud.com";
+
+  loadStyle({ apiUrl, projectId: options.projectId });
 
   const flows = await api(apiUrl)
     .getFlows({

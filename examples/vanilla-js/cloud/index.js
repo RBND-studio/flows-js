@@ -1,5 +1,5 @@
 window.FlowsJS?.init({
-  projectId: "rbnd-test",
+  projectId: "993b3bc3-ebce-4a3e-ba8e-44ca62e3fc9e",
   customApiUrl: "http://localhost:3005",
   userId: "rbnd-test-user",
   flows: [
