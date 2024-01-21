@@ -1,0 +1,20 @@
+{
+  "name": "e2e",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "serve:test": "vite",
+    "playwright": "playwright test",
+    "playwright:docker": "./docker_run_playwright.sh",
+    "tsc": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@flows/js": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "@playwright/test": "^1.40.1",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.11"
+  }
+}

@@ -18,4 +18,4 @@ jobs:
           version: 8
       - run: pnpm install
       - run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
-      - run: pnpm release
+      - run: pnpm js release

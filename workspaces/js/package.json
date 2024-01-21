@@ -1,0 +1,45 @@
+{
+  "name": "@flows/js",
+  "description": "A better way to onboard users and drive product adoption.",
+  "version": "0.0.29",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RBND-studio/flows-js.git"
+  },
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./cloud": {
+      "import": "./dist/cloud/index.mjs",
+      "require": "./dist/cloud/index.js",
+      "types": "./dist/cloud/index.d.ts"
+    },
+    "./flows.css": "./node_modules/@flows/js/public/flows.css"
+  },
+  "scripts": {
+    "dev": "tsup --watch --env.NODE_ENV development",
+    "build": "tsup --env.NODE_ENV production && pnpm tsc -p tsconfig.dist.json",
+    "lint": "eslint",
+    "release": "pnpm build && pnpm publish --access=public --no-git-checks",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "tsc": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "^1.5.3",
+    "superstruct": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.1",
+    "ts-jest": "^29.1.1",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.2"
+  }
+}

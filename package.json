@@ -1,62 +1,25 @@
 {
-  "name": "@flows/js",
-  "version": "0.0.29",
-  "description": "A better way to onboard users and drive product adoption.",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RBND-studio/flows-js.git"
-  },
-  "license": "MIT",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./cloud": {
-      "import": "./dist/cloud/index.mjs",
-      "require": "./dist/cloud/index.js",
-      "types": "./dist/cloud/index.d.ts"
-    },
-    "./flows.css": "./public/flows.css"
-  },
+  "name": "@flows/monorepo",
+  "description": "Flows monorepo",
+  "private": true,
   "scripts": {
-    "build": "tsup --env.NODE_ENV production && pnpm tsc -p tsconfig.dist.json",
+    "e2e": "pnpm --filter e2e",
+    "js": "pnpm --filter js",
+    "tsc": "pnpm -r tsc",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
     "commitlint": "commitlint --edit",
-    "dev": "tsup --watch --env.NODE_ENV development",
-    "dev:vanilla": "concurrently \"pnpm dev\" \"cd examples/vanilla-js && pnpm start\"",
-    "lint": "eslint",
-    "release": "pnpm build && pnpm publish --access=public --no-git-checks",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "tsc": "tsc -p tsconfig.json",
-    "playwright": "playwright test",
-    "playwright:docker": "./docker_run_playwright.sh",
-    "serve:test": "vite",
-    "pre-push": "concurrently \"pnpm lint\" \"pnpm test\" \"pnpm tsc\""
-  },
-  "dependencies": {
-    "@floating-ui/dom": "^1.5.3",
-    "superstruct": "^1.0.3"
+    "pre-push": "concurrently \"pnpm lint\" \"pnpm test\" \"pnpm tsc\"",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
-    "@playwright/test": "^1.40.1",
-    "@types/jest": "^29.5.11",
-    "@types/node": "^20.10.1",
     "@vercel/style-guide": "^5.1.0",
     "concurrently": "^8.2.2",
     "eslint": "^8.54.0",
     "husky": "^8.0.3",
-    "jest": "^29.7.0",
-    "prettier": "^3.1.0",
-    "ts-jest": "^29.1.1",
-    "tsup": "^8.0.1",
-    "typescript": "^5.3.2",
-    "vite": "^5.0.11"
+    "prettier": "^3.1.0"
   },
   "packageManager": "pnpm@8.7.5"
 }
