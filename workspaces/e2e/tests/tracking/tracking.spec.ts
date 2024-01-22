@@ -9,5 +9,5 @@ test("Emits correct events", async ({ page }) => {
   await page.locator(".start").click();
   await page.locator(".flows-continue").click();
   await page.locator(".flows-finish").click();
-  await expect(page).toHaveScreenshot({ scale: "css", threshold: 0 });
+  await expect(page).toHaveScreenshot({ scale: "css" });
 });

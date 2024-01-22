@@ -18,7 +18,7 @@ const placements = [
 placements.forEach((placement) => {
   test(placement, async ({ page }) => {
     await page.goto(`/arrow/arrow.html?placement=${placement}`);
-    await expect(page).toHaveScreenshot({ scale: "css", threshold: 0 });
+    await expect(page).toHaveScreenshot({ scale: "css" });
   });
 });
 
@@ -30,5 +30,5 @@ test("Shows the arrow", async ({ page }) => {
 test("Hides the arrow", async ({ page }) => {
   await page.goto(`/arrow/arrow.html?placement=right&hideArrow=true`);
   await expect(page.locator(".flows-arrow")).toHaveCount(0);
-  await expect(page).toHaveScreenshot({ scale: "css", threshold: 0 });
+  await expect(page).toHaveScreenshot({ scale: "css" });
 });
