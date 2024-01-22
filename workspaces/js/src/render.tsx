@@ -3,7 +3,6 @@ import { computePosition, offset, flip, shift, autoUpdate, arrow } from "@floati
 import type { FlowModalStep, FlowTooltipStep, FooterActionItem, Placement } from "./types";
 import type { FlowState } from "./flow-state";
 import { isModalStep, isTooltipStep } from "./utils";
-import { Icons } from "./icons";
 import { log } from "./log";
 
 const DISTANCE = 4;
@@ -65,6 +64,12 @@ const updateTooltip = ({
     });
 };
 
+const getStepHeader = ({ step }: { step: FlowTooltipStep | FlowModalStep }): HTMLElement => (
+  <div className="flows-header">
+    <h1 className="flows-title" dangerouslySetInnerHTML={{ __html: step.title }} />
+    {!step.hideClose && <button aria-label="Close" className="flows-cancel flows-button" />}
+  </div>
+);
 const getContinueButton = ({
   state,
   children,
@@ -170,16 +175,7 @@ const renderTooltip = ({
 
   const tooltip = (
     <div className="flows-tooltip">
-      <div className="flows-header">
-        <h1 className="flows-title" dangerouslySetInnerHTML={{ __html: step.title }} />
-        {!step.hideClose && (
-          <button
-            aria-label="Close"
-            className="flows-cancel flows-button"
-            dangerouslySetInnerHTML={{ __html: Icons.close }}
-          />
-        )}
-      </div>
+      {getStepHeader({ step })}
       {step.body && <div className="flows-body" dangerouslySetInnerHTML={{ __html: step.body }} />}
       {getStepFooter({ state, step })}
       {arrowEls}
@@ -205,16 +201,7 @@ const renderModal = ({
   const modal = (
     <div className="flows-modal-overlay">
       <div className="flows-modal">
-        <div className="flows-header">
-          <h1 className="flows-title" dangerouslySetInnerHTML={{ __html: step.title }} />
-          {!step.hideClose && (
-            <button
-              aria-label="Close"
-              className="flows-cancel flows-button"
-              dangerouslySetInnerHTML={{ __html: Icons.close }}
-            />
-          )}
-        </div>
+        {getStepHeader({ step })}
         {step.body && (
           <div className="flows-body" dangerouslySetInnerHTML={{ __html: step.body }} />
         )}

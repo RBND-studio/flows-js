@@ -49,7 +49,7 @@
     "build:css": "rimraf css.min && lightningcss css/*.css --minify --bundle --output-dir css.min --targets '>= 0.25%'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint",
+    "lint": "eslint src",
     "tsc": "tsc -p tsconfig.json",
     "release": "cp ../../README.md . && pnpm build && pnpm publish --access=public --no-git-checks"
   },
