@@ -1,5 +1,0 @@
-tsup.config.ts
-playwright.config.ts
-vite.config.js
-dist
-examples

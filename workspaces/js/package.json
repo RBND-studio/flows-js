@@ -20,16 +20,17 @@
       "require": "./dist/cloud/index.js",
       "types": "./dist/cloud/index.d.ts"
     },
-    "./flows.css": "./node_modules/@flows/js/public/flows.css"
+    "./flows.css": "./css.min/flows.css"
   },
   "scripts": {
     "dev": "tsup --watch --env.NODE_ENV development",
-    "build": "tsup --env.NODE_ENV production && pnpm tsc -p tsconfig.dist.json",
-    "lint": "eslint",
-    "release": "pnpm build && pnpm publish --access=public --no-git-checks",
+    "build": "tsup --env.NODE_ENV production && pnpm tsc -p tsconfig.dist.json && pnpm build:css",
+    "build:css": "rimraf css.min && lightningcss css/*.css --minify --bundle --output-dir css.min --targets '>= 0.25%'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "tsc": "tsc -p tsconfig.json"
+    "lint": "eslint",
+    "tsc": "tsc -p tsconfig.json",
+    "release": "pnpm build && pnpm publish --access=public --no-git-checks"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
@@ -39,6 +40,8 @@
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.1",
     "jest": "^29.7.0",
+    "lightningcss-cli": "^1.23.0",
+    "rimraf": "^5.0.5",
     "ts-jest": "^29.1.1",
     "tsup": "^8.0.1",
     "typescript": "^5.3.2"

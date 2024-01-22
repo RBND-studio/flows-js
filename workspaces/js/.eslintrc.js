@@ -22,4 +22,5 @@ module.exports = {
   rules: {
     "@typescript-eslint/naming-convention": 0,
   },
+  ignorePatters: ["tsup.config.ts", "dist"],
 };

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { init } from "@rbnd/flows";
-import "@rbnd/flows/flows.css";
+import { init } from "@flows/js";
+import "@flows/js/flows.css";
 
 export const LocalFlows = () => {
   useEffect(() => {
