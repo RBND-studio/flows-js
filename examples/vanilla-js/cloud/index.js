@@ -1,10 +1,6 @@
 window.FlowsJS?.init({
   projectId: "216a2d2d-f4e2-44ae-b7e7-84399780294f",
   userId: "rbnd-test-user",
-  // flows: [{
-  //   id: "flow-id",
-  //   Element:
-  // }]
   flows: [
     {
       id: "vanilla-demo-flow-2",
