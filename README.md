@@ -2,7 +2,7 @@
 
 - A better way to onboard users and drive product adoption.
 
-[![npm version](https://badge.fury.io/js/@rbnd%2Fflows.svg)](https://badge.fury.io/js/@rbnd%2Fflows)
+[![npm version](https://badge.fury.io/js/@flows%2Fjs.svg)](https://badge.fury.io/js/@flows%2Fjs.svg)
 
 ## Examples
 
@@ -14,20 +14,20 @@
 ### NPM package
 
 ```bash
-npm install @rbnd/flows
+npm install @flows/js
 ```
 
 ### Via CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@flows/js@0.0.30/dist/index.global.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flows/js@0.0.30/css.min/flows.css" />
+<script src="https://cdn.jsdelivr.net/npm/@flows/js@0.0.31/dist/index.global.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flows/js@0.0.31/css.min/flows.css" />
 ```
 
 ### Usage
 
 ```js
-import { init } from "@rbnd/flows"
+import { init } from "@flows/js"
 
 init({ flows: [ ... ] })
 

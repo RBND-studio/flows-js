@@ -1,7 +1,28 @@
 {
   "name": "@flows/js",
-  "description": "A better way to onboard users and drive product adoption.",
-  "version": "0.0.30",
+  "description": "Flows - SDK for building advanced user onboarding tours. Supports no-code or in-code flows. With advanced features like Wait or Conditional steps to create the ultimate onboarding tour, boosting product adoption. Optimize user journey, increase engagement, and enhance product experiences with Flows.",
+  "keywords": [
+    "react",
+    "javascript",
+    "html",
+    "ux",
+    "guide",
+    "spotlight",
+    "popover",
+    "overlay",
+    "users",
+    "vanilla-js",
+    "saas",
+    "onboarding",
+    "tour",
+    "walkthrough",
+    "user-onboarding",
+    "feature-introductions",
+    "onboarding-tool",
+    "product-adoption",
+    "product-tours"
+  ],
+  "version": "0.0.31",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RBND-studio/flows-js.git"
@@ -30,7 +51,7 @@
     "test:watch": "jest --watch",
     "lint": "eslint",
     "tsc": "tsc -p tsconfig.json",
-    "release": "pnpm build && pnpm publish --access=public --no-git-checks"
+    "release": "cp ../../README.md . && pnpm build && pnpm publish --access=public --no-git-checks"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
