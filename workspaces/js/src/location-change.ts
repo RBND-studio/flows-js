@@ -3,11 +3,12 @@ import { FlowsContext } from "./flows-context";
 import { getPathname } from "./lib/location";
 import { locationMatch } from "./form";
 
-let prevPathname: string = getPathname();
+// We're not setting default to avoid accessing window on the server
+let prevPathname: string | null = null;
 
 export const handleLocationChange = (): void => {
   const pathname = getPathname();
-  const locationChanged = prevPathname !== pathname;
+  const locationChanged = prevPathname !== null && prevPathname !== pathname;
   prevPathname = pathname;
 
   if (!locationChanged) return;
