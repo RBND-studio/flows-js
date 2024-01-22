@@ -20,8 +20,8 @@ npm install @rbnd/flows
 ### Via CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@flows/js@0.0.29/dist/index.global.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flows/js@0.0.29/css.min/flows.css" />
+<script src="https://cdn.jsdelivr.net/npm/@flows/js@0.0.30/dist/index.global.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flows/js@0.0.30/css.min/flows.css" />
 ```
 
 ### Usage

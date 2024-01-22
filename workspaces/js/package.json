@@ -1,7 +1,7 @@
 {
   "name": "@flows/js",
   "description": "A better way to onboard users and drive product adoption.",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RBND-studio/flows-js.git"
