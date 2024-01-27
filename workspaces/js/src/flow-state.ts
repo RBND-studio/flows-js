@@ -17,31 +17,25 @@ export class FlowState {
 
   flowsContext: FlowsContext;
 
+  _stepHistory: FlowStepIndex[];
+  get stepHistory(): FlowStepIndex[] {
+    return this._stepHistory;
+  }
+  set stepHistory(value: FlowStepIndex[]) {
+    this._stepHistory = value;
+    this.flowsContext.savePersistentState();
+  }
+
   constructor(flowId: string, context: FlowsContext) {
     this.flowId = flowId;
     this.flowsContext = context;
+    this._stepHistory = this.flowsContext.persistentState.instances.find((i) => i.flowId === flowId)
+      ?.stepHistory ?? [0];
     this.track({ type: "startFlow" });
   }
 
   get storageKey(): string {
     return `flows.${this.flowId}.stepHistory`;
-  }
-
-  get stepHistory(): FlowStepIndex[] {
-    try {
-      const data = JSON.parse(window.localStorage.getItem(this.storageKey) ?? "") as unknown;
-      if (!Array.isArray(data) || !data.length) throw new Error();
-      return data as FlowStepIndex[];
-    } catch {
-      this.stepHistory = [0];
-      return [0];
-    }
-  }
-
-  set stepHistory(value: FlowStepIndex[]) {
-    if (typeof window === "undefined") return;
-    if (!value.length) window.localStorage.removeItem(this.storageKey);
-    else window.localStorage.setItem(this.storageKey, JSON.stringify(value));
   }
 
   get step(): FlowStepIndex {

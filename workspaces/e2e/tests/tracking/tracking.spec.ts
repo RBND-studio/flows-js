@@ -9,5 +9,12 @@ test("Emits correct events", async ({ page }) => {
   await page.locator(".start").click();
   await page.locator(".flows-continue").click();
   await page.locator(".flows-finish").click();
-  await expect(page).toHaveScreenshot({ scale: "css" });
+  const logs = page.locator(".log-item");
+  await expect(logs.nth(0)).toHaveAttribute("data-type", "startFlow");
+  await expect(logs.nth(1)).toHaveAttribute("data-type", "nextStep");
+  await expect(logs.nth(2)).toHaveAttribute("data-type", "prevStep");
+  await expect(logs.nth(3)).toHaveAttribute("data-type", "cancelFlow");
+  await expect(logs.nth(4)).toHaveAttribute("data-type", "startFlow");
+  await expect(logs.nth(5)).toHaveAttribute("data-type", "nextStep");
+  await expect(logs.nth(6)).toHaveAttribute("data-type", "finishFlow");
 });

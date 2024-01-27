@@ -7,7 +7,13 @@ import type {
   TrackingEvent,
   UserProperties,
   ImmutableMap,
+  FlowStepIndex,
 } from "./types";
+
+interface PersistentState {
+  expiresAt: string | null;
+  instances: { flowId: string; stepHistory: FlowStepIndex[] }[];
+}
 
 export class FlowsContext {
   private static instance: FlowsContext | undefined;
@@ -25,36 +31,47 @@ export class FlowsContext {
   get instances(): ImmutableMap<string, FlowState> {
     return this.#instances;
   }
-  saveInstances(): this {
+  get persistentState(): PersistentState {
     try {
-      window.localStorage.setItem("flows.instances", JSON.stringify([...this.#instances.keys()]));
+      const data = JSON.parse(window.localStorage.getItem("flows.state") ?? "") as unknown;
+      if (typeof data !== "object" || !data) throw new Error();
+      const state = data as PersistentState;
+      if (state.expiresAt && new Date(state.expiresAt) < new Date()) throw new Error();
+      return state;
     } catch {
-      // Do nothing
+      return { expiresAt: "", instances: [] };
     }
+  }
+  savePersistentState(): this {
+    try {
+      const nowPlus15Min = Date.now() + 1000 * 60 * 15;
+      const state: PersistentState = {
+        expiresAt: new Date(nowPlus15Min).toISOString(),
+        instances: Array.from(this.#instances.values()).map((i) => ({
+          flowId: i.flowId,
+          stepHistory: i.stepHistory,
+        })),
+      };
+      window.localStorage.setItem("flows.state", JSON.stringify(state));
+    } catch {}
     return this;
   }
+
   addInstance(flowId: string, state: FlowState): this {
     this.#instances.set(flowId, state);
-    return this.saveInstances();
+    return this.savePersistentState();
   }
   deleteInstance(flowId: string): this {
     this.#instances.delete(flowId);
-    return this.saveInstances();
+    return this.savePersistentState();
   }
   startInstancesFromLocalStorage(): this {
-    try {
-      const instances = JSON.parse(
-        window.localStorage.getItem("flows.instances") ?? "[]",
-      ) as string[];
-      instances.forEach((flowId) => {
-        if (this.#instances.has(flowId) || !this.flowsById?.[flowId]) return;
-        const state = new FlowState(flowId, this);
-        this.#instances.set(flowId, state);
-        state.render();
-      });
-    } catch {
-      // Do nothing
-    }
+    this.persistentState.instances.forEach((instance) => {
+      if (this.#instances.has(instance.flowId) || !this.flowsById?.[instance.flowId]) return;
+      const state = new FlowState(instance.flowId, this);
+      this.#instances.set(instance.flowId, state);
+      state.render();
+    });
     return this;
   }
 
