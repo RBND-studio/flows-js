@@ -79,6 +79,16 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
           log.error("Failed to load preview flow\n", err);
         });
     },
+    onIncompleteFlowStart: (flowId, context) => {
+      void api(apiUrl)
+        .getFlowDetail({ flowId, projectId: options.projectId })
+        .then((flow) => {
+          context.addFlowData({ ...flow, draft: true });
+        })
+        .catch((err) => {
+          log.error("Failed to load flow detail\n", err);
+        });
+    },
   });
 };
 

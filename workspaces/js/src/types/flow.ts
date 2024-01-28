@@ -235,12 +235,6 @@ export interface Flow {
   id: string;
   frequency?: FlowFrequency;
   element?: string;
-  /**
-   * Draft flow will not be shown to users.
-   * Draft flows can be started by calling `startFlow` draft parameter.
-   * @defaultValue `false`
-   */
-  draft?: boolean;
   steps: Step[];
   /**
    * A regular expression that matches the current pathname.
@@ -286,4 +280,16 @@ export interface Flow {
    * ```
    */
   userProperties?: UserPropertyMatchGroup | UserPropertyMatchGroup[];
+  /**
+   * Draft flow will not be shown to users.
+   * Draft flows can be started by calling `startFlow()` with `startDraft` option.
+   * @defaultValue `false`
+   */
+  draft?: boolean;
+  /**
+   * Flow is missing some steps that will be loaded asynchronously on start.
+   * This is internal option for the Cloud SDK.
+   * @defaultValue `false`
+   */
+  _incompleteSteps?: boolean;
 }

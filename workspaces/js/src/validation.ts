@@ -154,6 +154,8 @@ const FlowStruct: Describe<Flow> = object({
   userProperties: optional(
     union([UserPropertyMatchGroupStruct, array(UserPropertyMatchGroupStruct)]),
   ),
+  draft: optional(boolean()),
+  _incompleteSteps: optional(boolean()),
 });
 
 const OptionsStruct: Describe<FlowsInitOptions> = type({
@@ -169,6 +171,7 @@ const OptionsStruct: Describe<FlowsInitOptions> = type({
   projectId: optional(string()),
   customApiUrl: optional(string()),
   onLocationChange: optional(func()) as Describe<FlowsInitOptions["onLocationChange"]>,
+  onIncompleteFlowStart: optional(func()) as Describe<FlowsInitOptions["onIncompleteFlowStart"]>,
 });
 const CloudOptionsStruct: Describe<
   Omit<FlowsCloudOptions, keyof Omit<FlowsInitOptions, "projectId">>

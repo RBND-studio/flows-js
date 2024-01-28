@@ -85,6 +85,7 @@ export class FlowsContext {
   onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
   rootElement?: string;
   onLocationChange?: (pathname: string, context: FlowsContext) => void;
+  onIncompleteFlowStart?: (flowId: string, context: FlowsContext) => void;
 
   updateFromOptions(options: FlowsInitOptions): void {
     if (options.projectId) this.projectId = options.projectId;
@@ -94,6 +95,7 @@ export class FlowsContext {
     this.seenFlowIds = [...(options.seenFlowIds ?? [])];
     this.onSeenFlowIdsChange = options.onSeenFlowIdsChange;
     this.onLocationChange = options.onLocationChange;
+    this.onIncompleteFlowStart = options.onIncompleteFlowStart;
     this.rootElement = options.rootElement;
     this.flowsById = {
       ...this.flowsById,

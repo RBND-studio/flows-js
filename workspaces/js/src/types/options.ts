@@ -60,6 +60,7 @@ export interface FlowsCloudOptions extends FlowsOptions {
 export type FlowsInitOptions = FlowsOptions & {
   projectId?: string;
   onLocationChange?: (pathname: string, context: FlowsContext) => void;
+  onIncompleteFlowStart?: (flowId: string, context: FlowsContext) => void;
 };
 export interface Instance {
   element: Element;

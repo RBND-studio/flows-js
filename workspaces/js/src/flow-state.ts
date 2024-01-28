@@ -31,6 +31,8 @@ export class FlowState {
     this.flowsContext = context;
     this._stepHistory = this.flowsContext.persistentState.instances.find((i) => i.flowId === flowId)
       ?.stepHistory ?? [0];
+    if (this.flow?._incompleteSteps)
+      this.flowsContext.onIncompleteFlowStart?.(this.flowId, this.flowsContext);
     this.track({ type: "startFlow" });
   }
 
@@ -65,7 +67,7 @@ export class FlowState {
   }
 
   nextStep(branch?: number): this {
-    if (!this.flow) return this;
+    if (!this.flow || this.flow._incompleteSteps) return this;
 
     let newStepIndex = Array.isArray(this.step) ? [...this.step] : this.step;
 
@@ -105,7 +107,10 @@ export class FlowState {
         | undefined;
       if (grandparentStep && grandparentStep.length - 1 > (this.step.at(-3) ?? 0)) return true;
     }
-    if (typeof this.step === "number") return this.step < this.flow.steps.length - 1;
+    if (typeof this.step === "number") {
+      if (this.step === 0 && this.flow._incompleteSteps) return true;
+      return this.step < this.flow.steps.length - 1;
+    }
     return false;
   }
 
