@@ -163,6 +163,7 @@ const OptionsStruct: Describe<FlowsInitOptions> = type({
   onNextStep: optional(func()) as Describe<FlowsInitOptions["onNextStep"]>,
   onPrevStep: optional(func()) as Describe<FlowsInitOptions["onPrevStep"]>,
   tracking: optional(func()) as Describe<FlowsInitOptions["tracking"]>,
+  _debug: optional(func()) as Describe<FlowsInitOptions["_debug"]>,
   userId: optional(string()),
   userProperties: optional(type({})) as unknown as Describe<FlowsInitOptions["userProperties"]>,
   seenFlowIds: optional(array(string())),

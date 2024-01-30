@@ -31,11 +31,12 @@ export const api = (baseUrl: string) => ({
     stepIndex?: string;
     stepHash?: string;
     flowHash: string;
-  }): Promise<void> =>
+  }): Promise<{ id: string }> =>
     f(`${baseUrl}/sdk/events`, {
       method: "POST",
       body,
     }),
+  deleteEvent: (eventId: string) => f(`${baseUrl}/sdk/events/${eventId}`, { method: "DELETE" }),
   getFlows: ({ projectId, userHash }: { projectId: string; userHash?: string }): Promise<Flow[]> =>
     f(`${baseUrl}/sdk/flows?projectId=${projectId}${userHash ? `&userHash=${userHash}` : ""}`),
   getPreviewFlow: ({ flowId, projectId }: { projectId: string; flowId: string }): Promise<Flow> =>

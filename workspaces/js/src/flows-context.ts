@@ -8,6 +8,9 @@ import type {
   UserProperties,
   ImmutableMap,
   FlowStepIndex,
+  Tracking,
+  Debug,
+  DebugEvent,
 } from "./types";
 
 interface PersistentState {
@@ -67,7 +70,9 @@ export class FlowsContext {
   }
   startInstancesFromLocalStorage(): this {
     this.persistentState.instances.forEach((instance) => {
-      if (this.#instances.has(instance.flowId) || !this.flowsById?.[instance.flowId]) return;
+      if (!this.flowsById?.[instance.flowId]) return;
+      const runningInstance = this.#instances.get(instance.flowId);
+      if (runningInstance) return runningInstance.render();
       const state = new FlowState(instance.flowId, this);
       this.#instances.set(instance.flowId, state);
       state.render();
@@ -81,7 +86,8 @@ export class FlowsContext {
   flowsById?: Record<string, Flow>;
   onNextStep?: (step: FlowStep) => void;
   onPrevStep?: (step: FlowStep) => void;
-  tracking?: (event: TrackingEvent) => void;
+  tracking?: Tracking;
+  debug?: Debug;
   onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
   rootElement?: string;
   onLocationChange?: (pathname: string, context: FlowsContext) => void;
@@ -92,6 +98,7 @@ export class FlowsContext {
     this.onNextStep = options.onNextStep;
     this.onPrevStep = options.onPrevStep;
     this.tracking = options.tracking;
+    this.debug = options._debug;
     this.seenFlowIds = [...(options.seenFlowIds ?? [])];
     this.onSeenFlowIdsChange = options.onSeenFlowIdsChange;
     this.onLocationChange = options.onLocationChange;
@@ -124,8 +131,8 @@ export class FlowsContext {
     return this;
   }
 
-  track(props: Omit<TrackingEvent, "userId" | "projectId" | "location">): this {
-    if (!this.tracking) return this;
+  track(props: Omit<TrackingEvent, "userId" | "projectId" | "location">): void {
+    if (!this.tracking) return;
     const event: TrackingEvent = {
       userId: this.userId,
       location: getPathname(),
@@ -133,7 +140,18 @@ export class FlowsContext {
     };
     if (this.projectId) event.projectId = this.projectId;
     this.tracking(event);
-    return this;
+  }
+  handleDebug(
+    props: Omit<DebugEvent, "userId" | "projectId" | "location">,
+  ): undefined | ReturnType<Debug> {
+    if (!this.debug) return;
+    const event: DebugEvent = {
+      userId: this.userId,
+      location: getPathname(),
+      ...props,
+    };
+    if (this.projectId) event.projectId = this.projectId;
+    return this.debug(event);
   }
 
   flowSeen(flowId: string): this {

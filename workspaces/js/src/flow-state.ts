@@ -1,6 +1,6 @@
 import type { FlowsContext } from "./flows-context";
 import { render } from "./render";
-import type { Flow, FlowStep, FlowStepIndex, TrackingEvent } from "./types";
+import type { DebugEvent, Flow, FlowStep, FlowStepIndex, TrackingEvent } from "./types";
 import { hash, isModalStep, isTooltipStep } from "./utils";
 
 const getStep = ({ flow, step }: { flow: Flow; step: FlowStepIndex }): FlowStep | undefined => {
@@ -14,6 +14,7 @@ export class FlowState {
   flowId: string;
   flowElement?: { element: HTMLElement; cleanup?: () => void; target?: Element };
   waitingForElement = false;
+  tooltipErrorPromise?: Promise<{ referenceId: string } | undefined> | null;
 
   flowsContext: FlowsContext;
 
@@ -23,6 +24,7 @@ export class FlowState {
   }
   set stepHistory(value: FlowStepIndex[]) {
     this._stepHistory = value;
+    this.enterStep();
     this.flowsContext.savePersistentState();
   }
 
@@ -33,11 +35,8 @@ export class FlowState {
       ?.stepHistory ?? [0];
     if (this.flow?._incompleteSteps)
       this.flowsContext.onIncompleteFlowStart?.(this.flowId, this.flowsContext);
-    this.track({ type: "startFlow" });
-  }
-
-  get storageKey(): string {
-    return `flows.${this.flowId}.stepHistory`;
+    void this.track({ type: "startFlow" });
+    this.enterStep();
   }
 
   get step(): FlowStepIndex {
@@ -49,19 +48,34 @@ export class FlowState {
     return getStep({ flow: this.flow, step: this.step });
   }
 
-  track(props: Pick<TrackingEvent, "type">): this {
-    if (this.flow?.draft) return this;
+  async track(props: Pick<TrackingEvent, "type">): Promise<void> {
+    if (!this.flow || this.flow.draft) return;
 
-    void (async () => {
-      if (!this.flow) return;
-      this.flowsContext.track({
-        flowId: this.flowId,
-        stepIndex: this.step,
-        stepHash: this.currentStep ? await hash(JSON.stringify(this.currentStep)) : undefined,
-        flowHash: await hash(JSON.stringify(this.flow)),
-        ...props,
-      });
-    })();
+    this.flowsContext.track({
+      flowId: this.flowId,
+      stepIndex: this.step,
+      stepHash: this.currentStep ? await hash(JSON.stringify(this.currentStep)) : undefined,
+      flowHash: await hash(JSON.stringify(this.flow)),
+      ...props,
+    });
+  }
+  async debug(
+    props: Pick<DebugEvent, "type" | "referenceId">,
+  ): Promise<{ referenceId: string } | undefined> {
+    if (!this.flow || this.flow.draft) return;
+
+    return this.flowsContext.handleDebug({
+      flowId: this.flowId,
+      stepIndex: this.step,
+      stepHash: this.currentStep ? await hash(JSON.stringify(this.currentStep)) : undefined,
+      flowHash: await hash(JSON.stringify(this.flow)),
+      ...props,
+    });
+  }
+  enterStep(): this {
+    const step = this.currentStep;
+    if (step && isTooltipStep(step) && !this.tooltipErrorPromise)
+      this.tooltipErrorPromise = this.debug({ type: "tooltipError" });
 
     return this;
   }
@@ -91,7 +105,7 @@ export class FlowState {
     this.stepHistory = [...this.stepHistory, newStepIndex];
 
     if (this.currentStep) this.flowsContext.onNextStep?.(this.currentStep);
-    this.track({ type: "nextStep" });
+    void this.track({ type: "nextStep" });
     return this;
   }
   get hasNextStep(): boolean {
@@ -123,7 +137,7 @@ export class FlowState {
     )
       this.stepHistory = this.stepHistory.slice(0, -1);
     if (this.currentStep) this.flowsContext.onPrevStep?.(this.currentStep);
-    this.track({ type: "prevStep" });
+    void this.track({ type: "prevStep" });
     return this;
   }
   get hasPrevStep(): boolean {
@@ -142,18 +156,27 @@ export class FlowState {
     }
 
     render(this);
+
+    if (step && isTooltipStep(step) && !this.waitingForElement && this.tooltipErrorPromise) {
+      const tooltipErrorPromise = this.tooltipErrorPromise;
+      this.tooltipErrorPromise = null;
+      void tooltipErrorPromise.then((res) =>
+        this.debug({ type: "invalidateTooltipError", referenceId: res?.referenceId }),
+      );
+    }
+
     return this;
   }
 
   cancel(): this {
-    this.track({ type: "cancelFlow" });
+    void this.track({ type: "cancelFlow" });
     this.flowsContext.flowSeen(this.flowId);
     this.unmount();
     return this;
   }
 
   finish(): this {
-    this.track({ type: "finishFlow" });
+    void this.track({ type: "finishFlow" });
     this.flowsContext.flowSeen(this.flowId);
     this.unmount();
     return this;
@@ -172,7 +195,6 @@ export class FlowState {
 
   destroy(): this {
     this.unmount();
-    this.stepHistory = [];
     this.flowsContext.deleteInstance(this.flowId);
     return this;
   }
