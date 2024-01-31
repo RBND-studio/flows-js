@@ -14,7 +14,7 @@ export class FlowState {
   flowId: string;
   flowElement?: { element: HTMLElement; cleanup?: () => void; target?: Element };
   waitingForElement = false;
-  tooltipErrorPromise?: Promise<{ referenceId: string } | undefined> | null;
+  tooltipErrorPromise?: number | Promise<{ referenceId: string } | undefined> | null;
 
   flowsContext: FlowsContext;
 
@@ -75,7 +75,9 @@ export class FlowState {
   enterStep(): this {
     const step = this.currentStep;
     if (step && isTooltipStep(step) && !this.tooltipErrorPromise)
-      this.tooltipErrorPromise = this.debug({ type: "tooltipError" });
+      this.tooltipErrorPromise = window.setTimeout(() => {
+        this.tooltipErrorPromise = this.debug({ type: "tooltipError" });
+      }, 1000);
 
     return this;
   }
@@ -157,12 +159,19 @@ export class FlowState {
 
     render(this);
 
-    if (step && isTooltipStep(step) && !this.waitingForElement && this.tooltipErrorPromise) {
+    if (
+      step &&
+      isTooltipStep(step) &&
+      !this.waitingForElement &&
+      this.tooltipErrorPromise !== null
+    ) {
       const tooltipErrorPromise = this.tooltipErrorPromise;
       this.tooltipErrorPromise = null;
-      void tooltipErrorPromise.then((res) =>
-        this.debug({ type: "invalidateTooltipError", referenceId: res?.referenceId }),
-      );
+      if (typeof tooltipErrorPromise === "number") window.clearTimeout(tooltipErrorPromise);
+      if (tooltipErrorPromise instanceof Promise)
+        void tooltipErrorPromise.then((res) =>
+          this.debug({ type: "invalidateTooltipError", referenceId: res?.referenceId }),
+        );
     }
 
     return this;
