@@ -26,6 +26,16 @@ export interface TrackingEvent {
    */
   location: string;
 }
+export type Tracking = (event: TrackingEvent) => void;
+
+export interface DebugEvent extends Omit<TrackingEvent, "type"> {
+  type: "tooltipError" | "invalidateTooltipError";
+  /**
+   * referenceId of the event that the current event is related to
+   */
+  referenceId?: string;
+}
+export type Debug = (event: DebugEvent) => Promise<{ referenceId: string } | undefined>;
 
 /**
  * Options for Flows `init` function
@@ -34,7 +44,7 @@ export interface FlowsOptions {
   flows?: Flow[];
   onNextStep?: (step: FlowStep) => void;
   onPrevStep?: (step: FlowStep) => void;
-  tracking?: (event: TrackingEvent) => void;
+  tracking?: Tracking;
   userId?: string;
   /**
    * Properties to set for the user used for targeting flows.
@@ -46,6 +56,10 @@ export interface FlowsOptions {
    * The element to use as the root for elements created by Flows
    */
   rootElement?: string;
+  /**
+   * Internal function called when error events are triggered
+   */
+  _debug?: Debug;
 }
 /**
  * Options for Flows with Cloud `init` function
@@ -60,6 +74,7 @@ export interface FlowsCloudOptions extends FlowsOptions {
 export type FlowsInitOptions = FlowsOptions & {
   projectId?: string;
   onLocationChange?: (pathname: string, context: FlowsContext) => void;
+  onIncompleteFlowStart?: (flowId: string, context: FlowsContext) => void;
 };
 export interface Instance {
   element: Element;

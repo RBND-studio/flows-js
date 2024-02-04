@@ -1,6 +1,6 @@
 import { startFlow } from "../public-methods";
 import { init as flowsInit } from "../init";
-import type { FlowsCloudOptions } from "../types";
+import type { DebugEvent, FlowsCloudOptions, TrackingEvent } from "../types";
 import { hash } from "../utils";
 import { log } from "../log";
 import { validateFlowsOptions, validateCloudFlowsOptions } from "../validation";
@@ -39,29 +39,40 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       );
     });
 
+  const saveEvent = async (
+    event: DebugEvent | TrackingEvent,
+  ): Promise<{ referenceId: string } | undefined> => {
+    const { flowHash, flowId, type, projectId = "", stepIndex, stepHash, userId } = event;
+
+    return api(apiUrl)
+      .sendEvent({
+        eventTime: new Date().toISOString(),
+        flowHash,
+        flowId,
+        projectId,
+        type,
+        stepHash,
+        stepIndex: stepIndex?.toString(),
+        userHash: userId ? await hash(userId) : undefined,
+      })
+      .then((res) => ({ referenceId: res.id }))
+      .catch((err) => {
+        log.error("Failed to send event to cloud\n", err);
+        return undefined;
+      });
+  };
+
   return flowsInit({
     ...options,
     flows: [...(options.flows ?? []), ...(flows || [])],
     tracking: (event) => {
       options.tracking?.(event);
-
-      const { flowHash, flowId, type, projectId = "", stepIndex, stepHash, userId } = event;
-
-      void (async () =>
-        api(apiUrl)
-          .sendEvent({
-            eventTime: new Date().toISOString(),
-            flowHash,
-            flowId,
-            projectId,
-            type,
-            stepHash,
-            stepIndex: stepIndex?.toString(),
-            userHash: userId ? await hash(userId) : undefined,
-          })
-          .catch((err) => {
-            log.error("Failed to send event to cloud\n", err);
-          }))();
+      void saveEvent(event);
+    },
+    _debug: async (event) => {
+      if (event.type === "invalidateTooltipError") {
+        if (event.referenceId) void api(apiUrl).deleteEvent(event.referenceId);
+      } else return saveEvent(event);
     },
     onLocationChange: (pathname, context) => {
       const params = new URLSearchParams(pathname.split("?")[1] ?? "");
@@ -77,6 +88,16 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
         })
         .catch((err) => {
           log.error("Failed to load preview flow\n", err);
+        });
+    },
+    onIncompleteFlowStart: (flowId, context) => {
+      void api(apiUrl)
+        .getFlowDetail({ flowId, projectId: options.projectId })
+        .then((flow) => {
+          context.addFlowData(flow);
+        })
+        .catch((err) => {
+          log.error("Failed to load flow detail\n", err);
         });
     },
   });

@@ -98,6 +98,8 @@ const TooltipStepStruct: Describe<FlowTooltipStep> = object({
       "left-end",
     ]),
   ),
+  overlay: optional(boolean()),
+  closeOnOverlayClick: optional(boolean()),
   scrollElement: optional(string()),
   wait: optional(union([WaitOptionsStruct, array(WaitOptionsStruct)])),
 });
@@ -154,6 +156,8 @@ const FlowStruct: Describe<Flow> = object({
   userProperties: optional(
     union([UserPropertyMatchGroupStruct, array(UserPropertyMatchGroupStruct)]),
   ),
+  draft: optional(boolean()),
+  _incompleteSteps: optional(boolean()),
 });
 
 const OptionsStruct: Describe<FlowsInitOptions> = type({
@@ -161,6 +165,7 @@ const OptionsStruct: Describe<FlowsInitOptions> = type({
   onNextStep: optional(func()) as Describe<FlowsInitOptions["onNextStep"]>,
   onPrevStep: optional(func()) as Describe<FlowsInitOptions["onPrevStep"]>,
   tracking: optional(func()) as Describe<FlowsInitOptions["tracking"]>,
+  _debug: optional(func()) as Describe<FlowsInitOptions["_debug"]>,
   userId: optional(string()),
   userProperties: optional(type({})) as unknown as Describe<FlowsInitOptions["userProperties"]>,
   seenFlowIds: optional(array(string())),
@@ -169,6 +174,7 @@ const OptionsStruct: Describe<FlowsInitOptions> = type({
   projectId: optional(string()),
   customApiUrl: optional(string()),
   onLocationChange: optional(func()) as Describe<FlowsInitOptions["onLocationChange"]>,
+  onIncompleteFlowStart: optional(func()) as Describe<FlowsInitOptions["onIncompleteFlowStart"]>,
 });
 const CloudOptionsStruct: Describe<
   Omit<FlowsCloudOptions, keyof Omit<FlowsInitOptions, "projectId">>
