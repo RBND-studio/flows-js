@@ -20,8 +20,8 @@ npm install @flows/js
 ### Via CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@flows/js@0.0.32/dist/index.global.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flows/js@0.0.32/css.min/flows.css" />
+<script src="https://cdn.jsdelivr.net/npm/@flows/js@0.0.33/dist/index.global.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flows/js@0.0.33/css.min/flows.css" />
 ```
 
 ### Usage
