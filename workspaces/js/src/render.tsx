@@ -13,11 +13,13 @@ const updateTooltip = ({
   tooltip,
   placement,
   arrowEls,
+  overlay,
 }: {
   target: Element;
   tooltip: HTMLElement;
   placement?: Placement;
   arrowEls?: [HTMLElement, HTMLElement];
+  overlay?: HTMLElement;
 }): Promise<void> => {
   const offsetDistance = DISTANCE + (arrowEls ? ARROW_SIZE : 0);
   const middleware = [
@@ -26,6 +28,14 @@ const updateTooltip = ({
   ];
   if (arrowEls) middleware.push(arrow({ element: arrowEls[0], padding: 8 }));
   middleware.push(offset(offsetDistance));
+
+  if (overlay) {
+    const targetPosition = target.getBoundingClientRect();
+    overlay.style.top = `${targetPosition.top}px`;
+    overlay.style.left = `${targetPosition.left}px`;
+    overlay.style.width = `${targetPosition.width}px`;
+    overlay.style.height = `${targetPosition.height}px`;
+  }
 
   return computePosition(target, tooltip, {
     placement,
@@ -181,11 +191,38 @@ const renderTooltip = ({
       {arrowEls}
     </div>
   );
+
+  let overlayEl: HTMLElement | undefined;
+  if (step.overlay) {
+    overlayEl = <div className="flows-tooltip-overlay" />;
+    root.appendChild(overlayEl);
+
+    const overlayClickLayer = (
+      <div
+        className={`flows-tooltip-overlay-click-layer ${step.closeOnOverlayClick ? "flows-overlay-cancel" : ""}`}
+      />
+    );
+    root.appendChild(overlayClickLayer);
+
+    if (target instanceof HTMLElement || target instanceof SVGElement) {
+      target.classList.add("flows-target");
+      if (window.getComputedStyle(target).position === "static") target.style.position = "relative";
+    }
+  }
+
   root.appendChild(tooltip);
+
   // eslint-disable-next-line @typescript-eslint/no-misused-promises -- Promise is handled inside the updateTooltip
-  const cleanup = autoUpdate(target, tooltip, () =>
-    updateTooltip({ target, tooltip, placement: step.placement, arrowEls }),
+  const positionCleanup = autoUpdate(target, tooltip, () =>
+    updateTooltip({ target, tooltip, placement: step.placement, arrowEls, overlay: overlayEl }),
   );
+  const cleanup = (): void => {
+    positionCleanup();
+    if (target instanceof HTMLElement || target instanceof SVGElement) {
+      target.style.position = "";
+      target.classList.remove("flows-target");
+    }
+  };
   return { cleanup };
 };
 

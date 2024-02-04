@@ -98,6 +98,8 @@ const TooltipStepStruct: Describe<FlowTooltipStep> = object({
       "left-end",
     ]),
   ),
+  overlay: optional(boolean()),
+  closeOnOverlayClick: optional(boolean()),
   scrollElement: optional(string()),
   wait: optional(union([WaitOptionsStruct, array(WaitOptionsStruct)])),
 });

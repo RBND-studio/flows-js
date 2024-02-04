@@ -53,6 +53,16 @@ export interface FlowTooltipStep {
    */
   placement?: Placement;
   /**
+   * Highlight the target element with an overlay.
+   * @defaultValue `false`
+   */
+  overlay?: boolean;
+  /**
+   * Close the tooltip when the overlay is clicked.
+   * @defaultValue `false`
+   */
+  closeOnOverlayClick?: boolean;
+  /**
    * Hide the arrow pointing to the target element.
    */
   hideArrow?: boolean;

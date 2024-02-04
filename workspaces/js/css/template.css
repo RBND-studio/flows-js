@@ -114,6 +114,9 @@
     50%;
   background-color: var(--flows-text);
 }
+.flows-overlay-cancel {
+  cursor: pointer;
+}
 
 /* Tooltip styles */
 
@@ -131,6 +134,19 @@
   line-height: var(--flows-base-line-height);
 
   max-width: var(--flows-toltip-maxWidth);
+}
+.flows-tooltip-overlay {
+  position: absolute;
+  box-shadow: var(--flows-tooltip-overlayBackground) 0px 0px 0px 9999px;
+  pointer-events: none;
+  border-radius: var(--flows-borderRadius);
+}
+.flows-target {
+  z-index: 5000;
+}
+.flows-tooltip-overlay-click-layer {
+  position: fixed;
+  inset: 0;
 }
 .flows-tooltip .flows-cancel {
   top: var(--flows-tooltip-padding);

@@ -66,37 +66,37 @@ const _init = (options: FlowsInitOptions): void => {
     });
 
     if (eventTarget.matches(".flows-back")) {
-      const flow = Array.from(FlowsContext.getInstance().instances.values()).find(
-        (s) => s.flowElement?.element.contains(eventTarget),
+      const flow = Array.from(FlowsContext.getInstance().instances.values()).find((s) =>
+        s.flowElement?.element.contains(eventTarget),
       );
       flow?.prevStep().render();
     }
     if (eventTarget.matches(".flows-continue")) {
-      const flow = Array.from(FlowsContext.getInstance().instances.values()).find(
-        (s) => s.flowElement?.element.contains(eventTarget),
+      const flow = Array.from(FlowsContext.getInstance().instances.values()).find((s) =>
+        s.flowElement?.element.contains(eventTarget),
       );
       flow?.nextStep().render();
     }
     if (eventTarget.matches(".flows-option")) {
       const action = Number(eventTarget.getAttribute("data-action"));
       if (Number.isNaN(action)) return;
-      const flow = Array.from(FlowsContext.getInstance().instances.values()).find(
-        (s) => s.flowElement?.element.contains(eventTarget),
+      const flow = Array.from(FlowsContext.getInstance().instances.values()).find((s) =>
+        s.flowElement?.element.contains(eventTarget),
       );
       flow?.nextStep(action).render();
     }
 
     if (eventTarget.matches(".flows-finish")) {
-      const flow = Array.from(FlowsContext.getInstance().instances.values()).find(
-        (s) => s.flowElement?.element.contains(eventTarget),
+      const flow = Array.from(FlowsContext.getInstance().instances.values()).find((s) =>
+        s.flowElement?.element.contains(eventTarget),
       );
       if (flow) {
         endFlow(flow.flowId, { variant: "finish" });
       }
     }
-    if (eventTarget.matches(".flows-cancel")) {
-      const flow = Array.from(FlowsContext.getInstance().instances.values()).find(
-        (s) => s.flowElement?.element.contains(eventTarget),
+    if (eventTarget.matches(".flows-cancel") || eventTarget.matches(".flows-overlay-cancel")) {
+      const flow = Array.from(FlowsContext.getInstance().instances.values()).find((s) =>
+        s.flowElement?.element.contains(eventTarget),
       );
       if (flow) {
         endFlow(flow.flowId, { variant: "cancel" });
