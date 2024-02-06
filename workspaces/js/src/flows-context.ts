@@ -84,7 +84,7 @@ export class FlowsContext {
     return this;
   }
 
-  projectId = "";
+  projectId?: string;
   userId?: string;
   userProperties?: UserProperties;
   flowsById?: Record<string, Flow>;
@@ -98,18 +98,17 @@ export class FlowsContext {
   onIncompleteFlowStart?: (flowId: string, context: FlowsContext) => void;
 
   updateFromOptions(options: FlowsInitOptions): void {
-    if (options.projectId) this.projectId = options.projectId;
+    this.projectId = options.projectId;
     this.onNextStep = options.onNextStep;
     this.onPrevStep = options.onPrevStep;
     this.tracking = options.tracking;
     this.debug = options._debug;
-    if (options.seenFlows) this.seenFlows = [...options.seenFlows];
+    this.seenFlows = options.seenFlows ? [...options.seenFlows] : [];
     this.onSeenFlowsChange = options.onSeenFlowsChange;
     this.onLocationChange = options.onLocationChange;
     this.onIncompleteFlowStart = options.onIncompleteFlowStart;
     this.rootElement = options.rootElement;
     this.flowsById = {
-      ...this.flowsById,
       ...options.flows?.reduce(
         (acc, flow) => {
           acc[flow.id] = flow;
@@ -118,13 +117,13 @@ export class FlowsContext {
         {} as Record<string, Flow>,
       ),
     };
-    this.updateUser(options);
+    this.updateFromOptions(options);
     this.startInstancesFromLocalStorage();
   }
 
   updateUser = (options: IdentifyUserOptions): this => {
-    this.userId = options.userId ?? this.userId;
-    this.userProperties = options.userProperties ?? this.userProperties;
+    this.userId = options.userId;
+    this.userProperties = options.userProperties;
     return this;
   };
 

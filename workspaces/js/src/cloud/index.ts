@@ -1,14 +1,16 @@
 import { startFlow } from "../public-methods";
 import { init as flowsInit } from "../init";
-import type { DebugEvent, FlowsCloudOptions, TrackingEvent } from "../types";
+import type { FlowsCloudOptions, IdentifyUserOptions } from "../types";
 import { hash } from "../utils";
 import { log } from "../log";
 import { validateFlowsOptions, validateCloudFlowsOptions } from "../validation";
-import { version } from "../lib/version";
 import { api } from "./api";
 import { loadStyle } from "./style";
+import { saveEvent } from "./event";
 
 export * from "../index";
+
+let _options: FlowsCloudOptions | null = null;
 
 export const init = async (options: FlowsCloudOptions): Promise<void> => {
   const cloudValidationResult = validateCloudFlowsOptions(options);
@@ -22,6 +24,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       validationResult.error.value,
     );
   if (!validationResult.valid) return;
+  _options = options;
 
   const apiUrl = options.customApiUrl ?? "https://api.flows-cloud.com";
 
@@ -40,43 +43,17 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       );
     });
 
-  const saveEvent = async (
-    event: DebugEvent | TrackingEvent,
-  ): Promise<{ referenceId: string } | undefined> => {
-    const { flowHash, flowId, type, projectId = "", stepIndex, stepHash, userId, location } = event;
-
-    return api(apiUrl)
-      .sendEvent({
-        eventTime: new Date().toISOString(),
-        flowHash,
-        flowId,
-        projectId,
-        type,
-        stepHash,
-        stepIndex: stepIndex?.toString(),
-        userHash: userId ? await hash(userId) : undefined,
-        sdkVersion: version,
-        targetElement: "targetElement" in event ? event.targetElement : undefined,
-        location,
-      })
-      .then((res) => ({ referenceId: res.id }))
-      .catch((err) => {
-        log.error("Failed to send event to cloud\n", err);
-        return undefined;
-      });
-  };
-
   return flowsInit({
     ...options,
     flows: [...(options.flows ?? []), ...(flows || [])],
     tracking: (event) => {
       options.tracking?.(event);
-      void saveEvent(event);
+      void saveEvent({ apiUrl, event });
     },
     _debug: async (event) => {
       if (event.type === "invalidateTooltipError") {
         if (event.referenceId) void api(apiUrl).deleteEvent(event.referenceId);
-      } else return saveEvent(event);
+      } else return saveEvent({ event, apiUrl });
     },
     onLocationChange: (pathname, context) => {
       const params = new URLSearchParams(pathname.split("?")[1] ?? "");
@@ -107,4 +84,10 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
   });
 };
 
-// TODO: identifyUser should load flows according to the userHash
+export const identifyUser = (options: IdentifyUserOptions): void => {
+  if (!_options) {
+    log.error("Cannot identify user before Flows are initialized.");
+    return;
+  }
+  void init({ ..._options, ...options });
+};
