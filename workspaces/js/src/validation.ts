@@ -29,10 +29,11 @@ import type {
   FlowsCloudOptions,
   FooterActions,
   FooterActionItem,
+  SeenFlow,
 } from "./types";
 
 const WaitOptionsStruct: Describe<WaitStepOptions> = object({
-  element: optional(string()),
+  clickElement: optional(string()),
   form: optional(
     object({
       element: string(),
@@ -52,13 +53,13 @@ const WaitOptionsStruct: Describe<WaitStepOptions> = object({
       }),
     ),
   ),
-  action: optional(number()),
+  targetBranch: optional(number()),
   location: optional(string()),
 });
 
 const FooterActionItemStruct: Describe<FooterActionItem> = object({
-  text: string(),
-  action: optional(number()),
+  label: string(),
+  targetBranch: optional(number()),
   href: optional(string()),
   external: optional(boolean()),
   next: optional(boolean()),
@@ -71,16 +72,16 @@ const FooterActionsStruct: Describe<FooterActions> = object({
 });
 
 const TooltipStepStruct: Describe<FlowTooltipStep> = object({
-  element: string(),
+  targetElement: string(),
   title: string(),
   body: optional(string()),
   hideArrow: optional(boolean()),
   hideClose: optional(boolean()),
   hidePrev: optional(boolean()),
   hideNext: optional(boolean()),
-  prevText: optional(string()),
-  nextText: optional(string()),
-  key: optional(string()),
+  prevLabel: optional(string()),
+  nextLabel: optional(string()),
+  stepId: optional(string()),
   footerActions: optional(FooterActionsStruct),
   placement: optional(
     enums([
@@ -107,18 +108,18 @@ const TooltipStepStruct: Describe<FlowTooltipStep> = object({
 const ModalStepStruct: Describe<FlowModalStep> = object({
   title: string(),
   body: optional(string()),
-  key: optional(string()),
+  stepId: optional(string()),
   hideClose: optional(boolean()),
   hidePrev: optional(boolean()),
   hideNext: optional(boolean()),
-  prevText: optional(string()),
-  nextText: optional(string()),
+  prevLabel: optional(string()),
+  nextLabel: optional(string()),
   footerActions: optional(FooterActionsStruct),
   wait: optional(union([WaitOptionsStruct, array(WaitOptionsStruct)])),
 });
 
 const WaitStepStruct: Describe<FlowWaitStep> = object({
-  key: optional(string()),
+  stepId: optional(string()),
   wait: union([WaitOptionsStruct, array(WaitOptionsStruct)]) as unknown as Describe<
     WaitStepOptions | WaitStepOptions[]
   >,
@@ -160,6 +161,10 @@ const FlowStruct: Describe<Flow> = object({
   _incompleteSteps: optional(boolean()),
 });
 
+const SeenFlowStruct: Describe<SeenFlow> = object({
+  flowId: string(),
+  seenAt: string(),
+});
 const OptionsStruct: Describe<FlowsInitOptions> = type({
   flows: optional(array(FlowStruct)),
   onNextStep: optional(func()) as Describe<FlowsInitOptions["onNextStep"]>,
@@ -168,8 +173,8 @@ const OptionsStruct: Describe<FlowsInitOptions> = type({
   _debug: optional(func()) as Describe<FlowsInitOptions["_debug"]>,
   userId: optional(string()),
   userProperties: optional(type({})) as unknown as Describe<FlowsInitOptions["userProperties"]>,
-  seenFlowIds: optional(array(string())),
-  onSeenFlowIdsChange: optional(func()) as Describe<FlowsInitOptions["onSeenFlowIdsChange"]>,
+  seenFlows: optional(array(SeenFlowStruct)),
+  onSeenFlowsChange: optional(func()) as Describe<FlowsInitOptions["onSeenFlowsChange"]>,
   rootElement: optional(string()),
   projectId: optional(string()),
   customApiUrl: optional(string()),

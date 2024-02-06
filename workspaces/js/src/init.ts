@@ -55,14 +55,14 @@ const _init = (options: FlowsInitOptions): void => {
       if (!step?.wait) return;
       const waitOptions = Array.isArray(step.wait) ? step.wait : [step.wait];
       const matchingWait = waitOptions.find((wait) => {
-        if (!wait.element) return false;
-        const clickMatch = eventTarget.matches(wait.element);
+        if (!wait.clickElement) return false;
+        const clickMatch = eventTarget.matches(wait.clickElement);
         const locMatch = wait.location
           ? locationMatch({ location: wait.location, pathname: getPathname() })
           : true;
         return clickMatch && locMatch;
       });
-      if (matchingWait) state.nextStep(matchingWait.action).render();
+      if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
     });
 
     if (eventTarget.matches(".flows-back")) {
@@ -118,7 +118,7 @@ const _init = (options: FlowsInitOptions): void => {
           : true;
         return formMatch && locMatch;
       });
-      if (matchingWait) state.nextStep(matchingWait.action).render();
+      if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
     });
   };
   const handleChange = (event: Event): void => {
@@ -136,7 +136,7 @@ const _init = (options: FlowsInitOptions): void => {
           : true;
         return changeMatch && locMatch;
       });
-      if (matchingWait) state.nextStep(matchingWait.action).render();
+      if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
     });
   };
   const handlePointerDown = (event: PointerEvent): void => {

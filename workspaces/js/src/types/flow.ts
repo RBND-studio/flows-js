@@ -3,21 +3,24 @@ import type { Placement as FloatingUiPlacement } from "@floating-ui/dom";
 export type Placement = FloatingUiPlacement;
 
 export interface FooterActionItem {
-  text: string;
   /**
-   * The branch of the next step to go to.
+   * Button label.
    */
-  action?: number;
+  label: string;
   /**
-   * Act as a previous step button
+   * The flow branch to enter when the button is clicked.
+   */
+  targetBranch?: number;
+  /**
+   * When true the button will act as a previous step button.
    */
   prev?: boolean;
   /**
-   * Act as a next step button
+   * When true the button will act as a next step or finish button.
    */
   next?: boolean;
   /**
-   * Act as a link to the given URL
+   * Use to navigate to a custom URL. The button element will be rendered as an anchor tag.
    */
   href?: string;
   /**
@@ -26,17 +29,29 @@ export interface FooterActionItem {
   external?: boolean;
 }
 export interface FooterActions {
+  /**
+   * Buttons to be shown on the left side of the footer.
+   */
   left?: FooterActionItem[];
+  /**
+   * Buttons to be shown in the center of the footer.
+   */
   center?: FooterActionItem[];
+  /**
+   * Buttons to be shown on the right side of the footer.
+   */
   right?: FooterActionItem[];
 }
-export interface FlowTooltipStep {
+
+interface CommonStepProps {
   /**
-   * Optional key to identify the step. Useful for controlling the flow programmatically with `getCurrentStep()`.
+   * Optional ID to identify the step. Useful for controlling the flow programmatically with `getCurrentStep()`.
    */
-  key?: string;
+  stepId?: string;
+}
+export interface FlowTooltipStep extends CommonStepProps {
   /**
-   * Title of the tooltip.
+   * Title of the tooltip. Supports HTML.
    */
   title: string;
   /**
@@ -44,67 +59,71 @@ export interface FlowTooltipStep {
    */
   body?: string;
   /**
-   * Element to attach tooltip to.
+   * Element to attach the tooltip to.
+   * @example `#my-element`
    */
-  element: string;
+  targetElement: string;
   /**
    * On which side of the target element the tooltip should be placed.
    * @defaultValue `bottom`
    */
   placement?: Placement;
   /**
-   * Highlight the target element with an overlay.
+   * Highlights the target element with an overlay.
    * @defaultValue `false`
    */
   overlay?: boolean;
   /**
-   * Close the tooltip when the overlay is clicked.
+   * Close the tooltip when the overlay is clicked. Only works when `overlay` is `true`.
    * @defaultValue `false`
    */
   closeOnOverlayClick?: boolean;
   /**
    * Hide the arrow pointing to the target element.
+   * @defaultValue `false`
    */
   hideArrow?: boolean;
   /**
    * Hide the close button. Without the close button the user will not be able to close the tooltip.
+   * @defaultValue `false`
    */
   hideClose?: boolean;
   /**
    * Hide the previous button. Without the previous button the user will not be able to go back.
+   * @defaultValue `false`
    */
   hidePrev?: boolean;
   /**
    * Hide the next button.
-   * This option should be used with `footerActions` to provide a way to go to the next step or by controlling the flow programmatically with `nextStep()`.
+   * Watch out this option should be used with `footerActions` to provide a way to go to the next step or by controlling the flow programmatically with `nextStep()`. Otherwise the user will be stuck on the current step.
+   * @defaultValue `false`
    */
   hideNext?: boolean;
   /**
-   * Text of the previous and next buttons.
+   * Text of the previous button.
    * @defaultValue `Back`
    */
-  prevText?: string;
+  prevLabel?: string;
   /**
-   * Text of the previous and next buttons.
+   * Text of the next and finish buttons.
    * @defaultValue `Continue` and `Finish` for the last step
    */
-  nextText?: string;
+  nextLabel?: string;
   /**
    * Custom buttons to be shown in the footer.
    */
   footerActions?: FooterActions;
   /**
    * The element to scroll to when the tooltip is shown.
+   * @example `#my-element`
    */
   scrollElement?: string;
-
+  /**
+   * Wait for an event to occur before continuing to the next step. You can wait for the user to click a button, navigate to a page, submit a form, etc.
+   */
   wait?: WaitStepOptions | WaitStepOptions[];
 }
-export interface FlowModalStep {
-  /**
-   * Optional key to identify the step. Useful for controlling the flow programmatically with `getCurrentStep()`.
-   */
-  key?: string;
+export interface FlowModalStep extends CommonStepProps {
   /**
    * Title of the modal. Supports HTML.
    */
@@ -119,32 +138,42 @@ export interface FlowModalStep {
   hideClose?: boolean;
   /**
    * Hide the previous button. Without the previous button the user will not be able to go back.
+   * @defaultValue `false`
    */
   hidePrev?: boolean;
   /**
    * Hide the next button.
-   * This option should be used with `footerActions` to provide a way to go to the next step or by controlling the flow programmatically with `nextStep()`.
+   * Watch out this option should be used with `footerActions` to provide a way to go to the next step or by controlling the flow programmatically with `nextStep()`. Otherwise the user will be stuck on the current step.
+   * @defaultValue `false`
    */
   hideNext?: boolean;
   /**
-   * Text of the previous and next buttons.
+   * Text of the previous button.
    * @defaultValue `Back`
    */
-  prevText?: string;
+  prevLabel?: string;
   /**
-   * Text of the previous and next buttons.
+   * Text of the next and finish buttons.
    * @defaultValue `Continue` and `Finish` for the last step
    */
-  nextText?: string;
+  nextLabel?: string;
   /**
    * Custom buttons to be shown in the footer.
    */
   footerActions?: FooterActions;
-
+  /**
+   * Wait for an event to occur before continuing to the next step. You can wait for the user to click a button, navigate to a page, submit a form, etc.
+   */
   wait?: WaitStepOptions | WaitStepOptions[];
 }
+
+// TODO: continue with checking here
 export interface WaitStepOptions {
-  element?: string;
+  /**
+   * Wait for the user to click the given element.
+   * @example `#my-element`
+   */
+  clickElement?: string;
   form?: {
     element: string;
     values: {
@@ -172,10 +201,9 @@ export interface WaitStepOptions {
    * ```
    */
   location?: string;
-  action?: number;
+  targetBranch?: number;
 }
-export interface FlowWaitStep {
-  key?: string;
+export interface FlowWaitStep extends CommonStepProps {
   wait: WaitStepOptions | WaitStepOptions[];
 }
 export type FlowStep = FlowModalStep | FlowTooltipStep | FlowWaitStep;

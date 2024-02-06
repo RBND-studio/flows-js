@@ -17,8 +17,8 @@ export const handleLocationChange = (): void => {
   FlowsContext.getInstance().instances.forEach((state) => {
     const step = state.currentStep;
     if (!step) return;
-    if ("element" in step) {
-      const el = document.querySelector(step.element);
+    if ("targetElement" in step) {
+      const el = document.querySelector(step.targetElement);
       if (!el) endFlow(state.flowId, { variant: "cancel" });
     }
 
@@ -34,7 +34,7 @@ export const handleLocationChange = (): void => {
           return locationMatch({ location: wait.location, pathname });
         return false;
       });
-      if (matchingWait) state.nextStep(matchingWait.action).render();
+      if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
     }
 
     startFlowsBasedOnLocation();

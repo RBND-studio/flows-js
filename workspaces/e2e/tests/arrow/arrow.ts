@@ -8,7 +8,7 @@ void init({
       steps: [
         {
           title: "Hello",
-          element: ".target",
+          targetElement: ".target",
           placement: new URLSearchParams(window.location.search).get(
             "placement",
           ) as unknown as "top",

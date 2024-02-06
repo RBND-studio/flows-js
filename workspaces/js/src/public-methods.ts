@@ -33,7 +33,9 @@ export const startFlow = (flowId: string, { again, startDraft }: StartFlowOption
   // If the flow is draft, we ignore targeting and frequency
   if (!flow.draft) {
     const flowFrequency = flow.frequency ?? "once";
-    const flowSeen = FlowsContext.getInstance().seenFlowIds.includes(flowId);
+    const flowSeen = FlowsContext.getInstance().seenFlows.find(
+      (seenFlow) => seenFlow.flowId === flowId,
+    );
     const frequencyMatch = !flowSeen || flowFrequency === "every-time" || again;
     if (!frequencyMatch) {
       warn("User has already seen the Flow");
@@ -64,8 +66,8 @@ export const endFlow = (flowId: string, { variant = "cancel" }: EndFlowOptions =
   state.destroy();
 };
 
-export const identifyUser = (userId: string, options?: IdentifyUserOptions): void => {
-  FlowsContext.getInstance().updateUser(userId, options?.properties);
+export const identifyUser = (options: IdentifyUserOptions): void => {
+  FlowsContext.getInstance().updateUser(options);
 };
 
 export const getCurrentStep = (flowId: string): FlowStep | null => {

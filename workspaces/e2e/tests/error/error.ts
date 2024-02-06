@@ -8,7 +8,7 @@ init({
       id: "flow",
       steps: [
         {
-          element: ".target",
+          targetElement: ".target",
           title: "Hello",
         },
       ],

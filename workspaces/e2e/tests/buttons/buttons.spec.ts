@@ -43,7 +43,7 @@ test("Default next text", async ({ page }) => {
   await expect(page.locator(".flows-finish")).toHaveText("Finish");
 });
 test("Custom next text", async ({ page }) => {
-  await page.goto("/buttons/buttons.html?nextText=Next");
+  await page.goto("/buttons/buttons.html?nextLabel=Next");
   await expect(page.locator(".flows-continue")).toHaveText("Next");
   await page.locator(".flows-continue").click();
   await expect(page.locator(".flows-finish")).toHaveText("Next");
@@ -55,7 +55,7 @@ test("Default prev text", async ({ page }) => {
   await expect(page.locator(".flows-back")).toHaveText("Back");
 });
 test("Custom prev text", async ({ page }) => {
-  await page.goto("/buttons/buttons.html?prevText=Previous");
+  await page.goto("/buttons/buttons.html?prevLabel=Previous");
   await page.locator(".flows-continue").click();
   await expect(page.locator(".flows-back")).toHaveText("Previous");
 });

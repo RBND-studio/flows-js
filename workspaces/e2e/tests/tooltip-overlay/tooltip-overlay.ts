@@ -11,13 +11,13 @@ init({
       steps: [
         {
           title: "Hello",
-          element: ".target",
+          targetElement: ".target",
           overlay: true,
           closeOnOverlayClick,
         },
         {
           title: "World",
-          element: ".target",
+          targetElement: ".target",
         },
       ],
     },

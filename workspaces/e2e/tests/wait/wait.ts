@@ -10,7 +10,7 @@ const anotherWaitWithWrongLocation =
   new URLSearchParams(window.location.search).get("anotherWaitWithWrongLocation") === "true";
 
 let wait: FlowWaitStep["wait"] = {};
-if (click) wait.element = ".target";
+if (click) wait.clickElement = ".target";
 if (change) wait.change = [{ element: ".input", value: "Hello World" }];
 if (multipleChange)
   wait.change = [
@@ -36,13 +36,13 @@ void init({
       steps: [
         {
           title: "First",
-          element: ".target",
+          targetElement: ".target",
           wait,
           hideNext: true,
         },
         {
           title: "Second",
-          element: ".target",
+          targetElement: ".target",
         },
       ],
     },

@@ -6,7 +6,7 @@ test("Should not continue if flow is not fully loaded", async ({ page }) => {
       {
         id: "flow",
         location: "/",
-        steps: [{ title: "First", element: ".target" }],
+        steps: [{ title: "First", targetElement: ".target" }],
         _incompleteSteps: true,
       },
     ];
@@ -25,7 +25,7 @@ test("Should continue if flow is fully loaded", async ({ page }) => {
       {
         id: "flow",
         location: "/",
-        steps: [{ title: "First", element: ".target" }],
+        steps: [{ title: "First", targetElement: ".target" }],
         _incompleteSteps: true,
       },
     ];
@@ -36,8 +36,8 @@ test("Should continue if flow is fully loaded", async ({ page }) => {
       id: "flow",
       location: "/",
       steps: [
-        { title: "First", element: ".target" },
-        { title: "Second", element: ".target" },
+        { title: "First", targetElement: ".target" },
+        { title: "Second", targetElement: ".target" },
       ],
     };
     await route.fulfill({ json });

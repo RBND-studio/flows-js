@@ -11,6 +11,8 @@ import type {
   Tracking,
   Debug,
   DebugEvent,
+  IdentifyUserOptions,
+  SeenFlow,
 } from "./types";
 
 interface PersistentState {
@@ -29,7 +31,7 @@ export class FlowsContext {
     return FlowsContext.instance;
   }
 
-  seenFlowIds: string[] = [];
+  seenFlows: SeenFlow[] = [];
   readonly #instances = new Map<string, FlowState>();
   get instances(): ImmutableMap<string, FlowState> {
     return this.#instances;
@@ -88,7 +90,7 @@ export class FlowsContext {
   onPrevStep?: (step: FlowStep) => void;
   tracking?: Tracking;
   debug?: Debug;
-  onSeenFlowIdsChange?: (seenFlowIds: string[]) => void;
+  onSeenFlowsChange?: (seenFlows: SeenFlow[]) => void;
   rootElement?: string;
   onLocationChange?: (pathname: string, context: FlowsContext) => void;
   onIncompleteFlowStart?: (flowId: string, context: FlowsContext) => void;
@@ -99,8 +101,8 @@ export class FlowsContext {
     this.onPrevStep = options.onPrevStep;
     this.tracking = options.tracking;
     this.debug = options._debug;
-    this.seenFlowIds = [...(options.seenFlowIds ?? [])];
-    this.onSeenFlowIdsChange = options.onSeenFlowIdsChange;
+    if (options.seenFlows) this.seenFlows = [...options.seenFlows];
+    this.onSeenFlowsChange = options.onSeenFlowsChange;
     this.onLocationChange = options.onLocationChange;
     this.onIncompleteFlowStart = options.onIncompleteFlowStart;
     this.rootElement = options.rootElement;
@@ -114,13 +116,13 @@ export class FlowsContext {
         {} as Record<string, Flow>,
       ),
     };
-    this.updateUser(options.userId, options.userProperties);
+    this.updateUser(options);
     this.startInstancesFromLocalStorage();
   }
 
-  updateUser = (userId?: string, userProperties?: UserProperties): this => {
-    this.userId = userId ?? this.userId;
-    this.userProperties = userProperties ?? this.userProperties;
+  updateUser = (options: IdentifyUserOptions): this => {
+    this.userId = options.userId ?? this.userId;
+    this.userProperties = options.userProperties ?? this.userProperties;
     return this;
   };
 
@@ -155,9 +157,9 @@ export class FlowsContext {
   }
 
   flowSeen(flowId: string): this {
-    if (this.seenFlowIds.includes(flowId)) return this;
-    this.seenFlowIds.push(flowId);
-    if (this.onSeenFlowIdsChange) this.onSeenFlowIdsChange([...this.seenFlowIds]);
+    this.seenFlows = this.seenFlows.filter((seenFlow) => seenFlow.flowId !== flowId);
+    this.seenFlows.push({ flowId, seenAt: new Date().toISOString() });
+    this.onSeenFlowsChange?.([...this.seenFlows]);
     return this;
   }
 }

@@ -102,8 +102,8 @@ const getStepFooterActionButton = ({
   props: FooterActionItem;
   state: FlowState;
 }): HTMLElement => {
-  if (props.prev) return getBackButton({ children: props.text });
-  if (props.next) return getContinueButton({ children: props.text, state });
+  if (props.prev) return getBackButton({ children: props.label });
+  if (props.next) return getContinueButton({ children: props.label, state });
   const buttonClassName = "flows-option flows-button";
   if (props.href)
     return (
@@ -112,12 +112,12 @@ const getStepFooterActionButton = ({
         href={props.href}
         target={props.external ? "_blank" : undefined}
       >
-        {props.text}
+        {props.label}
       </a>
     );
   return (
-    <button className={buttonClassName} data-action={props.action}>
-      {props.text}
+    <button className={buttonClassName} data-action={props.targetBranch}>
+      {props.label}
     </button>
   );
 };
@@ -135,8 +135,9 @@ const getStepFooter = ({
   step: FlowModalStep | FlowTooltipStep;
   state: FlowState;
 }): HTMLElement | null => {
-  const backBtn = state.hasPrevStep && !step.hidePrev && getBackButton({ children: step.prevText });
-  const continueBtn = !step.hideNext && getContinueButton({ state, children: step.nextText });
+  const backBtn =
+    state.hasPrevStep && !step.hidePrev && getBackButton({ children: step.prevLabel });
+  const continueBtn = !step.hideNext && getContinueButton({ state, children: step.nextLabel });
   const leftOptions = getStepFooterActions({ items: step.footerActions?.left, state });
   const centerOptions = getStepFooterActions({ items: step.footerActions?.center, state });
   const rightOptions = getStepFooterActions({ items: step.footerActions?.right, state });
@@ -265,7 +266,7 @@ export const render = (state: FlowState): void => {
   state.unmount();
 
   if (isTooltipStep(step)) {
-    const target = document.querySelector(step.element);
+    const target = document.querySelector(step.targetElement);
     if (target) {
       const root = createRoot(state.flowsContext.rootElement);
       const { cleanup } = renderTooltip({ root, step, state, target });

@@ -7,11 +7,11 @@ init({
       steps: [
         {
           title: "First",
-          element: ".target",
+          targetElement: ".target",
         },
         {
           title: "Second",
-          element: ".target",
+          targetElement: ".target",
         },
       ],
     },
