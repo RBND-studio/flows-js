@@ -117,7 +117,7 @@ export class FlowsContext {
         {} as Record<string, Flow>,
       ),
     };
-    this.updateFromOptions(options);
+    this.updateUser(options);
     this.startInstancesFromLocalStorage();
   }
 
