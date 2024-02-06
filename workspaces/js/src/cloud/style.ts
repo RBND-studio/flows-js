@@ -1,4 +1,4 @@
-import { version } from "../../package.json";
+import { version } from "../lib/version";
 
 export const loadStyle = ({ apiUrl, projectId }: { apiUrl: string; projectId: string }): void => {
   const styleEl =

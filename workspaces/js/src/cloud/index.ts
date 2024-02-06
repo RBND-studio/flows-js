@@ -4,6 +4,7 @@ import type { DebugEvent, FlowsCloudOptions, TrackingEvent } from "../types";
 import { hash } from "../utils";
 import { log } from "../log";
 import { validateFlowsOptions, validateCloudFlowsOptions } from "../validation";
+import { version } from "../lib/version";
 import { api } from "./api";
 import { loadStyle } from "./style";
 
@@ -42,7 +43,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
   const saveEvent = async (
     event: DebugEvent | TrackingEvent,
   ): Promise<{ referenceId: string } | undefined> => {
-    const { flowHash, flowId, type, projectId = "", stepIndex, stepHash, userId } = event;
+    const { flowHash, flowId, type, projectId = "", stepIndex, stepHash, userId, location } = event;
 
     return api(apiUrl)
       .sendEvent({
@@ -54,6 +55,9 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
         stepHash,
         stepIndex: stepIndex?.toString(),
         userHash: userId ? await hash(userId) : undefined,
+        sdkVersion: version,
+        targetElement: "targetElement" in event ? event.targetElement : undefined,
+        location,
       })
       .then((res) => ({ referenceId: res.id }))
       .catch((err) => {

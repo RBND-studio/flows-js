@@ -60,7 +60,7 @@ export class FlowState {
     });
   }
   async debug(
-    props: Pick<DebugEvent, "type" | "referenceId">,
+    props: Pick<DebugEvent, "type" | "referenceId" | "targetElement">,
   ): Promise<{ referenceId: string } | undefined> {
     if (!this.flow || this.flow.draft) return;
 
@@ -76,7 +76,10 @@ export class FlowState {
     const step = this.currentStep;
     if (step && isTooltipStep(step) && !this.tooltipErrorPromise)
       this.tooltipErrorPromise = window.setTimeout(() => {
-        this.tooltipErrorPromise = this.debug({ type: "tooltipError" });
+        this.tooltipErrorPromise = this.debug({
+          type: "tooltipError",
+          targetElement: step.targetElement,
+        });
       }, 1000);
 
     return this;

@@ -34,6 +34,7 @@ export interface DebugEvent extends Omit<TrackingEvent, "type"> {
    * referenceId of the event that the current event is invalidating.
    */
   referenceId?: string;
+  targetElement?: string;
 }
 export type Debug = (event: DebugEvent) => Promise<{ referenceId: string } | undefined>;
 

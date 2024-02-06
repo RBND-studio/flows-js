@@ -31,6 +31,9 @@ export const api = (baseUrl: string) => ({
     stepIndex?: string;
     stepHash?: string;
     flowHash: string;
+    sdkVersion: string;
+    targetElement?: string;
+    location: string;
   }): Promise<{ id: string }> =>
     f(`${baseUrl}/sdk/events`, {
       method: "POST",

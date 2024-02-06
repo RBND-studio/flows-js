@@ -1,3 +1,4 @@
+import { validateFlow } from "./validation";
 import { FlowState } from "./flow-state";
 import { getPathname } from "./lib/location";
 import type {
@@ -14,6 +15,7 @@ import type {
   IdentifyUserOptions,
   SeenFlow,
 } from "./types";
+import { log } from "./log";
 
 interface PersistentState {
   expiresAt: string | null;
@@ -127,6 +129,13 @@ export class FlowsContext {
   };
 
   addFlowData(flow: Flow): this {
+    const validationResult = validateFlow(flow);
+    if (validationResult.error)
+      log.error(
+        `Error validating flow at: flow.${validationResult.error.path.join(".")} with value:`,
+        validationResult.error.value,
+      );
+    if (!validationResult.valid) return this;
     if (!this.flowsById) this.flowsById = {};
     this.flowsById[flow.id] = flow;
     this.startInstancesFromLocalStorage();
