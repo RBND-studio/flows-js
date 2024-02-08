@@ -1,4 +1,4 @@
-import { Flow, FlowsOptions, init } from "@flows/js";
+import { Flow, FlowsOptions, init } from "@flows/js/core";
 
 const frequency = new URLSearchParams(window.location.search).get("frequency") as Flow["frequency"];
 const saveSeenFlows = new URLSearchParams(window.location.search).get("saveSeenFlows") === "true";

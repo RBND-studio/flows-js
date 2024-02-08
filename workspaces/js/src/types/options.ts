@@ -1,4 +1,4 @@
-import type { FlowsContext } from "../flows-context";
+import type { FlowsContext } from "../core/flows-context";
 import type { Flow, FlowStep } from "./flow";
 import type { IdentifyUserOptions } from "./user";
 

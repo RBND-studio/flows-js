@@ -1,9 +1,9 @@
 import type { Side } from "@floating-ui/dom";
 import { computePosition, offset, flip, shift, autoUpdate, arrow } from "@floating-ui/dom";
-import type { FlowModalStep, FlowTooltipStep, FooterActionItem, Placement } from "./types";
+import type { FlowModalStep, FlowTooltipStep, FooterActionItem, Placement } from "../types";
+import { log } from "../lib/log";
+import { isModalStep, isTooltipStep } from "../lib/step-type";
 import type { FlowState } from "./flow-state";
-import { isModalStep, isTooltipStep } from "./utils";
-import { log } from "./log";
 
 const DISTANCE = 4;
 const ARROW_SIZE = 6;

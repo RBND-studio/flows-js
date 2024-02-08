@@ -1,7 +1,7 @@
 import type { DebugEvent, TrackingEvent } from "../types";
 import { version } from "../lib/version";
-import { hash } from "../utils";
-import { log } from "../log";
+import { log } from "../lib/log";
+import { hash } from "../lib/hash";
 import { api } from "./api";
 
 export const saveEvent = async ({

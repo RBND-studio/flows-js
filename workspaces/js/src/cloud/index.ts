@@ -1,14 +1,14 @@
-import { startFlow } from "../public-methods";
-import { init as flowsInit } from "../init";
+import { startFlow } from "../core/public-methods";
+import { init as flowsInit } from "../core/init";
 import type { FlowsCloudOptions, IdentifyUserOptions } from "../types";
-import { hash } from "../utils";
-import { log } from "../log";
-import { validateFlowsOptions, validateCloudFlowsOptions } from "../validation";
+import { log } from "../lib/log";
+import { validateFlowsOptions, validateCloudFlowsOptions } from "../core/validation";
+import { hash } from "../lib/hash";
 import { api } from "./api";
 import { loadStyle } from "./style";
 import { saveEvent } from "./event";
 
-export * from "../index";
+export * from "../core/index";
 
 let _options: FlowsCloudOptions | null = null;
 

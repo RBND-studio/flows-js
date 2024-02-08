@@ -1,4 +1,4 @@
-import { init } from "@flows/js";
+import { init } from "@flows/js/core";
 
 const john = new URLSearchParams(window.location.search).get("john") === "true";
 

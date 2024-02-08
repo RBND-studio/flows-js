@@ -36,12 +36,14 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./cloud": {
-      "import": "./dist/cloud/index.mjs",
-      "require": "./dist/cloud/index.js",
-      "types": "./dist/cloud/index.d.ts"
+    "./core": {
+      "import": "./dist/core/index.mjs",
+      "require": "./dist/core/index.js",
+      "types": "./dist/core/index.d.ts"
     },
-    "./flows.css": "./css.min/flows.css"
+    "./flows.css": "./css.min/flows.css",
+    "./vars.css": "./css.min/vars.css",
+    "./template.css": "./css/min/template.css"
   },
   "scripts": {
     "dev": "tsup --watch --env.NODE_ENV development",

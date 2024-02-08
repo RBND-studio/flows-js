@@ -1,3 +1,3 @@
-import { init } from "@flows/js/cloud";
+import { init } from "@flows/js";
 
 init({ projectId: "my-proj" });

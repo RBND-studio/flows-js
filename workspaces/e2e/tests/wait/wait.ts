@@ -1,5 +1,5 @@
 import type { FlowWaitStep } from "@flows/js";
-import { init } from "@flows/js";
+import { init } from "@flows/js/core";
 
 const click = new URLSearchParams(window.location.search).get("click") === "true";
 const change = new URLSearchParams(window.location.search).get("change") === "true";

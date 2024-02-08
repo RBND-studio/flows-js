@@ -1,7 +1,7 @@
+import { log } from "../lib/log";
+import type { EndFlowOptions, FlowStep, IdentifyUserOptions, StartFlowOptions } from "../types";
 import { FlowState } from "./flow-state";
 import { FlowsContext } from "./flows-context";
-import { log } from "./log";
-import type { EndFlowOptions, FlowStep, IdentifyUserOptions, StartFlowOptions } from "./types";
 import { flowUserPropertyGroupMatch } from "./user-properties";
 
 export const startFlow = (flowId: string, { again, startDraft }: StartFlowOptions = {}): void => {

@@ -1,5 +1,5 @@
 import type { FlowStep, FlowTooltipStep } from "@flows/js";
-import { init } from "@flows/js";
+import { init } from "@flows/js/core";
 
 const tooltip = new URLSearchParams(window.location.search).get("tooltip") === "true";
 

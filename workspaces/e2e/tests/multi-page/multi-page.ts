@@ -1,4 +1,4 @@
-import { init, startFlow } from "@flows/js";
+import { init, startFlow } from "@flows/js/core";
 
 init({
   flows: [

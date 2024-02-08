@@ -30,7 +30,7 @@ import type {
   FooterActions,
   FooterActionItem,
   SeenFlow,
-} from "./types";
+} from "../types";
 
 const WaitOptionsStruct: Describe<WaitStepOptions> = object({
   clickElement: optional(string()),

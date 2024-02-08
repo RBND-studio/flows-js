@@ -1,4 +1,4 @@
-import { init, startFlow } from "@flows/js";
+import { init, startFlow } from "@flows/js/core";
 
 const createTarget = (): void => {
   const el = document.createElement("div");

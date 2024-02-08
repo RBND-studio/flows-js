@@ -1,7 +1,8 @@
-import type { FlowsContext } from "./flows-context";
+import type { DebugEvent, Flow, FlowStep, FlowStepIndex, TrackingEvent } from "../types";
+import { hash } from "../lib/hash";
+import { isModalStep, isTooltipStep } from "../lib/step-type";
 import { render } from "./render";
-import type { DebugEvent, Flow, FlowStep, FlowStepIndex, TrackingEvent } from "./types";
-import { hash, isModalStep, isTooltipStep } from "./utils";
+import type { FlowsContext } from "./flows-context";
 
 const getStep = ({ flow, step }: { flow: Flow; step: FlowStepIndex }): FlowStep | undefined => {
   if (!Array.isArray(step)) return flow.steps[step] as FlowStep | undefined;

@@ -1,4 +1,4 @@
-import { init } from "@flows/js";
+import { init } from "@flows/js/core";
 
 const closeOnOverlayClick =
   new URLSearchParams(window.location.search).get("closeOnOverlayClick") === "true";

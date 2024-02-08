@@ -1,6 +1,6 @@
+import { getPathname } from "../lib/location";
 import { endFlow, startFlow } from "./public-methods";
 import { FlowsContext } from "./flows-context";
-import { getPathname } from "./lib/location";
 import { locationMatch } from "./form";
 
 // We're not setting default to avoid accessing window on the server

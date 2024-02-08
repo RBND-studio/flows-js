@@ -4,7 +4,7 @@ import type {
   UserProperties,
   UserPropertyMatch,
   UserPropertyMatchGroup,
-} from "../types";
+} from "../../types";
 
 const parseDate = (date: unknown): Date | null => {
   if (date instanceof Date) return date;

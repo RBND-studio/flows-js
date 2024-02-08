@@ -1,6 +1,4 @@
-import { validateFlow } from "./validation";
-import { FlowState } from "./flow-state";
-import { getPathname } from "./lib/location";
+import { getPathname } from "../lib/location";
 import type {
   Flow,
   FlowStep,
@@ -14,8 +12,10 @@ import type {
   DebugEvent,
   IdentifyUserOptions,
   SeenFlow,
-} from "./types";
-import { log } from "./log";
+} from "../types";
+import { log } from "../lib/log";
+import { FlowState } from "./flow-state";
+import { validateFlow } from "./validation";
 
 interface PersistentState {
   expiresAt: string | null;

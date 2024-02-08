@@ -1,14 +1,14 @@
+import { getPathname } from "../lib/location";
+import { ready } from "../lib/ready";
+import { log } from "../lib/log";
+import type { FlowsInitOptions } from "../types";
 import { handleDocumentChange } from "./document-change";
-import { FlowsContext } from "./flows-context";
-import { changeWaitMatch, formWaitMatch, locationMatch } from "./form";
 import { addHandlers } from "./handlers";
-import { getPathname } from "./lib/location";
-import { ready } from "./lib/ready";
 import { handleLocationChange, startFlowsBasedOnLocation } from "./location-change";
-import { log } from "./log";
 import { endFlow, startFlow } from "./public-methods";
-import type { FlowsInitOptions } from "./types";
 import { validateFlowsOptions } from "./validation";
+import { changeWaitMatch, formWaitMatch, locationMatch } from "./form";
+import { FlowsContext } from "./flows-context";
 
 let observer: MutationObserver | null = null;
 let locationChangeInterval: number | null = null;

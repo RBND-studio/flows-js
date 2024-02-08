@@ -1,5 +1,5 @@
 import type { FlowSteps } from "@flows/js";
-import { init } from "@flows/js";
+import { init } from "@flows/js/core";
 
 const lastStep = new URLSearchParams(window.location.search).get("lastStep") === "true";
 

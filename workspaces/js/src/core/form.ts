@@ -1,4 +1,4 @@
-import type { WaitStepOptions } from "./types";
+import type { WaitStepOptions } from "../types";
 
 export const formWaitMatch = ({
   form,
