@@ -136,10 +136,16 @@
   max-width: var(--flows-toltip-maxWidth);
 }
 .flows-tooltip-overlay {
-  position: absolute;
-  box-shadow: var(--flows-tooltip-overlayBackground) 0px 0px 0px 9999px;
+  position: fixed;
   pointer-events: none;
-  border-radius: var(--flows-borderRadius);
+}
+.flows-tooltip-overlay:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: calc(var(--flows-tooltip-overlayPadding) * -1);
+  box-shadow: var(--flows-tooltip-overlayBackground) 0px 0px 0px 9999px;
+  border-radius: var(--flows-tooltip-overlayBorderRadius);
 }
 .flows-target {
   z-index: 5000;

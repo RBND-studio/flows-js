@@ -14,6 +14,8 @@
 
   --flows-tooltip-padding: 16px;
   --flows-tooltip-overlayBackground: rgba(0, 0, 0, 0.5);
+  --flows-tooltip-overlayBorderRadius: 8px;
+  --flows-tooltip-overlayPadding: 4px;
   --flows-toltip-maxWidth: 280px;
 
   --flows-modal-overlayBackground: rgba(0, 0, 0, 0.5);

@@ -74,7 +74,7 @@ export interface FlowTooltipStep extends CommonStepProps {
    */
   overlay?: boolean;
   /**
-   * Close the tooltip when the overlay is clicked. Only works when `overlay` is `true`.
+   * Cancel the flow when the overlay is clicked. Only works when `overlay` is `true`.
    * @defaultValue `false`
    */
   closeOnOverlayClick?: boolean;
@@ -270,12 +270,26 @@ export interface UserPropertyMatch {
 export type UserPropertyMatchGroup = UserPropertyMatch[];
 
 export interface Flow {
+  /**
+   * Unique identifier of the flow. Used for controlling the flow programmatically and identification for analytics and Cloud.
+   * @example `my-flow`
+   */
   id: string;
-  frequency?: FlowFrequency;
-  element?: string;
+  /**
+   * Steps of the flow.
+   */
   steps: Step[];
   /**
-   * A regular expression that matches the current pathname.
+   * Controls how often the flow should be shown to the user.
+   */
+  frequency?: FlowFrequency;
+  /**
+   * Start the flow when the given element is clicked.
+   * @example `.start-flow`
+   */
+  element?: string;
+  /**
+   * Start the flow when the user navigates to a pathname that matches the given regular expression.
    * @example
    * ```
    * "/about" // matches "/about", "/company/about" and "/about/contact"
@@ -324,6 +338,11 @@ export interface Flow {
    * @defaultValue `false`
    */
   draft?: boolean;
+  /**
+   * The element to use as the root for elements created by Flows. Useful when you need to render flows in a specific container.
+   * @defaultValue "body"
+   */
+  rootElement?: string;
   /**
    * Flow is missing some steps that will be loaded asynchronously on start.
    * This is internal option for the Cloud SDK.

@@ -70,7 +70,7 @@ const updateTooltip = ({
       }
     })
     .catch((err) => {
-      log.error("Error computing position\n", err);
+      log.error("Error computing position", err);
     });
 };
 
@@ -268,7 +268,7 @@ export const render = (state: FlowState): void => {
   if (isTooltipStep(step)) {
     const target = document.querySelector(step.targetElement);
     if (target) {
-      const root = createRoot(state.flowsContext.rootElement);
+      const root = createRoot(state.flow?.rootElement ?? state.flowsContext.rootElement);
       const { cleanup } = renderTooltip({ root, step, state, target });
       state.flowElement = { element: root, cleanup, target };
     } else {
@@ -276,7 +276,7 @@ export const render = (state: FlowState): void => {
     }
   }
   if (isModalStep(step)) {
-    const root = createRoot(state.flowsContext.rootElement);
+    const root = createRoot(state.flow?.rootElement ?? state.flowsContext.rootElement);
     renderModal({ root, step, state });
     state.flowElement = { element: root };
   }

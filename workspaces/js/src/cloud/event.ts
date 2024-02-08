@@ -28,7 +28,7 @@ export const saveEvent = async ({
     })
     .then((res) => ({ referenceId: res.id }))
     .catch((err) => {
-      log.error("Failed to send event to cloud\n", err);
+      log.error("Failed to send event to cloud", err);
       return undefined;
     });
 };
