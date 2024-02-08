@@ -167,16 +167,28 @@ export interface FlowModalStep extends CommonStepProps {
   wait?: WaitStepOptions | WaitStepOptions[];
 }
 
-// TODO: continue with checking here
 export interface WaitStepOptions {
   /**
    * Wait for the user to click the given element.
    * @example `#my-element`
    */
   clickElement?: string;
+  /**
+   * Wait for the user to submit a form.
+   */
   form?: {
-    element: string;
+    /**
+     * Form element to wait for submit on.
+     * @example `#my-form`
+     */
+    formElement: string;
+    /**
+     * Fields to check values of on submit.
+     */
     values: {
+      /**
+       * Field to take the value from.
+       */
       element: string;
       /**
        * Regex string to match the value against.
@@ -184,7 +196,13 @@ export interface WaitStepOptions {
       value: string;
     }[];
   };
+  /**
+   * Wait for the user to change a value in a field.
+   */
   change?: {
+    /**
+     * Field to take the value from.
+     */
     element: string;
     /**
      * Regex string to match the value against.
@@ -201,9 +219,15 @@ export interface WaitStepOptions {
    * ```
    */
   location?: string;
+  /**
+   * The flow branch to enter when the conditions are met. Leave empty if there are no branches in the next step.
+   */
   targetBranch?: number;
 }
 export interface FlowWaitStep extends CommonStepProps {
+  /**
+   * Wait for an event to occur before continuing to the next step. You can wait for the user to click a button, navigate to a page, submit a form, etc.
+   */
   wait: WaitStepOptions | WaitStepOptions[];
 }
 export type FlowStep = FlowModalStep | FlowTooltipStep | FlowWaitStep;
@@ -281,13 +305,14 @@ export interface Flow {
   steps: Step[];
   /**
    * Controls how often the flow should be shown to the user.
+   * @defaultValue `once`
    */
   frequency?: FlowFrequency;
   /**
    * Start the flow when the given element is clicked.
-   * @example `.start-flow`
+   * @example `#start-flow`
    */
-  element?: string;
+  clickElement?: string;
   /**
    * Start the flow when the user navigates to a pathname that matches the given regular expression.
    * @example
@@ -345,7 +370,7 @@ export interface Flow {
   rootElement?: string;
   /**
    * Flow is missing some steps that will be loaded asynchronously on start.
-   * This is internal option for the Cloud SDK.
+   * This is internal option when loading from Flows Cloud.
    * @defaultValue `false`
    */
   _incompleteSteps?: boolean;

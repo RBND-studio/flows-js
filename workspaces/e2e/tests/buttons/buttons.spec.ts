@@ -97,7 +97,6 @@ test("Custom next", async ({ page }) => {
   await expect(firstLink).not.toHaveAttribute("href");
   await expect(firstLink).not.toHaveAttribute("target");
 });
-// TODO: discuss if prev button should be visible when there is no previous step
 test("Custom prev", async ({ page }) => {
   await page.goto("/buttons/buttons.html?customPrev=true&hideNext=true");
   await expect(page.locator(".flows-back")).toHaveCount(3);

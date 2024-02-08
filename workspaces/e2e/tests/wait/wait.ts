@@ -19,7 +19,7 @@ if (multipleChange)
   ];
 if (submit)
   wait.form = {
-    element: "form",
+    formElement: "form",
     values: [
       { element: ".input", value: "Input1" },
       { element: ".input2", value: "Input2" },

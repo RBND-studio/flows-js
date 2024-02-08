@@ -46,8 +46,8 @@ const _init = (options: FlowsInitOptions): void => {
     }
 
     Object.values(context.flowsById ?? {}).forEach((flow) => {
-      if (!flow.element) return;
-      if (eventTarget.matches(flow.element)) startFlow(flow.id);
+      if (!flow.clickElement) return;
+      if (eventTarget.matches(flow.clickElement)) startFlow(flow.id);
     });
 
     FlowsContext.getInstance().instances.forEach((state) => {

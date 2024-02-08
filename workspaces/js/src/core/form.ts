@@ -8,7 +8,7 @@ export const formWaitMatch = ({
   form: Element;
 }): boolean => {
   if (!wait.form) return false;
-  if (!form.matches(wait.form.element)) return false;
+  if (!form.matches(wait.form.formElement)) return false;
   const allValuesMatch = wait.form.values.every((valueDef) => {
     const el = form.querySelector(valueDef.element);
     if (

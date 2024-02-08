@@ -12,6 +12,11 @@ export * from "../core/index";
 
 let _options: FlowsCloudOptions | null = null;
 
+/**
+ * Initialize Flows SDK. This will load Flows and CSS template from the Cloud.
+ *
+ * **Warning**: This method should be called only once. Calling it multiple times will result in unnecessary network requests.
+ */
 export const init = async (options: FlowsCloudOptions): Promise<void> => {
   const cloudValidationResult = validateCloudFlowsOptions(options);
   const coreValidationResult = validateFlowsOptions(options);
@@ -84,6 +89,11 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
   });
 };
 
+/**
+ * Identify a user. Works in the same way as user parameters in `init()`.
+ *
+ * **Warning**: Use this method only if you don't have information about user at the time of calling `init()`.
+ */
 export const identifyUser = (options: IdentifyUserOptions): void => {
   if (!_options) {
     log.error("Cannot identify user before Flows are initialized.");

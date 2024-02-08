@@ -36,7 +36,7 @@ const WaitOptionsStruct: Describe<WaitStepOptions> = object({
   clickElement: optional(string()),
   form: optional(
     object({
-      element: string(),
+      formElement: string(),
       values: array(
         object({
           element: string(),
@@ -152,7 +152,7 @@ const FlowStruct: Describe<Flow> = object({
   id: string(),
   frequency: optional(enums(["once", "every-time"])),
   location: optional(string()),
-  element: optional(string()),
+  clickElement: optional(string()),
   steps: FlowStepsStruct,
   userProperties: optional(
     union([UserPropertyMatchGroupStruct, array(UserPropertyMatchGroupStruct)]),

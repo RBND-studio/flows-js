@@ -44,6 +44,7 @@ export const handleLocationChange = (): void => {
 export const startFlowsBasedOnLocation = (): void => {
   Object.values(FlowsContext.getInstance().flowsById ?? {}).forEach((flow) => {
     if (!flow.location) return;
-    if (locationMatch({ location: flow.location, pathname: getPathname() })) startFlow(flow.id);
+    if (locationMatch({ location: flow.location, pathname: getPathname() }) && !flow.clickElement)
+      startFlow(flow.id);
   });
 };

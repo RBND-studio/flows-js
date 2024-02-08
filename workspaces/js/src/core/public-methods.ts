@@ -1,9 +1,14 @@
+import { getPathname } from "../lib/location";
 import { log } from "../lib/log";
 import type { EndFlowOptions, FlowStep, IdentifyUserOptions, StartFlowOptions } from "../types";
 import { FlowState } from "./flow-state";
 import { FlowsContext } from "./flows-context";
+import { locationMatch } from "./form";
 import { flowUserPropertyGroupMatch } from "./user-properties";
 
+/**
+ * Start a Flow.
+ */
 export const startFlow = (flowId: string, { again, startDraft }: StartFlowOptions = {}): void => {
   const warn = (message: string): void => {
     log.warn(`Failed to start "${flowId}": ${message}`);
@@ -42,6 +47,14 @@ export const startFlow = (flowId: string, { again, startDraft }: StartFlowOption
       return;
     }
 
+    const locationMatches = flow.location
+      ? locationMatch({ location: flow.location, pathname: getPathname() })
+      : true;
+    if (!locationMatches) {
+      warn("Location does not match");
+      return;
+    }
+
     const userPropertiesMatch = flowUserPropertyGroupMatch(
       FlowsContext.getInstance().userProperties,
       flow.userProperties,
@@ -57,6 +70,9 @@ export const startFlow = (flowId: string, { again, startDraft }: StartFlowOption
   state.render();
 };
 
+/**
+ * Stop a Flow.
+ */
 export const endFlow = (flowId: string, { variant = "cancel" }: EndFlowOptions = {}): void => {
   const instances = FlowsContext.getInstance().instances;
   const state = instances.get(flowId);
@@ -66,17 +82,26 @@ export const endFlow = (flowId: string, { variant = "cancel" }: EndFlowOptions =
   state.destroy();
 };
 
+/**
+ * Identify a user. Works in the same way as user parameters in `init()`.
+ */
 export const identifyUser = (options: IdentifyUserOptions): void => {
   FlowsContext.getInstance().updateUser(options);
 };
 
+/**
+ * Get the current step of a running Flow. Returns `null` if the Flow is not running.
+ */
 export const getCurrentStep = (flowId: string): FlowStep | null => {
   const state = FlowsContext.getInstance().instances.get(flowId);
   if (!state) return null;
   return state.currentStep ?? null;
 };
-export const nextStep = (flowId: string, action?: number): void => {
+/**
+ * Go to the next step of a running Flow.
+ */
+export const nextStep = (flowId: string, targetBranch?: number): void => {
   const state = FlowsContext.getInstance().instances.get(flowId);
   if (!state) return;
-  state.nextStep(action).render();
+  state.nextStep(targetBranch).render();
 };
