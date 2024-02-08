@@ -158,6 +158,7 @@ const FlowStruct: Describe<Flow> = object({
     union([UserPropertyMatchGroupStruct, array(UserPropertyMatchGroupStruct)]),
   ),
   draft: optional(boolean()),
+  rootElement: optional(string()),
   _incompleteSteps: optional(boolean()),
 });
 

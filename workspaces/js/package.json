@@ -22,7 +22,7 @@
     "product-adoption",
     "product-tours"
   ],
-  "version": "0.0.36",
+  "version": "0.0.37",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RBND-studio/flows-js.git"
