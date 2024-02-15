@@ -59,7 +59,7 @@ jobs:
       - run: pnpm install
       - run: pnpm js build
       - run: pnpm e2e playwright:docker
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-results
