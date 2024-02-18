@@ -2,7 +2,7 @@ import { FlowsContext } from "./flows-context";
 
 export const handleDocumentChange = (): void => {
   FlowsContext.getInstance().instances.forEach((state) => {
-    if (state.waitingForElement) state.render();
+    if (state.waitingForElement) return state.render();
 
     const step = state.currentStep;
     if (step && "targetElement" in step) {
