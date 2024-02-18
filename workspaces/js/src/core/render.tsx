@@ -14,17 +14,19 @@ const updateTooltip = ({
   placement,
   arrowEls,
   overlay,
+  boundary,
 }: {
   target: Element;
   tooltip: HTMLElement;
   placement?: Placement;
   arrowEls?: [HTMLElement, HTMLElement];
   overlay?: HTMLElement;
+  boundary?: Element;
 }): Promise<void> => {
   const offsetDistance = DISTANCE + (arrowEls ? ARROW_SIZE : 0);
   const middleware = [
-    flip({ fallbackPlacements: ["top", "bottom", "left", "right"] }),
-    shift({ padding: 4 }),
+    flip({ fallbackPlacements: ["top", "bottom", "left", "right"], boundary }),
+    shift({ boundary, crossAxis: true }),
   ];
   if (arrowEls) middleware.push(arrow({ element: arrowEls[0], padding: 8 }));
   middleware.push(offset(offsetDistance));
@@ -171,11 +173,13 @@ const renderTooltip = ({
   step,
   state,
   target,
+  boundary,
 }: {
   root: HTMLElement;
   step: FlowTooltipStep;
   state: FlowState;
   target: Element;
+  boundary?: Element;
 }): { cleanup: () => void } => {
   const arrowEls = !step.hideArrow
     ? ([
@@ -213,9 +217,18 @@ const renderTooltip = ({
 
   root.appendChild(tooltip);
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises -- Promise is handled inside the updateTooltip
-  const positionCleanup = autoUpdate(target, tooltip, () =>
-    updateTooltip({ target, tooltip, placement: step.placement, arrowEls, overlay: overlayEl }),
+  const positionCleanup = autoUpdate(
+    target,
+    tooltip,
+    () =>
+      void updateTooltip({
+        target,
+        tooltip,
+        placement: step.placement,
+        arrowEls,
+        overlay: overlayEl,
+        boundary,
+      }),
   );
   const cleanup = (): void => {
     positionCleanup();
@@ -250,13 +263,19 @@ const renderModal = ({
   root.appendChild(modal);
 };
 
-const createRoot = (parent?: string): HTMLElement => {
+const createRoot = (boundaryEl?: Element): HTMLElement => {
   const root = document.createElement("div");
   root.className = "flows-root";
   root.style.pointerEvents = "auto";
-  if (parent) document.querySelector(parent)?.appendChild(root);
+  if (boundaryEl) boundaryEl.appendChild(root);
   else document.body.appendChild(root);
   return root;
+};
+
+const getBoundaryEl = (state: FlowState): Element | undefined => {
+  const boundary = state.flow?.rootElement ?? state.flowsContext.rootElement;
+  const boundaryEl = (boundary && document.querySelector(boundary)) || undefined;
+  return boundaryEl;
 };
 
 export const render = (state: FlowState): void => {
@@ -268,15 +287,17 @@ export const render = (state: FlowState): void => {
   if (isTooltipStep(step)) {
     const target = document.querySelector(step.targetElement);
     if (target) {
-      const root = createRoot(state.flow?.rootElement ?? state.flowsContext.rootElement);
-      const { cleanup } = renderTooltip({ root, step, state, target });
+      const boundaryEl = getBoundaryEl(state);
+      const root = createRoot(boundaryEl);
+      const { cleanup } = renderTooltip({ root, step, state, target, boundary: boundaryEl });
       state.flowElement = { element: root, cleanup, target };
     } else {
       state.waitingForElement = true;
     }
   }
   if (isModalStep(step)) {
-    const root = createRoot(state.flow?.rootElement ?? state.flowsContext.rootElement);
+    const boundaryEl = getBoundaryEl(state);
+    const root = createRoot(boundaryEl);
     renderModal({ root, step, state });
     state.flowElement = { element: root };
   }
