@@ -22,13 +22,16 @@ export const init = (options: FlowsInitOptions): Promise<void> =>
   });
 
 const _init = (options: FlowsInitOptions): void => {
-  const validationResult = validateFlowsOptions(options);
-  if (validationResult.error)
-    log.error(
-      `Error validating options at: options.${validationResult.error.path.join(".")} with value:`,
-      validationResult.error.value,
-    );
-  if (!validationResult.valid) return;
+  const validate = options.validate ?? true;
+  if (validate) {
+    const validationResult = validateFlowsOptions(options);
+    if (validationResult.error)
+      log.error(
+        `Error validating options at: options.${validationResult.error.path.join(".")} with value:`,
+        validationResult.error.value,
+      );
+    if (!validationResult.valid) return;
+  }
 
   const context = FlowsContext.getInstance();
   context.updateFromOptions(options);

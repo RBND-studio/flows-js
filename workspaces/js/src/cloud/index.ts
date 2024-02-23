@@ -50,6 +50,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
 
   return flowsInit({
     ...options,
+    validate: false,
     flows: [...(options.flows ?? []), ...(flows || [])],
     tracking: (event) => {
       options.tracking?.(event);
@@ -69,7 +70,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       void api(apiUrl)
         .getPreviewFlow({ flowId, projectId })
         .then((flow) => {
-          context.addFlowData({ ...flow, draft: true });
+          context.addFlowData({ ...flow, draft: true }, { validate: false });
           startFlow(flow.id, { startDraft: true });
         })
         .catch((err) => {
@@ -80,7 +81,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       void api(apiUrl)
         .getFlowDetail({ flowId, projectId: options.projectId })
         .then((flow) => {
-          context.addFlowData(flow);
+          context.addFlowData(flow, { validate: false });
         })
         .catch((err) => {
           log.error("Failed to load flow detail", err);

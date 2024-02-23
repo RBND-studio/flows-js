@@ -134,6 +134,11 @@ export type FlowsInitOptions = FlowsOptions & {
   projectId?: string;
   onLocationChange?: (pathname: string, context: FlowsContext) => void;
   onIncompleteFlowStart?: (flowId: string, context: FlowsContext) => void;
+  /**
+   * Validate options and flows before initializing.
+   * @defaultValue true
+   */
+  validate?: boolean;
 };
 
 export interface StartFlowOptions {

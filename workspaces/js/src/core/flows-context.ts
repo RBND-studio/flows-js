@@ -127,14 +127,17 @@ export class FlowsContext {
     return this;
   };
 
-  addFlowData(flow: Flow): this {
-    const validationResult = validateFlow(flow);
-    if (validationResult.error)
-      log.error(
-        `Error validating flow at: flow.${validationResult.error.path.join(".")} with value:`,
-        validationResult.error.value,
-      );
-    if (!validationResult.valid) return this;
+  addFlowData(flow: Flow, { validate = true }: { validate?: boolean } = {}): this {
+    if (validate) {
+      const validationResult = validateFlow(flow);
+      if (validationResult.error)
+        log.error(
+          `Error validating flow at: flow.${validationResult.error.path.join(".")} with value:`,
+          validationResult.error.value,
+        );
+      if (!validationResult.valid) return this;
+    }
+
     if (!this.flowsById) this.flowsById = {};
     this.flowsById[flow.id] = flow;
     this.startInstancesFromLocalStorage();
