@@ -1,40 +1,34 @@
-# Flows JS - Onboarding for modern SaaS
+<p align="center">
+  <img src="https://flows.sh/images/logo/logo.svg" height="96">
+  <h1 align="center">Flows</h1>
+</p>
 
-- A better way to onboard users and drive product adoption.
+<p align="center">
+  <a href="https://www.npmjs.com/package/@flows/js">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/%40flows%2Fjs?style=for-the-badge">
+  </a>
+  <a href="https://www.npmjs.com/package/@flows/js">
+    <img src="https://img.shields.io/npm/dt/%40flows%2Fjs?style=for-the-badge&logo=npm" alt="NPM Downloads" />
+  </a>
+  <a href="https://github.com/RBND-studio/flows-js">
+    <img alt="GitHub License" src="https://img.shields.io/github/license/RBND-studio/flows-js?style=for-the-badge">
+  </a>
+</p>
 
-[![npm version](https://badge.fury.io/js/@flows%2Fjs.svg)](https://badge.fury.io/js/@flows%2Fjs.svg)
+<p align="center">
+  <strong>Onboarding for modern SaaS - A better way to onboard users and drive product adoption.</strong>
+</p>
 
-## Examples
+## Getting started
 
-- [Javascript](https://github.com/RBND-studio/flows-js/tree/main/examples/vanilla-js) ([Demo](https://vanilla.flows.sh))
-- [React](https://github.com/RBND-studio/flows-js/tree/main/examples/react-nextjs) ([Demo](http://react-nextjs.flows.sh))
+<!-- To learn how to use Flows visit [Docs](https://flows.sh/docs). -->
 
-## Getting Started
+Visit [https://flows.sh/docs](https://flows.sh/docs) to get started with Flows.
 
-### NPM package
+## What is Flows?
 
-```bash
-npm install @flows/js
-```
-
-### Via CDN
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/@flows/js@0.0.38/dist/index.global.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flows/js@0.0.38/css.min/flows.css" />
-```
-
-### Usage
-
-```js
-import { init } from "@flows/js"
-
-init({ flows: [ ... ] })
-
-// or CDN
-window.FlowsJS?.init({ flows: [ ... ] })
-```
+Visit [Flows website](https://flows.sh) to learn more.
 
 ---
 
-Created by [rbnd.studio](https://rbnd.studio/).
+[Flows.sh](https://flows.sh) created by [rbnd.studio](https://rbnd.studio).
