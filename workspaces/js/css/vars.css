@@ -1,34 +1,52 @@
 :root {
-  --flows-background: #ffffff;
-  --flows-background-subtle: #f5f5f5;
-  --flows-background-hover: #ececec;
-  --flows-text: #222222;
-  --flows-text-on-primary: #ffffff;
-  --flows-primary: #ec6441;
-  --flows-primary-hover: #d44121;
+  /* Colors */
+  --flows-bg-default: #ffffff;
+  --flows-bg-subtle: #f5f5f5;
+  --flows-bg-hover: #ececec;
+  --flows-bg-primary: #ec6441;
+  --flows-bg-primary-hover: #d44121;
+  --flows-bg-overlay: rgba(0, 0, 0, 0.5);
+
+  --flows-fg-default: #222222;
+  --flows-fg-onPrimary: #ffffff;
 
   --flows-border: 1px solid #cccccc;
+
   --flows-shadow: 0px 8px 12px rgba(28, 26, 39, 0.08), 0px 6px 8px rgba(28, 26, 39, 0.12),
     0px 0px 1px rgba(28, 26, 39, 0.16);
-  --flows-borderRadius: 8px;
 
-  --flows-tooltip-padding: 16px;
-  --flows-tooltip-overlayBackground: rgba(0, 0, 0, 0.5);
-  --flows-tooltip-overlayBorderRadius: 8px;
-  --flows-tooltip-overlayPadding: 4px;
-  --flows-toltip-maxWidth: 280px;
+  /* Sizes */
+  --flows-borderRadius-xSmall: 3px;
+  --flows-borderRadius-small: 6px;
+  --flows-borderRadius-medium: 8px;
+  --flows-borderRadius-large: 12px;
 
-  --flows-modal-overlayBackground: rgba(0, 0, 0, 0.5);
-  --flows-modal-padding: 16px;
-  --flows-modal-minWidth: 300px;
-  --flows-model-maxWidth: 600px;
+  --flows-size-xSmall: 4px;
+  --flows-size-small: 8px;
+  --flows-size-medium: 12px;
+  --flows-size-large: 20px;
 
+  /* Typography */
   --flows-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu,
     Cantarell, "Helvetica Neue", sans-serif;
+
   --flows-base-font-size: 14px;
   --flows-base-line-height: 20px;
 
-  --flows-heading-font-size: 16px;
-  --flows-heading-line-height: 24px;
-  --flows-heading-font-weight: 600;
+  --flows-title-font-size: 16px;
+  --flows-title-line-height: 24px;
+  --flows-title-font-weight: 600;
+
+  /* Elements */
+  --flows-tooltip-padding: var(--flows-size-large);
+  --flows-tooltip-overlayBackground: var(--flows-bg-overlay);
+  --flows-tooltip-overlayBorderRadius: var(--flows-borderRadius-medium);
+  --flows-tooltip-overlayPadding: 4px;
+  --flows-tooltip-minWidth: 200px;
+  --flows-tooltip-maxWidth: 320px;
+
+  --flows-modal-overlayBackground: var(--flows-bg-overlay);
+  --flows-modal-padding: var(--flows-size-large);
+  --flows-modal-minWidth: 320px;
+  --flows-model-maxWidth: 640px;
 }
