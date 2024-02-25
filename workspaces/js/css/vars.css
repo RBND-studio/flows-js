@@ -50,3 +50,21 @@
   --flows-modal-minWidth: 320px;
   --flows-model-maxWidth: 640px;
 }
+
+/* Dark mode */
+.dark {
+  --flows-bg-default: #181818;
+  --flows-bg-subtle: #1f1f1f;
+  --flows-bg-hover: #262626;
+  --flows-bg-primary: #e46a49;
+  --flows-bg-primary-hover: #d35131;
+  --flows-bg-overlay: rgba(0, 0, 0, 0.4);
+
+  --flows-fg-default: #fafafa;
+  --flows-fg-onPrimary: #181818;
+
+  --flows-border: 1px solid #3b3b3b;
+
+  --flows-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2), 0px 6px 8px rgba(0, 0, 0, 0.25),
+    0px 0px 1px rgba(0, 0, 0, 0.3);
+}
