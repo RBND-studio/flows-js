@@ -38,17 +38,20 @@
   --flows-title-font-weight: 600;
 
   /* Elements */
+  --flows-zIndex: 1500;
+  --flows-target-zIndex: 5000;
+
   --flows-tooltip-padding: var(--flows-size-large);
   --flows-tooltip-overlayBackground: var(--flows-bg-overlay);
   --flows-tooltip-overlayBorderRadius: var(--flows-borderRadius-medium);
   --flows-tooltip-overlayPadding: 4px;
   --flows-tooltip-minWidth: 200px;
-  --flows-tooltip-maxWidth: 320px;
+  --flows-tooltip-maxWidth: 400px;
 
   --flows-modal-overlayBackground: var(--flows-bg-overlay);
   --flows-modal-padding: var(--flows-size-large);
   --flows-modal-minWidth: 320px;
-  --flows-model-maxWidth: 640px;
+  --flows-modal-maxWidth: 640px;
 }
 
 /* Dark mode */

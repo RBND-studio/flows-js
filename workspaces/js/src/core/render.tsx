@@ -7,6 +7,8 @@ import type { FlowState } from "./flow-state";
 
 const DISTANCE = 4;
 const ARROW_SIZE = 6;
+const BOUNDARY_PADDING = 8;
+const ARROW_EDGE_PADDING = 8;
 
 const updateTooltip = ({
   target,
@@ -26,9 +28,9 @@ const updateTooltip = ({
   const offsetDistance = DISTANCE + (arrowEls ? ARROW_SIZE : 0);
   const middleware = [
     flip({ fallbackPlacements: ["top", "bottom", "left", "right"], boundary }),
-    shift({ boundary, crossAxis: true }),
+    shift({ boundary, crossAxis: true, padding: BOUNDARY_PADDING }),
   ];
-  if (arrowEls) middleware.push(arrow({ element: arrowEls[0], padding: 8 }));
+  if (arrowEls) middleware.push(arrow({ element: arrowEls[0], padding: ARROW_EDGE_PADDING }));
   middleware.push(offset(offsetDistance));
 
   if (overlay) {
