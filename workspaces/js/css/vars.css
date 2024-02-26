@@ -46,7 +46,7 @@
   --flows-tooltip-overlayBorderRadius: var(--flows-borderRadius-medium);
   --flows-tooltip-overlayPadding: 4px;
   --flows-tooltip-minWidth: 200px;
-  --flows-tooltip-maxWidth: 400px;
+  --flows-tooltip-maxWidth: 320px;
 
   --flows-modal-overlayBackground: var(--flows-bg-overlay);
   --flows-modal-padding: var(--flows-size-large);

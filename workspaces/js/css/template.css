@@ -135,6 +135,7 @@
   font-size: var(--flows-base-font-size);
   line-height: var(--flows-base-line-height);
 
+  box-sizing: border-box;
   min-width: var(--flows-tooltip-minWidth);
   max-width: min(var(--flows-tooltip-maxWidth), calc(100% - 16px));
 }
@@ -204,9 +205,10 @@
   border-radius: var(--flows-borderRadius-medium);
   box-shadow: var(--flows-shadow);
   padding: var(--flows-modal-padding);
+  position: relative;
+  box-sizing: border-box;
   min-width: var(--flows-modal-minWidth);
   max-width: var(--flows-modal-maxWidth);
-  position: relative;
 }
 .flows-modal .flows-cancel {
   top: var(--flows-modal-padding);
