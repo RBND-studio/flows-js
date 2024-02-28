@@ -133,6 +133,16 @@ export interface FlowModalStep extends CommonStepProps {
    */
   body?: string;
   /**
+   * Hides modal overlay backdrop and makes rest .
+   * @defaultValue `false`
+   */
+  hideOverlay?: boolean;
+  /**
+   * Cancel the flow when the overlay is clicked.
+   * @defaultValue `false`
+   */
+  closeOnOverlayClick?: boolean;
+  /**
    * Hide the close button. Without the close button the user will not be able to close the tooltip.
    */
   hideClose?: boolean;
