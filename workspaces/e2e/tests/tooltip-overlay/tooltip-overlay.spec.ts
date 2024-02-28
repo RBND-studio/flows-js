@@ -15,3 +15,8 @@ test("should close overlay on click", async ({ page }) => {
   await page.locator(".flows-tooltip-overlay-click-layer").click();
   await expect(page.locator(".flows-tooltip")).not.toBeVisible();
 });
+
+test("should match screenshot", async ({ page }) => {
+  await page.goto("/tooltip-overlay/tooltip-overlay.html");
+  await expect(page).toHaveScreenshot({ scale: "css" });
+});
