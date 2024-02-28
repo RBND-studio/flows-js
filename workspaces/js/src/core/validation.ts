@@ -108,6 +108,8 @@ const TooltipStepStruct: Describe<FlowTooltipStep> = object({
 const ModalStepStruct: Describe<FlowModalStep> = object({
   title: string(),
   body: optional(string()),
+  hideOverlay: optional(boolean()),
+  closeOnOverlayClick: optional(boolean()),
   stepId: optional(string()),
   hideClose: optional(boolean()),
   hidePrev: optional(boolean()),
