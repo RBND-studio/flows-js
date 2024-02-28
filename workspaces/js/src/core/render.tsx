@@ -206,7 +206,7 @@ const renderTooltip = ({
 
     const overlayClickLayer = (
       <div
-        className={`flows-tooltip-overlay-click-layer ${step.closeOnOverlayClick ? "flows-overlay-cancel" : ""}`}
+        className={`flows-tooltip-overlay-click-layer${step.closeOnOverlayClick ? " flows-overlay-cancel" : ""}`}
       />
     );
     root.appendChild(overlayClickLayer);
@@ -252,7 +252,7 @@ const renderModal = ({
   state: FlowState;
 }): void => {
   const modal = (
-    <div className="flows-modal-overlay">
+    <div className="flows-modal-wrapper">
       <div className="flows-modal">
         {getStepHeader({ step })}
         {step.body && (
@@ -262,6 +262,13 @@ const renderModal = ({
       </div>
     </div>
   );
+  if (!step.hideOverlay) {
+    root.appendChild(
+      <div
+        className={`flows-modal-overlay${step.closeOnOverlayClick ? " flows-overlay-cancel" : ""}`}
+      />,
+    );
+  }
   root.appendChild(modal);
 };
 
