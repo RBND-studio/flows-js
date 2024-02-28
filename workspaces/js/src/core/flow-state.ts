@@ -1,6 +1,7 @@
 import type { DebugEvent, Flow, FlowStep, FlowStepIndex, TrackingEvent } from "../types";
 import { hash } from "../lib/hash";
 import { isModalStep, isTooltipStep } from "../lib/step-type";
+import { log } from "../lib/log";
 import { render } from "./render";
 import type { FlowsContext } from "./flows-context";
 
@@ -73,6 +74,10 @@ export class FlowState {
       ...props,
     });
   }
+
+  /**
+   * Called when entering a step or when the flow is started or recreated from local storage.
+   */
   enterStep(): this {
     const step = this.currentStep;
     if (step && isTooltipStep(step) && !this.tooltipErrorPromise)
@@ -82,6 +87,19 @@ export class FlowState {
           targetElement: step.targetElement,
         });
       }, 1000);
+
+    const isFork = Array.isArray(step);
+    if (isFork) {
+      log.error("Stopping flow: entered invalid step, make sure to use targetBranch");
+      // TODO: maybe emit event?
+      this.destroy();
+    }
+    const isOutOfBoundStep = !step && this.flow?._incompleteSteps !== true;
+    if (isOutOfBoundStep) {
+      log.error("Stopping flow: entered out of bound step");
+      // TODO: maybe emit event?
+      this.destroy();
+    }
 
     return this;
   }
