@@ -36,9 +36,9 @@ export const handleLocationChange = (): void => {
       });
       if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
     }
-
-    startFlowsBasedOnLocation();
   });
+
+  startFlowsBasedOnLocation();
 };
 
 export const startFlowsBasedOnLocation = (): void => {

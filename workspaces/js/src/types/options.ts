@@ -29,7 +29,7 @@ export interface TrackingEvent {
 export type Tracking = (event: TrackingEvent) => void;
 
 export interface DebugEvent extends Omit<TrackingEvent, "type"> {
-  type: "tooltipError" | "invalidateTooltipError";
+  type: "tooltipError" | "invalidateTooltipError" | "invalidStepError";
   /**
    * referenceId of the event that the current event is invalidating.
    */
