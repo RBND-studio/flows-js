@@ -91,13 +91,13 @@ export class FlowState {
     const isFork = Array.isArray(step);
     if (isFork) {
       log.error("Stopping flow: entered invalid step, make sure to use targetBranch");
-      // TODO: maybe emit event?
+      void this.debug({ type: "invalidStepError" });
       this.destroy();
     }
     const isOutOfBoundStep = !step && this.flow?._incompleteSteps !== true;
     if (isOutOfBoundStep) {
       log.error("Stopping flow: entered out of bound step");
-      // TODO: maybe emit event?
+      void this.debug({ type: "invalidStepError" });
       this.destroy();
     }
 
