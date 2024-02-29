@@ -176,4 +176,5 @@ const _init = (options: FlowsInitOptions): void => {
   ]);
 
   startFlowsBasedOnLocation();
+  FlowsContext.getInstance().onLocationChange?.(getPathname(), FlowsContext.getInstance());
 };
