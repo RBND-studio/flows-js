@@ -1,26 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
-import { init } from "@flows/js/cloud";
-import "@flows/js/flows.css";
+import { init } from "@flows/js";
 
-export const CloudFlows = () => {
+export const Flows = () => {
   useEffect(() => {
     init({
-      customApiUrl: "https://api.stage.flows-cloud.com",
-      // customApiUrl: "http://localhost:3005",
-      projectId: "993b3bc3-ebce-4a3e-ba8e-44ca62e3fc9e",
-      userProperties: {
-        email: "bob@gmail.com",
-        role: "admin",
-      },
+      projectId: "e7d8eb63-7670-4da1-b0e0-d2d3331d108b",
       flows: [
         {
-          id: "vanilla-demo-flow-1",
-          element: "#start-flow-1",
+          id: "local-flow",
+          clickElement: "#start-local",
           steps: [
             {
-              element: "#start-flow-1",
+              targetElement: "#start-local",
               title: "Welcome to FlowsJS!",
               body: "This is a demo of FlowsJS. Click the button below to continue.",
             },
