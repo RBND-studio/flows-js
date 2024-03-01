@@ -12,6 +12,7 @@ const customExternalLink =
 const customAction = new URLSearchParams(window.location.search).get("customAction") === "true";
 const customNext = new URLSearchParams(window.location.search).get("customNext") === "true";
 const customPrev = new URLSearchParams(window.location.search).get("customPrev") === "true";
+const customCancel = new URLSearchParams(window.location.search).get("customCancel") === "true";
 
 const footerActionsArray: NonNullable<FlowTooltipStep["footerActions"]>["left"] = [];
 if (customLink)
@@ -39,6 +40,11 @@ if (customPrev)
   footerActionsArray.push({
     label: "My Prev",
     prev: true,
+  });
+if (customCancel)
+  footerActionsArray.push({
+    label: "My Cancel",
+    cancel: true,
   });
 const footerActions = {
   left: footerActionsArray,
