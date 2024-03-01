@@ -6,7 +6,7 @@ test("Resumes flow when page is reopened", async ({ page }) => {
   await page.click(".start-flow");
   await expect(page.locator(".flows-tooltip")).toBeVisible();
   await expect(page.locator(".flows-tooltip")).toContainText("First");
-  await page.click(".flows-continue");
+  await page.click(".flows-next");
   await expect(page.locator(".flows-tooltip")).toContainText("Second");
   await page.goto("/");
   await expect(page.locator(".flows-tooltip")).not.toBeVisible();
@@ -21,7 +21,7 @@ test("Doesn't resume flow when page is reopened after timeout", async ({ page })
   await page.click(".start-flow");
   await expect(page.locator(".flows-tooltip")).toBeVisible();
   await expect(page.locator(".flows-tooltip")).toContainText("First");
-  await page.click(".flows-continue");
+  await page.click(".flows-next");
   await expect(page.locator(".flows-tooltip")).toContainText("Second");
   await page.evaluate(() =>
     localStorage.setItem(

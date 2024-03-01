@@ -64,6 +64,8 @@ const FooterActionItemStruct: Describe<FooterActionItem> = object({
   external: optional(boolean()),
   next: optional(boolean()),
   prev: optional(boolean()),
+  cancel: optional(boolean()),
+  variant: optional(enums(["primary", "secondary"])),
 });
 const FooterActionsStruct: Describe<FooterActions> = object({
   center: optional(array(FooterActionItemStruct)),

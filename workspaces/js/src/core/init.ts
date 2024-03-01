@@ -68,19 +68,19 @@ const _init = (options: FlowsInitOptions): void => {
       if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
     });
 
-    if (eventTarget.matches(".flows-back")) {
+    if (eventTarget.matches(".flows-prev")) {
       const flow = Array.from(FlowsContext.getInstance().instances.values()).find((s) =>
         s.flowElement?.element.contains(eventTarget),
       );
       flow?.prevStep().render();
     }
-    if (eventTarget.matches(".flows-continue")) {
+    if (eventTarget.matches(".flows-next")) {
       const flow = Array.from(FlowsContext.getInstance().instances.values()).find((s) =>
         s.flowElement?.element.contains(eventTarget),
       );
       flow?.nextStep().render();
     }
-    if (eventTarget.matches(".flows-option")) {
+    if (eventTarget.matches(".flows-action")) {
       const action = Number(eventTarget.getAttribute("data-action"));
       if (Number.isNaN(action)) return;
       const flow = Array.from(FlowsContext.getInstance().instances.values()).find((s) =>

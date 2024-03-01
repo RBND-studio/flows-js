@@ -48,62 +48,54 @@
   justify-content: flex-end;
 }
 
-.flows-button {
-  background-color: var(--flows-bg-subtle);
-  border: var(--flows-border);
-  color: var(--flows-fg-default);
+.flows-primary-btn,
+.flows-secondary-btn,
+.flows-close-btn {
   border-radius: var(--flows-borderRadius-small);
-  padding: 4px 8px;
-  text-wrap: nowrap;
-  font-family: var(--flows-font-family);
-  font-size: var(--flows-base-font-size);
-  line-height: var(--flows-base-line-height);
-  font-weight: 600;
   cursor: pointer;
   transition:
     background-color 120ms ease-in-out,
     border-color 120ms ease-in-out;
 }
-.flows-button svg {
-  pointer-events: none;
+.flows-primary-btn,
+.flows-secondary-btn {
+  padding: 4px 8px;
+  font-family: var(--flows-font-family);
+  font-size: var(--flows-base-font-size);
+  line-height: var(--flows-base-line-height);
+  font-weight: 600;
+  text-wrap: nowrap;
+  text-decoration: none;
 }
-.flows-button:hover {
+.flows-primary-btn {
+  background-color: var(--flows-bg-primary);
+  border: 1px solid var(--flows-bg-primary);
+  color: var(--flows-fg-onPrimary);
+}
+.flows-primary-btn:hover {
+  background-color: var(--flows-bg-primary-hover);
+  border: 1px solid var(--flows-bg-primary-hover);
+}
+.flows-secondary-btn {
+  background-color: var(--flows-bg-subtle);
+  border: var(--flows-border);
+  color: var(--flows-fg-default);
+}
+.flows-secondary-btn:hover {
   background-color: var(--flows-bg-hover);
 }
-
-.flows-continue,
-.flows-option {
-  background-color: var(--flows-bg-primary);
-  border: 1px solid var(--flows-bg-primary);
-  color: var(--flows-fg-onPrimary);
-}
-
-.flows-continue:hover,
-.flows-option:hover {
-  background-color: var(--flows-bg-primary-hover);
-  border: 1px solid var(--flows-bg-primary-hover);
-}
-
-.flows-finish {
-  background-color: var(--flows-bg-primary);
-  border: 1px solid var(--flows-bg-primary);
-  color: var(--flows-fg-onPrimary);
-}
-
-.flows-finish:hover {
-  background-color: var(--flows-bg-primary-hover);
-  border: 1px solid var(--flows-bg-primary-hover);
-}
-
-.flows-cancel {
+.flows-close-btn {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  padding: 0;
   width: 20px;
   height: 20px;
-  border: none;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0);
-  padding: 0;
 }
-.flows-cancel:after {
+.flows-close-btn:hover {
+  background-color: var(--flows-bg-hover);
+}
+.flows-close-btn:after {
   content: "";
   position: absolute;
   top: 0;
@@ -156,7 +148,7 @@
   position: fixed;
   inset: 0;
 }
-.flows-tooltip .flows-cancel {
+.flows-tooltip .flows-close-btn {
   top: var(--flows-tooltip-padding);
   right: var(--flows-tooltip-padding);
 }
@@ -209,7 +201,7 @@
   min-width: var(--flows-modal-minWidth);
   max-width: var(--flows-modal-maxWidth);
 }
-.flows-modal .flows-cancel {
+.flows-modal .flows-close-btn {
   top: var(--flows-modal-padding);
   right: var(--flows-modal-padding);
 }

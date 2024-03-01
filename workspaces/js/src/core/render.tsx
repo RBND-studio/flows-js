@@ -81,23 +81,8 @@ const updateTooltip = ({
 const getStepHeader = ({ step }: { step: FlowTooltipStep | FlowModalStep }): HTMLElement => (
   <div className="flows-header">
     <h1 className="flows-title" dangerouslySetInnerHTML={{ __html: step.title }} />
-    {!step.hideClose && <button aria-label="Close" className="flows-cancel flows-button" />}
+    {!step.hideClose && <button aria-label="Close" className="flows-cancel flows-close-btn" />}
   </div>
-);
-const getContinueButton = ({
-  state,
-  children,
-}: {
-  children?: string;
-  state: FlowState;
-}): HTMLElement =>
-  state.hasNextStep ? (
-    <button className="flows-continue flows-button">{children || "Continue"}</button>
-  ) : (
-    <button className="flows-finish flows-button">{children || "Finish"}</button>
-  );
-const getBackButton = ({ children }: { children?: string }): HTMLElement => (
-  <button className="flows-back flows-button">{children || "Back"}</button>
 );
 const getStepFooterActionButton = ({
   props,
@@ -106,25 +91,42 @@ const getStepFooterActionButton = ({
   props: FooterActionItem;
   state: FlowState;
 }): HTMLElement => {
-  if (props.prev) return getBackButton({ children: props.label });
-  if (props.next) return getContinueButton({ children: props.label, state });
-  const buttonClassName = "flows-option flows-button";
+  const classList = [];
+  const variant = props.variant || "primary";
+
+  if (variant === "primary") classList.push("flows-primary-btn");
+  if (variant === "secondary") classList.push("flows-secondary-btn");
+  if (props.cancel) classList.push("flows-cancel");
+  if (props.prev) classList.push("flows-prev");
+  if (props.next && state.hasNextStep) classList.push("flows-next");
+  if (props.next && !state.hasNextStep) classList.push("flows-finish");
+  if (props.targetBranch !== undefined) classList.push("flows-action");
+
+  const className = classList.join(" ");
+
   if (props.href)
     return (
-      <a
-        className={buttonClassName}
-        href={props.href}
-        target={props.external ? "_blank" : undefined}
-      >
+      <a className={className} href={props.href} target={props.external ? "_blank" : undefined}>
         {props.label}
       </a>
     );
   return (
-    <button className={buttonClassName} data-action={props.targetBranch}>
+    <button className={className} data-action={props.targetBranch}>
       {props.label}
     </button>
   );
 };
+const getNextButton = ({ state, label }: { state: FlowState; label?: string }): HTMLElement =>
+  getStepFooterActionButton({
+    props: { next: true, label: label || (state.hasNextStep ? "Continue" : "Finish") },
+    state,
+  });
+const getPrevButton = ({ state, label }: { state: FlowState; label?: string }): HTMLElement =>
+  getStepFooterActionButton({
+    props: { prev: true, label: label || "Back", variant: "secondary" },
+    state,
+  });
+
 const getStepFooterActions = ({
   items,
   state,
@@ -140,8 +142,8 @@ const getStepFooter = ({
   state: FlowState;
 }): HTMLElement | null => {
   const backBtn =
-    state.hasPrevStep && !step.hidePrev && getBackButton({ children: step.prevLabel });
-  const continueBtn = !step.hideNext && getContinueButton({ state, children: step.nextLabel });
+    state.hasPrevStep && !step.hidePrev && getPrevButton({ label: step.prevLabel, state });
+  const continueBtn = !step.hideNext && getNextButton({ label: step.nextLabel, state });
   const leftOptions = getStepFooterActions({ items: step.footerActions?.left, state });
   const centerOptions = getStepFooterActions({ items: step.footerActions?.center, state });
   const rightOptions = getStepFooterActions({ items: step.footerActions?.right, state });

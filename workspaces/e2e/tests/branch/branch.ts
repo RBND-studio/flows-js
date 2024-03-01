@@ -45,7 +45,7 @@ if (lastStep)
   steps.push({
     targetElement: ".target",
     title: "Last Step",
-    footerActions: { right: [{ label: "Continue", targetBranch: undefined }] },
+    footerActions: { right: [{ label: "Continue", targetBranch: 0 }] },
   });
 
 void init({

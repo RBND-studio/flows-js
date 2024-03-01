@@ -20,6 +20,15 @@ export interface FooterActionItem {
    */
   next?: boolean;
   /**
+   * When true the button will cancel the flow.
+   */
+  cancel?: boolean;
+  /**
+   * Variant of the button.
+   * @defaultValue `primary`
+   */
+  variant?: "primary" | "secondary";
+  /**
    * Use to navigate to a custom URL. The button element will be rendered as an anchor tag.
    */
   href?: string;
