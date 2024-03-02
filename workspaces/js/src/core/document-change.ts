@@ -1,6 +1,7 @@
+import { throttle } from "../lib/throttle";
 import { FlowsContext } from "./flows-context";
 
-export const handleDocumentChange = (): void => {
+const _handleDocumentChange = (): void => {
   FlowsContext.getInstance().instances.forEach((state) => {
     if (state.waitingForElement) return state.render();
 
@@ -12,3 +13,5 @@ export const handleDocumentChange = (): void => {
     }
   });
 };
+
+export const handleDocumentChange = throttle(_handleDocumentChange, 250);
