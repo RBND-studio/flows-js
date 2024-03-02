@@ -1,0 +1,8 @@
+{
+  "name": "@flows/js",
+  "version": "0.0.45",
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": "./src/core/index.ts"
+  }
+}
