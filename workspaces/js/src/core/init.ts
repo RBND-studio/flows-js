@@ -166,7 +166,7 @@ const _init = (options: FlowsInitOptions): void => {
   if (locationChangeInterval !== null) clearInterval(locationChangeInterval);
   locationChangeInterval = window.setInterval(() => {
     handleLocationChange();
-  }, 50);
+  }, 250);
 
   addHandlers([
     { type: "click", handler: handleClick },
