@@ -1,0 +1,16 @@
+# Flows examples
+
+This directory contains examples of flows that can be used as a starting point for your own Flows implementation.
+
+## Examples
+
+- [React Next.js](./react-nextjs) - A simple example of how to use Flows with React and Next.js.
+- [JavaScript](./javascript) - A simple example of how to use Flows with vanilla JavaScript.
+
+## Reporting Issues
+
+We actively encourage our community to raise issues and provide feedback. If you find an issue, please let us know by raising an issue in the repository.
+
+An issue can be raised by clicking the 'Issues' tab at the top of the repository, followed by the Green 'New issue' button.
+
+When submitting an issue, please thoroughly and concisely describe the problem you are experiencing so that we may easily understand and resolve the issue in a timely manner.

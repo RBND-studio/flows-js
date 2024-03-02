@@ -34,6 +34,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# This makes it easier to release new version
-# without having to update the lockfile everytime
 pnpm-lock.yaml
+package-lock.json
+yarn.lock
