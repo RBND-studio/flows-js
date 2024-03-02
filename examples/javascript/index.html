@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flows - JavaScript example</title>
+    <meta
+      name="description"
+      content="Flows lets you build any onboarding you want. Guide users, increase feature adoption, and improve revenue."
+    />
+
+    <!-- How you would use Flows in your own code -->
+    <!-- Make sure to lock specific version to avoid braking changes. Visit https://flows.sh/docs for more info. -->
+    <script defer src="https://unpkg.com/@flows/js@latest/dist/index.global.js"></script>
+    <script type="module">
+      flows.init({
+        projectId: "e7d8eb63-7670-4da1-b0e0-d2d3331d108b",
+       flows: [
+        {
+          id: "local-flow",
+          clickElement: "#start-local",
+          frequency: "every-time",
+          steps: [
+            {
+              title: "Welcome to Flows!",
+              body: "This is a demo of a local flow loaded from the codebase. Flows offer cloud flows as well, which can be updated without needing code changes.",
+            },
+            {
+              title: "This is a tooltip",
+              body: "It can have an overlay...",
+              targetElement: "#file1",
+              overlay: true,
+            },
+            {
+              title: "...or not",
+              body: "You can customize the tooltip to your liking.",
+              targetElement: "#file1",
+            },
+            {
+              title: "You can also wait for a click",
+              body: "Just like this! Click the button to continue.",
+              targetElement: "#upload",
+              overlay: true,
+              wait: {
+                clickElement: "#upload",
+              },
+              hideNext: true,
+            },
+            {
+              title: "Or you can branch out with forks",
+              body: "Click on one of the files to continue.",
+              targetElement: ".app-files",
+              overlay: true,
+              wait: [
+                {
+                  clickElement: "#file1",
+                  targetBranch: 0,
+                },
+                {
+                  clickElement: "#file2",
+                  targetBranch: 1,
+                },
+                {
+                  clickElement: "#file3",
+                  targetBranch: 2,
+                },
+                {
+                  clickElement: "#file4",
+                  targetBranch: 3,
+                },
+              ],
+              hideNext: true,
+            },
+            [
+              [
+                {
+                  title: "You clicked on FunnyCat.jpg",
+                  body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
+                  targetElement: "#file1",
+                  overlay: true,
+                },
+              ],
+              [
+                {
+                  title: "You clicked on ImportantDoc.pdf",
+                  body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
+                  targetElement: "#file2",
+                  overlay: true,
+                },
+              ],
+              [
+                {
+                  title: "You clicked on CoolVideo.mp4",
+                  body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
+                  targetElement: "#file3",
+                  overlay: true,
+                },
+              ],
+              [
+                {
+                  title: "You clicked on DankMeme.png",
+                  body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
+                  targetElement: "#file4",
+                  overlay: true,
+                },
+              ],
+            ],
+            {
+              title: "That was the basics of Flows!",
+              body: "You can create complex onboarding flows with Flows or a simple tour. If you liked what you saw, sign up and start creating your own flows.",
+              hideNext: true,
+              hidePrev: true,
+              footerActions: {
+                center: [
+                  {
+                    label: "Learn more",
+                    external: true,
+                    href: "https://flows.sh/docs",
+                    variant: "secondary",
+                  },
+                  {
+                    label: "Sign up",
+                    external: true,
+                    href: "https://app.flows.sh/signup",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+      })
+    </script>
+  </head>
+
+  <body>
+    <main>
+      <div class="header">
+        <div class="header-inner-wrap">
+          <div class="callout">
+            <h1>Flows JavaScript example</h1>
+            <p>
+              Get started at&nbsp;
+              <a
+                href="https://flows.sh/?utm_source=demos&utm_campaign=javascript"
+                target="_blank"
+                class="link"
+              >
+                flows.sh
+              </a>
+            </p>
+          </div>
+          <a
+            href="https://flows.sh/?utm_source=demos&utm_campaign=javascript"
+            target="_blank"
+            class="logo"
+          >
+            <img src="/logo.svg" alt="FlowsJS" height="36" />
+          </a>
+        </div>
+      </div>
+      <div class="main-wrapper">
+        <div class="flows-launch-wrapper">
+          <button id="start-cloud">Launch Cloud flow</button>
+          <button id="start-local">Launch Local flow</button>
+        </div>
+        <div class="app-wrapper">
+          <div class="app-header">
+            <p class="app-logo">DropCrate</p>
+            <button class="btn-secondary" id="upload">
+              Upload file
+            </button>
+          </div>
+          <div class="app-content">
+            <p class="app-list-title">Your files</p>
+            <div class="app-files">
+              <div class="app-file-item" id="file1">
+                FunnyCat.jpg
+              </div>
+              <div class="app-file-item" id="file2">
+                ImportantDoc.pdf
+              </div>
+              <div class="app-file-item" id="file3">
+                CoolVideo.mp4
+              </div>
+              <div class="app-file-item" id="file4">
+                DankMeme.png
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="footer-inner-wrap">
+          <a
+            class="footer-link"
+            href="https://flows.sh/docs/?utm_source=demos&utm_campaign=javascript"
+            target="_blank"
+          >
+            <h2 class="footer-heading">Docs</h2>
+            <p class="footer-link-text">Learn how to use Flows to build user onboarding.</p>
+          </a>
+          <a
+            class="footer-link"
+            href="https://app.flows.sh/signup/?utm_source=demos&utm_campaign=javascript"
+            target="_blank"
+          >
+            <h2 class="footer-heading">Sign up</h2>
+            <p class="footer-link-text">Create a Flows account and start creating flows.</p>
+          </a>
+          <a
+            class="footer-link"
+            href="https://github.com/RBND-studio/flows-js/tree/main/examples"
+            target="_blank"
+          >
+            <h2 class="footer-heading">See other demos</h2>
+            <p class="footer-link-text">Visit our GitHub repo to see other examples.</p>
+          </a>
+          <a
+            class="footer-link"
+            href="https://github.com/RBND-studio/flows-js/tree/main/examples/javascript"
+            target="_blank"
+          >
+            <h2 class="footer-heading">See source code</h2>
+            <p class="footer-link-text">
+              Visit our GitHub repo to what makes this example tick.
+            </p>
+          </a>
+        </div>
+      </div>
+    </main>
+</html>
