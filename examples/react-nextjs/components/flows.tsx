@@ -66,7 +66,7 @@ export const Flows = () => {
             [
               [
                 {
-                  title: "You clicked on file 1",
+                  title: "You clicked on FunnyCat.jpg",
                   body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
                   targetElement: "#file1",
                   overlay: true,
@@ -74,7 +74,7 @@ export const Flows = () => {
               ],
               [
                 {
-                  title: "You clicked on file 2",
+                  title: "You clicked on ImportantDoc.pdf",
                   body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
                   targetElement: "#file2",
                   overlay: true,
@@ -82,7 +82,7 @@ export const Flows = () => {
               ],
               [
                 {
-                  title: "You clicked on file 3",
+                  title: "You clicked on CoolVideo.mp4",
                   body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
                   targetElement: "#file3",
                   overlay: true,
@@ -90,7 +90,7 @@ export const Flows = () => {
               ],
               [
                 {
-                  title: "You clicked on file 4",
+                  title: "You clicked on DankMeme.png",
                   body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
                   targetElement: "#file4",
                   overlay: true,

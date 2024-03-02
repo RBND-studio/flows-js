@@ -41,16 +41,16 @@ export default function HomePage() {
             <p className="app-list-title">Your files</p>
             <div className="app-files">
               <div className="app-file-item" id="file1">
-                File 1
+                FunnyCat.jpg
               </div>
               <div className="app-file-item" id="file2">
-                File 2
+                ImportantDoc.pdf
               </div>
               <div className="app-file-item" id="file3">
-                File 3
+                CoolVideo.mp4
               </div>
               <div className="app-file-item" id="file4">
-                File 4
+                DankMeme.png
               </div>
             </div>
           </div>
