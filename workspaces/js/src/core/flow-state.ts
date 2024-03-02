@@ -86,7 +86,7 @@ export class FlowState {
           type: "tooltipError",
           targetElement: step.targetElement,
         });
-      }, 1000);
+      }, 2000);
 
     const isFork = Array.isArray(step);
     if (isFork) {
@@ -217,8 +217,8 @@ export class FlowState {
    * Remove the flow element from the DOM. Used before rendering next step and when flow is finished.
    */
   unmount(): this {
-    if (!this.flowElement) return this;
     this.waitingForElement = false;
+    if (!this.flowElement) return this;
     this.flowElement.cleanup?.();
     this.flowElement.element.remove();
     return this;

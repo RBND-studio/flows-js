@@ -8,9 +8,9 @@ export const throttle = <T extends (...args: any[]) => any>(
 
   return (...args) => {
     if (timerFlag === null) {
-      fn(...args);
       timerFlag = window.setTimeout(() => {
         timerFlag = null;
+        fn(...args);
       }, delay);
     }
   };

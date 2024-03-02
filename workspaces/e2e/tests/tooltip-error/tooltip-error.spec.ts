@@ -12,6 +12,7 @@ test("should not emit any error event if it gets invalidates quickly", async ({ 
   await page.locator(".start-flow").click();
   await expect(page.locator("[data-type='tooltipError']")).toHaveCount(0);
   await page.locator(".add-target").click();
+  await expect(page.locator(".flows-tooltip")).toBeVisible();
   await page.locator(".remove-target").click();
   await page.locator(".add-target").click();
   await expect(page.locator("[data-type='tooltipError']")).toHaveCount(0);

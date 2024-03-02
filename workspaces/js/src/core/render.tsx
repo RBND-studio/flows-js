@@ -290,10 +290,10 @@ const getBoundaryEl = (state: FlowState): Element | undefined => {
 };
 
 export const render = (state: FlowState): void => {
+  state.unmount();
+
   const step = state.currentStep;
   if (!step) return;
-
-  state.unmount();
 
   if (isTooltipStep(step)) {
     const target = document.querySelector(step.targetElement);
