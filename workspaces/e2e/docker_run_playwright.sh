@@ -6,5 +6,5 @@ docker run --rm --ipc=host \
   --mount type=bind,src=./../../,dst=/app \
   --mount type=volume,dst=/app/node_modules \
   --mount type=volume,dst=/app/.pnpm-store \
-  mcr.microsoft.com/playwright:v1.41.2-jammy \
+  mcr.microsoft.com/playwright:v1.42.1-jammy \
   /app/workspaces/e2e/docker_playwright_script.sh
