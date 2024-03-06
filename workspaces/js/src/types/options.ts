@@ -156,5 +156,5 @@ export interface EndFlowOptions {
    * The type of event that caused the flow to end.
    * @defaultValue "cancel"
    */
-  variant?: "finish" | "cancel";
+  variant?: "finish" | "cancel" | "no-event";
 }

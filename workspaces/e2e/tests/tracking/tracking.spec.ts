@@ -18,3 +18,13 @@ test("Emits correct events", async ({ page }) => {
   await expect(logs.nth(5)).toHaveAttribute("data-type", "nextStep");
   await expect(logs.nth(6)).toHaveAttribute("data-type", "finishFlow");
 });
+
+test("Should not emit if flow is already running", async ({ page }) => {
+  await page.goto("/tracking/tracking.html");
+  await page.locator(".start").click();
+  await expect(page.locator(".flows-modal")).toBeVisible();
+  await expect(page.locator(".log-item").nth(0)).toHaveAttribute("data-type", "startFlow");
+  await page.goto("/tracking/tracking.html");
+  await expect(page.locator(".flows-modal")).toBeVisible();
+  await expect(page.locator(".log-item")).toHaveCount(0);
+});

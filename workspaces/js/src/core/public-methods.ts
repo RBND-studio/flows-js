@@ -78,7 +78,7 @@ export const endFlow = (flowId: string, { variant = "cancel" }: EndFlowOptions =
   const state = instances.get(flowId);
   if (!state) return;
   if (variant === "finish") state.finish();
-  else state.cancel();
+  if (variant === "cancel") state.cancel();
   state.destroy();
 };
 
