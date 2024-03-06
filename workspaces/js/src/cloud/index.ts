@@ -1,4 +1,4 @@
-import { startFlow } from "../core/public-methods";
+import { endFlow, startFlow } from "../core/public-methods";
 import { init as flowsInit } from "../core/init";
 import type { FlowsCloudOptions, IdentifyUserOptions } from "../types";
 import { log } from "../lib/log";
@@ -70,6 +70,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       void api(apiUrl)
         .getPreviewFlow({ flowId, projectId })
         .then((flow) => {
+          endFlow(flowId, { variant: "cancel" });
           context.addFlowData({ ...flow, draft: true }, { validate: false });
           startFlow(flow.id, { startDraft: true });
         })
