@@ -37,7 +37,10 @@ export class FlowState {
       ?.stepHistory ?? [0];
     if (this.flow?._incompleteSteps)
       this.flowsContext.onIncompleteFlowStart?.(this.flowId, this.flowsContext);
-    void this.track({ type: "startFlow" });
+    const flowAlreadyRunning = this.flowsContext.persistentState.instances.some(
+      (i) => i.flowId === flowId,
+    );
+    if (!flowAlreadyRunning) void this.track({ type: "startFlow" });
     this.enterStep();
   }
 
