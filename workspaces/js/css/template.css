@@ -119,7 +119,6 @@
   border-radius: var(--flows-borderRadius-medium);
   position: absolute;
   padding: var(--flows-tooltip-padding);
-  box-shadow: var(--flows-shadow);
 
   font-family: var(--flows-font-family);
   font-size: var(--flows-base-font-size);
@@ -129,8 +128,18 @@
   min-width: var(--flows-tooltip-minWidth);
   max-width: min(var(--flows-tooltip-maxWidth), calc(100% - 16px));
 }
+.flows-tooltip:before {
+  box-shadow: var(--flows-shadow);
+  border-radius: var(--flows-borderRadius-medium);
+  content: "";
+  position: absolute;
+  inset: calc(var(--flows-borderWidth) * -1);
+  z-index: -1;
+  pointer-events: none;
+}
 .flows-tooltip-overlay {
   position: fixed;
+  z-index: -1;
   pointer-events: none;
 }
 .flows-tooltip-overlay:after {
