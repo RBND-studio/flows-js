@@ -10,7 +10,8 @@
   --flows-fg-default: #222222;
   --flows-fg-onPrimary: #ffffff;
 
-  --flows-border: 1px solid #cccccc;
+  --flows-borderWidth: 1px;
+  --flows-border: var(--flows-borderWidth) solid #cccccc;
 
   --flows-shadow: 0px 8px 12px rgba(28, 26, 39, 0.08), 0px 6px 8px rgba(28, 26, 39, 0.12),
     0px 0px 1px rgba(28, 26, 39, 0.16);
