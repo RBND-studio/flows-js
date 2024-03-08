@@ -64,7 +64,7 @@
   font-size: var(--flows-base-font-size);
   line-height: var(--flows-base-line-height);
   font-weight: 600;
-  text-wrap: nowrap;
+  white-space: nowrap;
   text-decoration: none;
 }
 .flows-primary-btn {
