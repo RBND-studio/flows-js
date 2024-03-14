@@ -92,6 +92,7 @@ const getStepFooterActionButton = ({
   state: FlowState;
 }): HTMLElement => {
   const classList = [];
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- nullish coalescing is not intended here
   const variant = props.variant || "primary";
 
   if (variant === "primary") classList.push("flows-primary-btn");
@@ -118,12 +119,21 @@ const getStepFooterActionButton = ({
 };
 const getNextButton = ({ state, label }: { state: FlowState; label?: string }): HTMLElement =>
   getStepFooterActionButton({
-    props: { next: true, label: label || (state.hasNextStep ? "Continue" : "Finish") },
+    props: {
+      next: true,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- nullish coalescing is not intended here
+      label: label || (state.hasNextStep ? "Continue" : "Finish"),
+    },
     state,
   });
 const getPrevButton = ({ state, label }: { state: FlowState; label?: string }): HTMLElement =>
   getStepFooterActionButton({
-    props: { prev: true, label: label || "Back", variant: "secondary" },
+    props: {
+      prev: true,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- nullish coalescing is not intended here
+      label: label || "Back",
+      variant: "secondary",
+    },
     state,
   });
 
@@ -285,6 +295,7 @@ const createRoot = (boundaryEl?: Element): HTMLElement => {
 
 const getBoundaryEl = (state: FlowState): Element | undefined => {
   const boundary = state.flow?.rootElement ?? state.flowsContext.rootElement;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- nullish coalescing is not intended here
   const boundaryEl = (boundary && document.querySelector(boundary)) || undefined;
   return boundaryEl;
 };
