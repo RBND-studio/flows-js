@@ -11,9 +11,12 @@ import type {
   FlowModalStep,
   FlowWaitStep,
   WaitStepOptions,
+  FooterActionItem,
 } from "../types";
 import { isValidFlow, isValidFlowsOptions, validateFlow, validateFlowsOptions } from "./validation";
 import { init as _init } from "./init";
+
+export { renderModalElement, renderTooltipElement, updateTooltip } from "./render";
 
 export * from "./public-methods";
 export const init: (options: FlowsOptions) => Promise<void> = _init;
@@ -22,6 +25,7 @@ export type {
   Flow,
   FlowStep,
   FlowSteps,
+  FooterActionItem,
   FlowsOptions,
   StartFlowOptions,
   TrackingEvent,
