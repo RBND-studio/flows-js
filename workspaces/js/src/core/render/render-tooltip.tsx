@@ -10,6 +10,9 @@ const ARROW_SIZE = 6;
 const BOUNDARY_PADDING = 8;
 const ARROW_EDGE_PADDING = 8;
 
+/**
+ * Function for updating tooltip, its overlay and arrow position.
+ */
 export const updateTooltip = ({
   target,
   tooltip,
@@ -30,6 +33,9 @@ export const updateTooltip = ({
      * @defaultValue true
      */
     flip?: boolean;
+    /**
+     * @defaultValue true
+     */
     shift?: boolean;
   };
 }): Promise<void> => {
@@ -87,6 +93,10 @@ export const updateTooltip = ({
     });
 };
 
+/**
+ * Function for rendering tooltip to HTMLElement without placing it in the DOM.
+ * The tooltip won't be correctly positioned until `updateTooltip` is called.
+ */
 export const renderTooltipElement = ({
   step,
   root: _root,
@@ -164,8 +174,8 @@ export const renderTooltip = ({
     step,
     root,
     target,
-    isFirstStep: !state.hasNextStep,
-    isLastStep: !state.hasPrevStep,
+    isFirstStep: !state.hasPrevStep,
+    isLastStep: !state.hasNextStep,
   });
 
   const positionCleanup = autoUpdate(

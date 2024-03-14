@@ -6,6 +6,7 @@ import { renderTooltip } from "./render-tooltip";
 
 const getBoundaryEl = (state: FlowState): Element | undefined => {
   const boundary = state.flow?.rootElement ?? state.flowsContext.rootElement;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- nullish coalescing cannot be used here
   const boundaryEl = (boundary && document.querySelector(boundary)) || undefined;
   return boundaryEl;
 };

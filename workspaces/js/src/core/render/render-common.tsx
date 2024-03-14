@@ -15,7 +15,7 @@ export const getStepFooterActionButton = ({
   isLastStep?: boolean;
 }): HTMLElement => {
   const classList = [];
-  const variant = props.variant || "primary";
+  const variant = props.variant ?? "primary";
 
   if (variant === "primary") classList.push("flows-primary-btn");
   if (variant === "secondary") classList.push("flows-secondary-btn");
@@ -47,12 +47,21 @@ const getNextButton = ({
   label?: string;
 }): HTMLElement =>
   getStepFooterActionButton({
-    props: { next: true, label: label || (!isLastStep ? "Continue" : "Finish") },
+    props: {
+      next: true,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- nullish coalescing is not suitable here
+      label: label || (!isLastStep ? "Continue" : "Finish"),
+    },
     isLastStep,
   });
 const getPrevButton = ({ label }: { label?: string }): HTMLElement =>
   getStepFooterActionButton({
-    props: { prev: true, label: label || "Back", variant: "secondary" },
+    props: {
+      prev: true,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- nullish coalescing is not suitable here
+      label: label || "Back",
+      variant: "secondary",
+    },
   });
 
 const getStepFooterActions = ({

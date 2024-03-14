@@ -2,6 +2,9 @@ import type { FlowModalStep } from "..";
 import type { FlowState } from "../flow-state";
 import { createRoot, getStepFooter, getStepHeader } from "./render-common";
 
+/**
+ * Function for rendering modal element to HTMLElement without placing it in the DOM.
+ */
 export const renderModalElement = ({
   step,
   isFirstStep,
