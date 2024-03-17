@@ -47,5 +47,5 @@ jobs:
         with:
           version: 8
       - run: pnpm install
-      - run: npx jsx publish
+      - run: npx jsr publish
         working-directory: "./workspaces/js"
