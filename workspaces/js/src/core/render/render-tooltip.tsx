@@ -49,9 +49,15 @@ export const updateTooltip = ({
   middleware.push(offset(offsetDistance));
 
   if (overlay) {
+    const boundaryPosition = (() => {
+      const defaultPosition = { x: 0, y: 0 };
+      if (!boundary) return defaultPosition;
+      if (!window.getComputedStyle(boundary).transform.startsWith("matrix")) return defaultPosition;
+      return boundary.getBoundingClientRect();
+    })();
     const targetPosition = target.getBoundingClientRect();
-    overlay.style.top = `${targetPosition.top}px`;
-    overlay.style.left = `${targetPosition.left}px`;
+    overlay.style.top = `${targetPosition.top - boundaryPosition.y}px`;
+    overlay.style.left = `${targetPosition.left - boundaryPosition.x}px`;
     overlay.style.width = `${targetPosition.width}px`;
     overlay.style.height = `${targetPosition.height}px`;
   }
