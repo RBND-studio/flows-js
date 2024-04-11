@@ -47,5 +47,5 @@ jobs:
         with:
           version: 8
       - run: pnpm install
-      - run: npx jsr publish
+      - run: npx jsr publish --allow-slow-types
         working-directory: "./workspaces/js"
