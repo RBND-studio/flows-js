@@ -1,3 +1,5 @@
+import { FlowTooltipStep } from "@flows/js";
+import { FlowStep } from "@flows/js";
 import { init } from "@flows/js/core";
 
 const initRootElement =
@@ -8,23 +10,12 @@ const wrongInitRootElement =
   new URLSearchParams(window.location.search).get("wrongInitRootElement") === "true";
 const wrongFlowRootElement =
   new URLSearchParams(window.location.search).get("wrongFlowRootElement") === "true";
+const modal = new URLSearchParams(window.location.search).get("modal") === "true";
 
-console.log({
-  rootElement: wrongInitRootElement ? ".wrong" : initRootElement ? ".root" : undefined,
-  flows: [
-    {
-      id: "flow",
-      rootElement: wrongFlowRootElement ? ".wrong" : flowRootElement ? ".root" : undefined,
-      location: "/",
-      steps: [
-        {
-          targetElement: ".target",
-          title: "Hello",
-        },
-      ],
-    },
-  ],
-});
+const step: FlowStep = {
+  title: "Hello",
+};
+if (!modal) (step as FlowTooltipStep).targetElement = ".target";
 
 init({
   rootElement: wrongInitRootElement ? ".wrong" : initRootElement ? ".root" : undefined,
@@ -33,12 +24,7 @@ init({
       id: "flow",
       rootElement: wrongFlowRootElement ? ".wrong" : flowRootElement ? ".root" : undefined,
       location: "/",
-      steps: [
-        {
-          targetElement: ".target",
-          title: "Hello",
-        },
-      ],
+      steps: [step],
     },
   ],
 });
