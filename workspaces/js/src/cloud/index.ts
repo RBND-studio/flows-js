@@ -67,6 +67,10 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       const projectId = params.get("flows-project-id");
       if (!flowId || !projectId) return;
 
+      const flowAlreadyLoaded = context.flowsById?.[flowId]?.draft;
+      const flowRunning = context.instances.has(flowId);
+      if (flowAlreadyLoaded && flowRunning) return;
+
       void api(apiUrl)
         .getPreviewFlow({ flowId, projectId })
         .then((flow) => {
