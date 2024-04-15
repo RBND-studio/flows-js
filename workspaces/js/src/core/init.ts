@@ -50,7 +50,7 @@ const _init = (options: FlowsInitOptions): void => {
 
     Object.values(context.flowsById ?? {}).forEach((flow) => {
       if (!flow.clickElement) return;
-      if (eventTarget.matches(flow.clickElement)) startFlow(flow.id);
+      if (document.querySelector(flow.clickElement)?.contains(eventTarget)) startFlow(flow.id);
     });
 
     FlowsContext.getInstance().instances.forEach((state) => {
@@ -59,7 +59,7 @@ const _init = (options: FlowsInitOptions): void => {
       const waitOptions = Array.isArray(step.wait) ? step.wait : [step.wait];
       const matchingWait = waitOptions.find((wait) => {
         if (!wait.clickElement) return false;
-        const clickMatch = eventTarget.matches(wait.clickElement);
+        const clickMatch = document.querySelector(wait.clickElement)?.contains(eventTarget);
         const locMatch = wait.location
           ? locationMatch({ location: wait.location, pathname: getPathname() })
           : true;

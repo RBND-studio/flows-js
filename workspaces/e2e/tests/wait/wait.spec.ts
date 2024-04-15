@@ -6,6 +6,12 @@ test("Wait for click", async ({ page }) => {
   await page.locator(".target").click();
   await expect(page.locator(".flows-tooltip")).toContainText("Second");
 });
+test("Wait for click should work with nested elements", async ({ page }) => {
+  await page.goto("/wait/wait.html?click=true");
+  await expect(page.locator(".flows-tooltip")).toContainText("First");
+  await page.locator(".div-in-target").click();
+  await expect(page.locator(".flows-tooltip")).toContainText("Second");
+});
 
 test("Wait for input change", async ({ page }) => {
   await page.goto("/wait/wait.html?change=true");
