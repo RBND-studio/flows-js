@@ -14,7 +14,7 @@ jobs:
           node-version: 20
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
       - run: pnpm install
       - run: pnpm js build
       - run: pnpm tsc
@@ -28,7 +28,7 @@ jobs:
           node-version: 20
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
       - run: pnpm install
       - run: pnpm test
 
@@ -41,7 +41,7 @@ jobs:
           node-version: 20
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
       - run: pnpm install
       - run: pnpm lint
 
@@ -55,7 +55,7 @@ jobs:
           node-version: 20
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
       - run: pnpm install
       - run: pnpm js build
       - run: pnpm e2e playwright:docker
