@@ -9,6 +9,31 @@
       name="description"
       content="Flows lets you build any onboarding you want. Guide users, increase feature adoption, and improve revenue."
     />
+    <meta
+      name="description"
+      content="Flows lets you build any onboarding you want. Guide users, increase feature adoption, and improve revenue."
+    />
+    <meta
+      name="keywords"
+      content="flows,onboarding,product adoption,user onboarding,user adoption"
+    />
+    <meta property="og:title" content="Flows - JavaScript example" />
+    <meta
+      property="og:description"
+      content="Flows lets you build any onboarding you want. Guide users, increase feature adoption, and improve revenue."
+    />
+    <meta property="og:url" content="/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://javascript.flows.sh/og.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@flows_sh" />
+    <meta name="twitter:title" content="Flows - JavaScript example" />
+    <meta
+      name="twitter:description"
+      content="Flows lets you build any onboarding you want. Guide users, increase feature adoption, and improve revenue."
+    />
+    <meta name="twitter:image" content="https://javascript.flows.sh/og.png" />
 
     <!-- How you would use Flows in your own code -->
     <!-- Make sure to lock specific version to avoid braking changes. Visit https://flows.sh/docs for more info. -->
@@ -16,121 +41,121 @@
     <script type="module">
       flows.init({
         projectId: "e7d8eb63-7670-4da1-b0e0-d2d3331d108b",
-       flows: [
-        {
-          id: "local-flow",
-          clickElement: "#start-local",
-          frequency: "every-time",
-          steps: [
-            {
-              title: "Welcome to Flows!",
-              body: "This is a demo of a local flow loaded from the codebase. Flows offer cloud flows as well, which can be updated without needing code changes.",
-            },
-            {
-              title: "This is a tooltip",
-              body: "It can have an overlay...",
-              targetElement: "#file1",
-              overlay: true,
-            },
-            {
-              title: "...or not",
-              body: "You can customize the tooltip to your liking.",
-              targetElement: "#file1",
-            },
-            {
-              title: "You can also wait for a click",
-              body: "Just like this! Click the button to continue.",
-              targetElement: "#upload",
-              overlay: true,
-              wait: {
-                clickElement: "#upload",
+        flows: [
+          {
+            id: "local-flow",
+            clickElement: "#start-local",
+            frequency: "every-time",
+            steps: [
+              {
+                title: "Welcome to Flows!",
+                body: "This is a demo of a local flow loaded from the codebase. Flows offer cloud flows as well, which can be updated without needing code changes.",
               },
-              hideNext: true,
-            },
-            {
-              title: "Or you can branch out with forks",
-              body: "Click on one of the files to continue.",
-              targetElement: ".app-files",
-              overlay: true,
-              wait: [
-                {
-                  clickElement: "#file1",
-                  targetBranch: 0,
+              {
+                title: "This is a tooltip",
+                body: "It can have an overlay...",
+                targetElement: "#file1",
+                overlay: true,
+              },
+              {
+                title: "...or not",
+                body: "You can customize the tooltip to your liking.",
+                targetElement: "#file1",
+              },
+              {
+                title: "You can also wait for a click",
+                body: "Just like this! Click the button to continue.",
+                targetElement: "#upload",
+                overlay: true,
+                wait: {
+                  clickElement: "#upload",
                 },
-                {
-                  clickElement: "#file2",
-                  targetBranch: 1,
-                },
-                {
-                  clickElement: "#file3",
-                  targetBranch: 2,
-                },
-                {
-                  clickElement: "#file4",
-                  targetBranch: 3,
-                },
-              ],
-              hideNext: true,
-            },
-            [
-              [
-                {
-                  title: "You clicked on FunnyCat.jpg",
-                  body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
-                  targetElement: "#file1",
-                  overlay: true,
-                },
-              ],
-              [
-                {
-                  title: "You clicked on ImportantDoc.pdf",
-                  body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
-                  targetElement: "#file2",
-                  overlay: true,
-                },
-              ],
-              [
-                {
-                  title: "You clicked on CoolVideo.mp4",
-                  body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
-                  targetElement: "#file3",
-                  overlay: true,
-                },
-              ],
-              [
-                {
-                  title: "You clicked on DankMeme.png",
-                  body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
-                  targetElement: "#file4",
-                  overlay: true,
-                },
-              ],
-            ],
-            {
-              title: "That was the basics of Flows!",
-              body: "You can create complex onboarding flows with Flows or a simple tour. If you liked what you saw, sign up and start creating your own flows.",
-              hideNext: true,
-              hidePrev: true,
-              footerActions: {
-                center: [
+                hideNext: true,
+              },
+              {
+                title: "Or you can branch out with forks",
+                body: "Click on one of the files to continue.",
+                targetElement: ".app-files",
+                overlay: true,
+                wait: [
                   {
-                    label: "Learn more",
-                    external: true,
-                    href: "https://flows.sh/docs",
-                    variant: "secondary",
+                    clickElement: "#file1",
+                    targetBranch: 0,
                   },
                   {
-                    label: "Sign up",
-                    external: true,
-                    href: "https://app.flows.sh/signup",
+                    clickElement: "#file2",
+                    targetBranch: 1,
+                  },
+                  {
+                    clickElement: "#file3",
+                    targetBranch: 2,
+                  },
+                  {
+                    clickElement: "#file4",
+                    targetBranch: 3,
                   },
                 ],
+                hideNext: true,
               },
-            },
-          ],
-        },
-      ],
-      })
+              [
+                [
+                  {
+                    title: "You clicked on FunnyCat.jpg",
+                    body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
+                    targetElement: "#file1",
+                    overlay: true,
+                  },
+                ],
+                [
+                  {
+                    title: "You clicked on ImportantDoc.pdf",
+                    body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
+                    targetElement: "#file2",
+                    overlay: true,
+                  },
+                ],
+                [
+                  {
+                    title: "You clicked on CoolVideo.mp4",
+                    body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
+                    targetElement: "#file3",
+                    overlay: true,
+                  },
+                ],
+                [
+                  {
+                    title: "You clicked on DankMeme.png",
+                    body: "With forks, you can create multiple branches to tailor the onboarding to user actions.",
+                    targetElement: "#file4",
+                    overlay: true,
+                  },
+                ],
+              ],
+              {
+                title: "That was the basics of Flows!",
+                body: "You can create complex onboarding flows with Flows or a simple tour. If you liked what you saw, sign up and start creating your own flows.",
+                hideNext: true,
+                hidePrev: true,
+                footerActions: {
+                  center: [
+                    {
+                      label: "Learn more",
+                      external: true,
+                      href: "https://flows.sh/docs",
+                      variant: "secondary",
+                    },
+                    {
+                      label: "Sign up",
+                      external: true,
+                      href: "https://app.flows.sh/signup",
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      });
     </script>
   </head>
 
@@ -168,25 +193,15 @@
         <div class="app-wrapper">
           <div class="app-header">
             <p class="app-logo">DropCrate</p>
-            <button class="btn-secondary" id="upload">
-              Upload file
-            </button>
+            <button class="btn-secondary" id="upload">Upload file</button>
           </div>
           <div class="app-content">
             <p class="app-list-title">Your files</p>
             <div class="app-files">
-              <div class="app-file-item" id="file1">
-                FunnyCat.jpg
-              </div>
-              <div class="app-file-item" id="file2">
-                ImportantDoc.pdf
-              </div>
-              <div class="app-file-item" id="file3">
-                CoolVideo.mp4
-              </div>
-              <div class="app-file-item" id="file4">
-                DankMeme.png
-              </div>
+              <div class="app-file-item" id="file1">FunnyCat.jpg</div>
+              <div class="app-file-item" id="file2">ImportantDoc.pdf</div>
+              <div class="app-file-item" id="file3">CoolVideo.mp4</div>
+              <div class="app-file-item" id="file4">DankMeme.png</div>
             </div>
           </div>
         </div>
@@ -223,11 +238,10 @@
             target="_blank"
           >
             <h2 class="footer-heading">See source code</h2>
-            <p class="footer-link-text">
-              Visit our GitHub repo to what makes this example tick.
-            </p>
+            <p class="footer-link-text">Visit our GitHub repo to what makes this example tick.</p>
           </a>
         </div>
       </div>
     </main>
+  </body>
 </html>
