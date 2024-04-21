@@ -4,7 +4,7 @@ void init({
   flows: [
     {
       id: "flow",
-      clickElement: ".start",
+      start: { clickElement: ".start" },
       frequency: "every-time",
       steps: [
         {

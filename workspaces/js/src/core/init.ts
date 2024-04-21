@@ -7,8 +7,8 @@ import { addHandlers } from "./handlers";
 import { handleLocationChange, startFlowsBasedOnLocation } from "./location-change";
 import { endFlow, startFlow } from "./public-methods";
 import { validateFlowsOptions } from "./validation";
-import { changeWaitMatch, formWaitMatch, locationMatch } from "./form";
 import { FlowsContext } from "./flows-context";
+import { getWaitMatchingByChange, getWaitMatchingByClick, getWaitMatchingBySubmit } from "./wait";
 
 let observer: MutationObserver | null = null;
 let locationChangeInterval: number | null = null;
@@ -49,22 +49,15 @@ const _init = (options: FlowsInitOptions): void => {
     }
 
     Object.values(context.flowsById ?? {}).forEach((flow) => {
-      if (!flow.clickElement) return;
-      if (document.querySelector(flow.clickElement)?.contains(eventTarget)) startFlow(flow.id);
+      if (!flow.start) return;
+      const matchingWait = getWaitMatchingByClick({ wait: flow.start, eventTarget });
+      if (matchingWait) startFlow(flow.id);
     });
 
     FlowsContext.getInstance().instances.forEach((state) => {
       const step = state.currentStep;
       if (!step?.wait) return;
-      const waitOptions = Array.isArray(step.wait) ? step.wait : [step.wait];
-      const matchingWait = waitOptions.find((wait) => {
-        if (!wait.clickElement) return false;
-        const clickMatch = document.querySelector(wait.clickElement)?.contains(eventTarget);
-        const locMatch = wait.location
-          ? locationMatch({ location: wait.location, pathname: getPathname() })
-          : true;
-        return clickMatch && locMatch;
-      });
+      const matchingWait = getWaitMatchingByClick({ wait: step.wait, eventTarget });
       if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
     });
 
@@ -110,17 +103,16 @@ const _init = (options: FlowsInitOptions): void => {
     const eventTarget = event.target;
     if (!eventTarget || !(eventTarget instanceof Element)) return;
 
+    Object.values(context.flowsById ?? {}).forEach((flow) => {
+      if (!flow.start) return;
+      const matchingWait = getWaitMatchingBySubmit({ wait: flow.start, eventTarget });
+      if (matchingWait) startFlow(flow.id);
+    });
+
     FlowsContext.getInstance().instances.forEach((state) => {
       const step = state.currentStep;
       if (!step?.wait) return;
-      const waitOptions = Array.isArray(step.wait) ? step.wait : [step.wait];
-      const matchingWait = waitOptions.find((wait) => {
-        const formMatch = formWaitMatch({ form: eventTarget, wait });
-        const locMatch = wait.location
-          ? locationMatch({ location: wait.location, pathname: getPathname() })
-          : true;
-        return formMatch && locMatch;
-      });
+      const matchingWait = getWaitMatchingBySubmit({ eventTarget, wait: step.wait });
       if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
     });
   };
@@ -128,17 +120,16 @@ const _init = (options: FlowsInitOptions): void => {
     const eventTarget = event.target;
     if (!eventTarget || !(eventTarget instanceof Element)) return;
 
+    Object.values(context.flowsById ?? {}).forEach((flow) => {
+      if (!flow.start) return;
+      const matchingWait = getWaitMatchingByChange({ wait: flow.start, eventTarget });
+      if (matchingWait) startFlow(flow.id);
+    });
+
     FlowsContext.getInstance().instances.forEach((state) => {
       const step = state.currentStep;
       if (!step?.wait) return;
-      const waitOptions = Array.isArray(step.wait) ? step.wait : [step.wait];
-      const matchingWait = waitOptions.find((wait) => {
-        const changeMatch = changeWaitMatch({ target: eventTarget, wait });
-        const locMatch = wait.location
-          ? locationMatch({ location: wait.location, pathname: getPathname() })
-          : true;
-        return changeMatch && locMatch;
-      });
+      const matchingWait = getWaitMatchingByChange({ eventTarget, wait: step.wait });
       if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
     });
   };

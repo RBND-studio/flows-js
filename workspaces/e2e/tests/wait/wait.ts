@@ -32,7 +32,7 @@ void init({
   flows: [
     {
       id: "flow",
-      location: "/",
+      start: { location: "/" },
       steps: [
         {
           title: "First",

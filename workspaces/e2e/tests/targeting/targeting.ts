@@ -8,9 +8,11 @@ void init({
   flows: [
     {
       id: "flow",
-      location: location,
+      start: {
+        location: location,
+        clickElement: clickElement ? ".click-to-start" : undefined,
+      },
       frequency: "every-time",
-      clickElement: clickElement ? ".click-to-start" : undefined,
       userProperties: [{ key: "name", eq: "John Doe" }],
       steps: [{ title: "Hello" }],
     },

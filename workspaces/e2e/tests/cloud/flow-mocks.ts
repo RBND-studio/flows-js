@@ -2,7 +2,7 @@ import { Flow } from "@flows/js";
 
 export const validFlow: Flow = {
   id: "valid-local-flow",
-  location: "/",
+  start: { location: "/" },
   steps: [
     {
       title: "Hello",
@@ -13,7 +13,7 @@ export const validFlow: Flow = {
 
 export const invalidFlow: Flow = {
   id: "invalid-local-flow",
-  location: "/",
+  start: { location: "/" },
   steps: [
     {
       title: "Hello",

@@ -328,20 +328,10 @@ export interface Flow {
    */
   frequency?: FlowFrequency;
   /**
-   * Start the flow when the given element is clicked.
-   * @example `#start-flow`
+   * Controls how the flow should be started. Option for user to click a button, navigate to a page, submit a form, etc. When array of options is given, the flow will start when **one** of the options is met.
+   * If no start options are given, the flow can be started only by calling `startFlow()`.
    */
-  clickElement?: string;
-  /**
-   * Start the flow when the user navigates to a pathname that matches the given regular expression.
-   * @example
-   * ```
-   * "/about" // matches "/about", "/company/about" and "/about/contact"
-   * "^/about" // matches "/about" and "/about/contact"
-   * "^/about$" // matches only "/about"
-   * ```
-   */
-  location?: string;
+  start?: WaitStepOptions | WaitStepOptions[];
   /**
    * Matchers for user properties.
    *
