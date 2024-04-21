@@ -155,8 +155,7 @@ const UserPropertyMatchGroupStruct: Describe<UserPropertyMatchGroup> =
 const FlowStruct: Describe<Flow> = object({
   id: string(),
   frequency: optional(enums(["once", "every-time"])),
-  location: optional(string()),
-  clickElement: optional(string()),
+  start: optional(union([WaitOptionsStruct, array(WaitOptionsStruct)])),
   steps: FlowStepsStruct,
   userProperties: optional(
     union([UserPropertyMatchGroupStruct, array(UserPropertyMatchGroupStruct)]),

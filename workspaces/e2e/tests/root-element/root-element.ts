@@ -23,7 +23,7 @@ init({
     {
       id: "flow",
       rootElement: wrongFlowRootElement ? ".wrong" : flowRootElement ? ".root" : undefined,
-      location: "/",
+      start: { location: "/" },
       steps: [step],
     },
   ],

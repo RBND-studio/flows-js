@@ -5,7 +5,7 @@ test("Should not continue if flow is not fully loaded", async ({ page }) => {
     const json = [
       {
         id: "flow",
-        location: "/",
+        start: { location: "/" },
         steps: [{ title: "First", targetElement: ".target" }],
         _incompleteSteps: true,
       },
@@ -24,7 +24,7 @@ test("Should continue if flow is fully loaded", async ({ page }) => {
     const json = [
       {
         id: "flow",
-        location: "/",
+        start: { location: "/" },
         steps: [{ title: "First", targetElement: ".target" }],
         _incompleteSteps: true,
       },
@@ -34,7 +34,7 @@ test("Should continue if flow is fully loaded", async ({ page }) => {
   await page.route("**/sdk/flows/flow?projectId=my-proj", async (route) => {
     const json = {
       id: "flow",
-      location: "/",
+      start: { location: "/" },
       steps: [
         { title: "First", targetElement: ".target" },
         { title: "Second", targetElement: ".target" },

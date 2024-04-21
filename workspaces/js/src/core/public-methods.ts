@@ -1,9 +1,7 @@
-import { getPathname } from "../lib/location";
 import { log } from "../lib/log";
 import type { EndFlowOptions, FlowStep, IdentifyUserOptions, StartFlowOptions } from "../types";
 import { FlowState } from "./flow-state";
 import { FlowsContext } from "./flows-context";
-import { locationMatch } from "./form";
 import { flowUserPropertyGroupMatch } from "./user-properties";
 
 /**
@@ -44,14 +42,6 @@ export const startFlow = (flowId: string, { again, startDraft }: StartFlowOption
     const frequencyMatch = !flowSeen || flowFrequency === "every-time" || again;
     if (!frequencyMatch) {
       warn("User has already seen the Flow");
-      return;
-    }
-
-    const locationMatches = flow.location
-      ? locationMatch({ location: flow.location, pathname: getPathname() })
-      : true;
-    if (!locationMatches) {
-      warn("Location does not match");
       return;
     }
 

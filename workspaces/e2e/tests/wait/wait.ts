@@ -8,6 +8,7 @@ const submit = new URLSearchParams(window.location.search).get("submit") === "tr
 const location = new URLSearchParams(window.location.search).get("location") ?? undefined;
 const anotherWaitWithWrongLocation =
   new URLSearchParams(window.location.search).get("anotherWaitWithWrongLocation") === "true";
+const waitForStart = new URLSearchParams(window.location.search).get("waitForStart") === "true";
 
 let wait: FlowWaitStep["wait"] = {};
 if (click) wait.clickElement = ".target";
@@ -32,7 +33,7 @@ void init({
   flows: [
     {
       id: "flow",
-      location: "/",
+      start: waitForStart ? wait : { location: "/" },
       steps: [
         {
           title: "First",

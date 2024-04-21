@@ -1,7 +1,7 @@
 import { getPathname } from "../lib/location";
 import { endFlow, startFlow } from "./public-methods";
 import { FlowsContext } from "./flows-context";
-import { locationMatch } from "./form";
+import { getWaitMatchingByLocation } from "./wait";
 
 // We're not setting default to avoid accessing window on the server
 let prevPathname: string | null = null;
@@ -23,17 +23,7 @@ export const handleLocationChange = (): void => {
     }
 
     if (step.wait) {
-      const waitOptions = Array.isArray(step.wait) ? step.wait : [step.wait];
-      const matchingWait = waitOptions.find((wait) => {
-        const waitOptionMatchers = Object.entries(wait)
-          .filter(([_, value]) => Boolean(value))
-          .filter(([key]) => key !== "action");
-        const onlyLocationMatch =
-          waitOptionMatchers.at(0)?.[0] === "location" && waitOptionMatchers.length === 1;
-        if (wait.location && onlyLocationMatch)
-          return locationMatch({ location: wait.location, pathname });
-        return false;
-      });
+      const matchingWait = getWaitMatchingByLocation({ wait: step.wait, pathname });
       if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
     }
   });
@@ -43,8 +33,8 @@ export const handleLocationChange = (): void => {
 
 export const startFlowsBasedOnLocation = (): void => {
   Object.values(FlowsContext.getInstance().flowsById ?? {}).forEach((flow) => {
-    if (!flow.location) return;
-    if (locationMatch({ location: flow.location, pathname: getPathname() }) && !flow.clickElement)
-      startFlow(flow.id);
+    if (!flow.start) return;
+    const matchingWait = getWaitMatchingByLocation({ wait: flow.start, pathname: getPathname() });
+    if (matchingWait) startFlow(flow.id);
   });
 };

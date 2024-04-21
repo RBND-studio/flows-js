@@ -4,7 +4,7 @@ const frequency = new URLSearchParams(window.location.search).get("frequency") a
 const saveSeenFlows = new URLSearchParams(window.location.search).get("saveSeenFlows") === "true";
 
 const flow: Flow = {
-  clickElement: ".start-flow",
+  start: { clickElement: ".start-flow" },
   id: "flow",
 
   steps: [
