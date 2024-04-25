@@ -10,7 +10,7 @@ export const Flows = () => {
       flows: [
         {
           id: "local-flow",
-          clickElement: "#start-local",
+          start: { clickElement: "#start-local" },
           frequency: "every-time",
           steps: [
             {
