@@ -37,14 +37,14 @@
 
     <!-- How you would use Flows in your own code -->
     <!-- Make sure to lock specific version to avoid braking changes. Visit https://flows.sh/docs for more info. -->
-    <script defer src="https://unpkg.com/@flows/js@latest/dist/index.global.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@flows/js/dist/index.global.js"></script>
     <script type="module">
       flows.init({
         projectId: "e7d8eb63-7670-4da1-b0e0-d2d3331d108b",
         flows: [
           {
             id: "local-flow",
-            clickElement: "#start-local",
+            start: { clickElement: "#start-local" },
             frequency: "every-time",
             steps: [
               {

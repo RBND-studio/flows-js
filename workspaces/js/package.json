@@ -52,7 +52,7 @@
     "test:watch": "jest --watch",
     "lint": "eslint src",
     "tsc": "tsc -p tsconfig.json",
-    "release": "cp ../../README.md . && pnpm build && pnpm publish --access=public --no-git-checks"
+    "version": "pnpm version"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.3",

@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://nextjs.flows.sh"),
   title: "Flows - React Next.js example",
   description:
     "Flows lets you build any onboarding you want. Guide users, increase feature adoption, and improve revenue.",
