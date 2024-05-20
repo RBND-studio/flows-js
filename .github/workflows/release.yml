@@ -1,9 +1,9 @@
-name: Create Release
+name: Create GitHub Release
 
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "v*.*.**"
 
 permissions:
   contents: write
@@ -18,34 +18,3 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-
-  npm-publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-      - run: pnpm install
-      - run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
-      - run: pnpm js release
-
-  jsr-publish:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write # The OIDC ID token is used for authentication with JSR.
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-      - run: pnpm install
-      - run: npx jsr publish --allow-slow-types
-        working-directory: "./workspaces/js"

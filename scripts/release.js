@@ -9,18 +9,21 @@ const major = process.argv.includes("--major");
 if (!patch && !minor && !major && !canary)
   throw new Error("You must specify a release type: --patch, --minor, --major or --canary");
 
-if (canary) await exec("pnpm js version prerelease --preid=canary");
-else await exec(`pnpm js version ${patch ? "patch" : minor ? "minor" : "major"}`);
+const main = async () => {
+  if (canary) await exec("pnpm js version prerelease --preid=canary");
+  else await exec(`pnpm js version ${patch ? "patch" : minor ? "minor" : "major"}`);
 
-await exec("git config --global user.name 'flows-release-bot'");
-await exec("git config --global user.email 'bot@flows.sh'");
-await exec("git add .");
-const currentVersion = require("./workspaces/js/package.json").version;
-await exec(`git commit -m "${currentVersion}"`);
-const gitTagName = `v${currentVersion}`;
-await exec(`git tag -a ${gitTagName} -m '${gitTagName}'`);
-await exec("git push");
+  const currentVersion = require("../workspaces/js/package.json").version;
+  await exec(`git commit -S -am "${currentVersion}"`);
+  const gitTagName = `v${currentVersion}`;
+  await exec(`git tag -s -a ${gitTagName} -m '${gitTagName}'`);
+  await exec("git push --no-verify --follow-tags");
 
-await exec("cp README.md workspaces/js");
-await exec("pnpm js build");
-await exec(`pnpm js publish --access=public --provenance --no-git-checks`);
+  await exec("pnpm js build");
+  await exec("cp README.md workspaces/js");
+  await exec(
+    `pnpm js publish --access=public --provenance --no-git-checks ${canary ? "--tag=canary" : ""}`,
+  );
+};
+
+main();
