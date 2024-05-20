@@ -1,6 +1,6 @@
 import { getPathname } from "../lib/location";
+import { type WaitStepOptions } from "../types";
 import { changeWaitMatch, formWaitMatch, locationMatch } from "./form";
-import { type WaitStepOptions } from ".";
 
 export const getWaitMatchingByLocation = (props: {
   wait: WaitStepOptions | WaitStepOptions[];
