@@ -17,7 +17,8 @@ const main = async () => {
   await exec(`git commit -S -am "${currentVersion}"`);
   const gitTagName = `v${currentVersion}`;
   await exec(`git tag -s -a ${gitTagName} -m '${gitTagName}'`);
-  await exec("git push --no-verify --follow-tags");
+  await exec("git push --no-verify");
+  await exec(`git push --no-verify --tags`);
 
   await exec("pnpm js build");
   await exec("cp README.md workspaces/js");
