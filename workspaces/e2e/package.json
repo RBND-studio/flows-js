@@ -11,9 +11,9 @@
     "@flows/js": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7",
-    "@playwright/test": "^1.43.1",
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20.12.12",
     "typescript": "^5.4.5",
-    "vite": "^5.2.8"
+    "vite": "^5.2.11"
   }
 }

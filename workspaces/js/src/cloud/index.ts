@@ -40,7 +40,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       projectId: options.projectId,
       userHash: options.userId ? await hash(options.userId) : undefined,
     })
-    .catch((err) => {
+    .catch((err: unknown) => {
       log.error(
         `Failed to load data from cloud for %c${options.projectId}%c, make sure projectId is correct and your project domains are correctly set up.`,
         "font-weight:bold",
@@ -78,7 +78,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
           context.addFlowData({ ...flow, draft: true }, { validate: false });
           startFlow(flow.id, { startDraft: true });
         })
-        .catch((err) => {
+        .catch((err: unknown) => {
           log.error("Failed to load preview flow", err);
         });
     },
@@ -88,7 +88,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
         .then((flow) => {
           context.addFlowData(flow, { validate: false });
         })
-        .catch((err) => {
+        .catch((err: unknown) => {
           log.error("Failed to load flow detail", err);
         });
     },

@@ -94,7 +94,7 @@ export const updateTooltip = ({
         });
       }
     })
-    .catch((err) => {
+    .catch((err: unknown) => {
       log.error("Error computing position", err);
     });
 };

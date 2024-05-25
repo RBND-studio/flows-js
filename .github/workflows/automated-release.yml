@@ -26,13 +26,13 @@ jobs:
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
           git_user_signingkey: true
           git_commit_gpgsign: true
-
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9
+          cache: "pnpm"
       - run: pnpm install
       - run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
       - run: node scripts/release.js --${{ github.event.inputs.type }}
