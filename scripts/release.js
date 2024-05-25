@@ -10,13 +10,16 @@ if (!patch && !minor && !major && !canary)
   throw new Error("You must specify a release type: --patch, --minor, --major or --canary");
 
 const main = async () => {
+  await exec('git config user.name "flowsbotapp[bot]"');
+  await exec('git config user.email "170794745+flowsbotapp[bot]@users.noreply.github.com"');
+
   if (canary) await exec("pnpm js version prerelease --preid=canary");
   else await exec(`pnpm js version ${patch ? "patch" : minor ? "minor" : "major"}`);
 
   const currentVersion = require("../workspaces/js/package.json").version;
-  await exec(`git commit -S -am "${currentVersion}"`);
+  await exec(`git commit -am "${currentVersion}"`);
   const gitTagName = `v${currentVersion}`;
-  await exec(`git tag -s -a ${gitTagName} -m '${gitTagName}'`);
+  await exec(`git tag -a ${gitTagName} -m '${gitTagName}'`);
   await exec("git push --no-verify");
   await exec(`git push --no-verify --tags`);
 
