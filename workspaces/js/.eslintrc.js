@@ -20,6 +20,7 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/naming-convention": 0,
+    "@typescript-eslint/restrict-template-expressions": 0,
     "no-empty": "off",
   },
 };
