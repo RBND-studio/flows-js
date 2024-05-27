@@ -14,9 +14,9 @@ const main = async () => {
   else await exec(`pnpm js version ${patch ? "patch" : minor ? "minor" : "major"}`);
 
   const currentVersion = require("../workspaces/js/package.json").version;
-  await exec(`git commit -S -am "${currentVersion}"`);
+  await exec(`git commit -am "${currentVersion}"`);
   const gitTagName = `v${currentVersion}`;
-  await exec(`git tag -s -a ${gitTagName} -m '${gitTagName}'`);
+  await exec(`git tag -a ${gitTagName} -m '${gitTagName}'`);
   await exec("git push --no-verify");
   await exec(`git push --no-verify --tags`);
 
