@@ -188,6 +188,11 @@ export interface FlowModalStep extends CommonStepProps {
 
 export interface WaitStepOptions {
   /**
+   * Wait for an element to appear in the DOM.
+   * @example `#my-element`
+   */
+  element?: string;
+  /**
    * Wait for the user to click the given element.
    * @example `#my-element`
    */

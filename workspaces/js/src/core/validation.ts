@@ -33,6 +33,7 @@ import type {
 } from "../types";
 
 const WaitOptionsStruct: Describe<WaitStepOptions> = object({
+  element: optional(string()),
   clickElement: optional(string()),
   form: optional(
     object({
