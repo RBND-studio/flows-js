@@ -18,4 +18,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          prerelease: ${{ github.event.inputs.type == 'canary' }}
+          prerelease: ${{ contains(github.ref, 'canary') }}
