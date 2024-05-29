@@ -1,5 +1,11 @@
 import { expect, test } from "@playwright/test";
 
+test("Start by element", async ({ page }) => {
+  await page.goto("/wait/wait.html?element=true&waitForStart=true");
+  await expect(page.locator(".flows-tooltip")).toBeHidden();
+  await page.locator(".add-element").click();
+  await expect(page.locator(".flows-tooltip")).toBeVisible();
+});
 test("Start by click", async ({ page }) => {
   await page.goto("/wait/wait.html?click=true&waitForStart=true");
   await expect(page.locator(".flows-tooltip")).toBeHidden();
@@ -45,6 +51,16 @@ test("Start by form submit", async ({ page }) => {
   await expect(page.locator(".flows-tooltip")).toBeHidden();
   await page.locator(".input2").fill("Input2");
   await page.locator(".submit").click();
+  await expect(page.locator(".flows-tooltip")).toBeVisible();
+});
+test("Start by element with location", async ({ page }) => {
+  await page.goto("/wait/wait.html?element=true&location=^/wrong.html&waitForStart=true");
+  await expect(page.locator(".flows-tooltip")).toBeHidden();
+  await page.locator(".add-element").click();
+  await expect(page.locator(".flows-tooltip")).toBeHidden();
+  await page.goto("/wait/wait.html?element=true&location=/wait.html&waitForStart=true");
+  await expect(page.locator(".flows-tooltip")).toBeHidden();
+  await page.locator(".add-element").click();
   await expect(page.locator(".flows-tooltip")).toBeVisible();
 });
 test("Start by click and location", async ({ page }) => {
@@ -93,6 +109,12 @@ test("Start multiple options should act as or", async ({ page }) => {
   await expect(page.locator(".flows-tooltip")).toBeVisible();
 });
 
+test("Wait for element", async ({ page }) => {
+  await page.goto("/wait/wait.html?element=true");
+  await expect(page.locator(".flows-tooltip")).toContainText("First");
+  await page.locator(".add-element").click();
+  await expect(page.locator(".flows-tooltip")).toContainText("Second");
+});
 test("Wait for click", async ({ page }) => {
   await page.goto("/wait/wait.html?click=true");
   await expect(page.locator(".flows-tooltip")).toContainText("First");
@@ -139,6 +161,16 @@ test("Wait for form submit", async ({ page }) => {
   await expect(page.locator(".flows-tooltip")).toContainText("First");
   await page.locator(".input2").fill("Input2");
   await page.locator(".submit").click();
+  await expect(page.locator(".flows-tooltip")).toContainText("Second");
+});
+test("Element with location", async ({ page }) => {
+  await page.goto("/wait/wait.html?element=true&location=^/wrong.html");
+  await expect(page.locator(".flows-tooltip")).toContainText("First");
+  await page.locator(".add-element").click();
+  await expect(page.locator(".flows-tooltip")).toContainText("First");
+  await page.goto("/wait/wait.html?element=true&location=/wait.html");
+  await expect(page.locator(".flows-tooltip")).toContainText("First");
+  await page.locator(".add-element").click();
   await expect(page.locator(".flows-tooltip")).toContainText("Second");
 });
 test("Click with location", async ({ page }) => {

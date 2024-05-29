@@ -5,6 +5,7 @@ const click = new URLSearchParams(window.location.search).get("click") === "true
 const change = new URLSearchParams(window.location.search).get("change") === "true";
 const multipleChange = new URLSearchParams(window.location.search).get("multipleChange") === "true";
 const submit = new URLSearchParams(window.location.search).get("submit") === "true";
+const element = new URLSearchParams(window.location.search).get("element") === "true";
 const location = new URLSearchParams(window.location.search).get("location") ?? undefined;
 const anotherWaitWithWrongLocation =
   new URLSearchParams(window.location.search).get("anotherWaitWithWrongLocation") === "true";
@@ -26,6 +27,7 @@ if (submit)
       { element: ".input2", value: "Input2" },
     ],
   };
+if (element) wait.element = ".new-el";
 if (location) wait.location = location;
 if (anotherWaitWithWrongLocation) wait = [wait, { location: "^/wrong.html" }];
 
@@ -52,4 +54,11 @@ void init({
 
 document.addEventListener("submit", (e) => {
   e.preventDefault();
+});
+
+document.querySelector(".add-element")?.addEventListener("click", () => {
+  const div = document.createElement("div");
+  div.classList.add("new-el");
+  div.textContent = "New Element";
+  document.body.appendChild(div);
 });

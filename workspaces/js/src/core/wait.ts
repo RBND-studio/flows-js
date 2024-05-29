@@ -67,3 +67,18 @@ export const getWaitMatchingByChange = (props: {
   });
   return matchingWait;
 };
+
+export const getWaitMatchingByElement = (props: {
+  wait: WaitStepOptions | WaitStepOptions[];
+}): WaitStepOptions | undefined => {
+  const waitOptions = Array.isArray(props.wait) ? props.wait : [props.wait];
+  const matchingWait = waitOptions.find((wait) => {
+    if (!wait.element) return false;
+    const elementMatch = document.querySelector(wait.element);
+    const locMatch = wait.location
+      ? locationMatch({ location: wait.location, pathname: getPathname() })
+      : true;
+    return elementMatch && locMatch;
+  });
+  return matchingWait;
+};
