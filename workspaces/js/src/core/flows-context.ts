@@ -33,6 +33,7 @@ export class FlowsContext {
     return FlowsContext.instance;
   }
 
+  sessionTime: Date = new Date();
   seenFlows: SeenFlow[] = [];
   readonly #instances = new Map<string, FlowState>();
   get instances(): ImmutableMap<string, FlowState> {
@@ -169,7 +170,11 @@ export class FlowsContext {
 
   flowSeen(flowId: string): this {
     this.seenFlows = this.seenFlows.filter((seenFlow) => seenFlow.flowId !== flowId);
-    this.seenFlows.push({ flowId, seenAt: new Date().toISOString() });
+    this.seenFlows.push({
+      flowId,
+      seenAt: new Date().toISOString(),
+      sessionTime: this.sessionTime.toISOString(),
+    });
     this.onSeenFlowsChange?.([...this.seenFlows]);
     return this;
   }

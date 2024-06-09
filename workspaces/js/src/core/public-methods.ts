@@ -39,7 +39,19 @@ export const startFlow = (flowId: string, { again, startDraft }: StartFlowOption
     const flowSeen = FlowsContext.getInstance().seenFlows.find(
       (seenFlow) => seenFlow.flowId === flowId,
     );
-    const frequencyMatch = !flowSeen || flowFrequency === "every-time" || again;
+    const frequencyMatch = (() => {
+      if (again) return true;
+      if (!flowSeen) return true;
+      if (flowFrequency === "every-time") return true;
+      if (
+        flowFrequency === "every-session" &&
+        flowSeen.sessionTime !== FlowsContext.getInstance().sessionTime.toISOString()
+      )
+        return true;
+
+      return false;
+    })();
+
     if (!frequencyMatch) {
       warn("User has already seen the Flow");
       return;

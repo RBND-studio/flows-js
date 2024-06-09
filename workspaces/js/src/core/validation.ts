@@ -155,7 +155,7 @@ const UserPropertyMatchGroupStruct: Describe<UserPropertyMatchGroup> =
 
 const FlowStruct: Describe<Flow> = object({
   id: string(),
-  frequency: optional(enums(["once", "every-time"])),
+  frequency: optional(enums(["once", "every-session", "every-time"])),
   start: optional(union([WaitOptionsStruct, array(WaitOptionsStruct)])),
   steps: FlowStepsStruct,
   userProperties: optional(
@@ -169,6 +169,7 @@ const FlowStruct: Describe<Flow> = object({
 const SeenFlowStruct: Describe<SeenFlow> = object({
   flowId: string(),
   seenAt: string(),
+  sessionTime: string(),
 });
 const OptionsStruct: Describe<FlowsInitOptions> = type({
   flows: optional(array(FlowStruct)),
