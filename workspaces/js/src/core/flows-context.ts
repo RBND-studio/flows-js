@@ -14,6 +14,7 @@ import type {
   SeenFlow,
 } from "../types";
 import { log } from "../lib/log";
+import { storage } from "../lib/storage";
 import { FlowState } from "./flow-state";
 import { validateFlow } from "./validation";
 
@@ -33,15 +34,14 @@ export class FlowsContext {
     return FlowsContext.instance;
   }
 
-  sessionTime: Date = new Date();
-  seenFlows: SeenFlow[] = [];
+  seenFlows: SeenFlow[] = storage("session").get("flows.seenFlows") ?? [];
   readonly #instances = new Map<string, FlowState>();
   get instances(): ImmutableMap<string, FlowState> {
     return this.#instances;
   }
   get persistentState(): PersistentState {
     try {
-      const data = JSON.parse(window.localStorage.getItem("flows.state") ?? "") as unknown;
+      const data = storage("local").get("flows.state");
       if (typeof data !== "object" || !data) throw new Error();
       const state = data as PersistentState;
       if (state.expiresAt && new Date(state.expiresAt) < new Date()) throw new Error();
@@ -60,7 +60,7 @@ export class FlowsContext {
           stepHistory: i.stepHistory,
         })),
       };
-      window.localStorage.setItem("flows.state", JSON.stringify(state));
+      storage("local").set("flows.state", state);
     } catch {}
     return this;
   }
@@ -104,7 +104,7 @@ export class FlowsContext {
     this.onPrevStep = options.onPrevStep;
     this.tracking = options.tracking;
     this.debug = options._debug;
-    this.seenFlows = options.seenFlows ? [...options.seenFlows] : [];
+    this.seenFlows = options.seenFlows ? [...options.seenFlows] : this.seenFlows;
     this.onSeenFlowsChange = options.onSeenFlowsChange;
     this.onLocationChange = options.onLocationChange;
     this.onIncompleteFlowStart = options.onIncompleteFlowStart;
@@ -170,11 +170,8 @@ export class FlowsContext {
 
   flowSeen(flowId: string): this {
     this.seenFlows = this.seenFlows.filter((seenFlow) => seenFlow.flowId !== flowId);
-    this.seenFlows.push({
-      flowId,
-      seenAt: new Date().toISOString(),
-      sessionTime: this.sessionTime.toISOString(),
-    });
+    this.seenFlows.push({ flowId, seenAt: new Date().toISOString() });
+    storage("session").set("flows.seen", this.seenFlows);
     this.onSeenFlowsChange?.([...this.seenFlows]);
     return this;
   }

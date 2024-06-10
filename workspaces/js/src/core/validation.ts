@@ -169,7 +169,6 @@ const FlowStruct: Describe<Flow> = object({
 const SeenFlowStruct: Describe<SeenFlow> = object({
   flowId: string(),
   seenAt: string(),
-  sessionTime: string(),
 });
 const OptionsStruct: Describe<FlowsInitOptions> = type({
   flows: optional(array(FlowStruct)),

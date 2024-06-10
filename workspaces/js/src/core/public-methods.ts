@@ -43,12 +43,6 @@ export const startFlow = (flowId: string, { again, startDraft }: StartFlowOption
       if (again) return true;
       if (!flowSeen) return true;
       if (flowFrequency === "every-time") return true;
-      if (
-        flowFrequency === "every-session" &&
-        flowSeen.sessionTime !== FlowsContext.getInstance().sessionTime.toISOString()
-      )
-        return true;
-
       return false;
     })();
 

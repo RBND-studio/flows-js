@@ -44,10 +44,6 @@ export interface SeenFlow {
    * The time the flow was finished, formatted in ISO 8601.
    */
   seenAt: string;
-  /**
-   * The start time of the session in which the flow was started, formatted in ISO 8601.
-   */
-  sessionTime: string;
 }
 
 /**
