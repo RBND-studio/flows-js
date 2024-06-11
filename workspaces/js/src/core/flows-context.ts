@@ -19,8 +19,8 @@ import { FlowState } from "./flow-state";
 import { validateFlow } from "./validation";
 
 interface PersistentState {
-  expiresAt: string | null;
-  instances: { flowId: string; stepHistory: FlowStepIndex[] }[];
+  seenFlows: SeenFlow[];
+  runningFlows: { flowId: string; stepHistory: FlowStepIndex[] }[];
 }
 
 export class FlowsContext {
@@ -34,33 +34,30 @@ export class FlowsContext {
     return FlowsContext.instance;
   }
 
-  seenFlows: SeenFlow[] = storage("session").get("flows.seenFlows") ?? [];
+  seenFlows: SeenFlow[] = this.persistentState.seenFlows;
   readonly #instances = new Map<string, FlowState>();
   get instances(): ImmutableMap<string, FlowState> {
     return this.#instances;
   }
   get persistentState(): PersistentState {
     try {
-      const data = storage("local").get("flows.state");
-      if (typeof data !== "object" || !data) throw new Error();
-      const state = data as PersistentState;
-      if (state.expiresAt && new Date(state.expiresAt) < new Date()) throw new Error();
-      return state;
+      const data = storage("session").get<PersistentState>("flows.state");
+      if (!data) throw new Error();
+      return data;
     } catch {
-      return { expiresAt: "", instances: [] };
+      return { runningFlows: [], seenFlows: [] };
     }
   }
   savePersistentState(): this {
     try {
-      const nowPlus15Min = Date.now() + 1000 * 60 * 15;
       const state: PersistentState = {
-        expiresAt: new Date(nowPlus15Min).toISOString(),
-        instances: Array.from(this.#instances.values()).map((i) => ({
+        runningFlows: Array.from(this.#instances.values()).map((i) => ({
           flowId: i.flowId,
           stepHistory: i.stepHistory,
         })),
+        seenFlows: this.seenFlows,
       };
-      storage("local").set("flows.state", state);
+      storage("session").set("flows.state", state);
     } catch {}
     return this;
   }
@@ -74,7 +71,7 @@ export class FlowsContext {
     return this.savePersistentState();
   }
   startInstancesFromLocalStorage(): this {
-    this.persistentState.instances.forEach((instance) => {
+    this.persistentState.runningFlows.forEach((instance) => {
       if (!this.flowsById?.[instance.flowId]) return;
       const runningInstance = this.#instances.get(instance.flowId);
       if (runningInstance) return runningInstance.render();
@@ -171,7 +168,7 @@ export class FlowsContext {
   flowSeen(flowId: string): this {
     this.seenFlows = this.seenFlows.filter((seenFlow) => seenFlow.flowId !== flowId);
     this.seenFlows.push({ flowId, seenAt: new Date().toISOString() });
-    storage("session").set("flows.seen", this.seenFlows);
+    this.savePersistentState();
     this.onSeenFlowsChange?.([...this.seenFlows]);
     return this;
   }
