@@ -8,7 +8,7 @@ const _handleDocumentChange = (): void => {
     if (state.waitingForElement) return state.render();
 
     const step = state.currentStep;
-    if (step && "targetElement" in step) {
+    if (step && "targetElement" in step && step.targetElement) {
       const el = document.querySelector(step.targetElement);
       const targetChanged = state.flowElement?.target && el !== state.flowElement.target;
       if (targetChanged) state.render();

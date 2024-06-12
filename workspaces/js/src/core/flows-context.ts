@@ -17,6 +17,7 @@ import { log } from "../lib/log";
 import { storage } from "../lib/storage";
 import { FlowState } from "./flow-state";
 import { validateFlow } from "./validation";
+import { type PreviewPanel } from "./preview-panel";
 
 interface PersistentState {
   seenFlows: SeenFlow[];
@@ -39,6 +40,7 @@ export class FlowsContext {
   get instances(): ImmutableMap<string, FlowState> {
     return this.#instances;
   }
+  previewPanel: PreviewPanel | null = null;
   get persistentState(): PersistentState {
     try {
       const data = storage("session").get<PersistentState>("flows.state");

@@ -1,6 +1,7 @@
 type Child = string | HTMLElement | DocumentFragment;
 interface Props {
   className?: string;
+  style?: string;
   href?: string;
   target?: string;
   dangerouslySetInnerHTML?: { __html: string };

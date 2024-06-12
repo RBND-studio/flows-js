@@ -4,6 +4,7 @@ import type { FlowsCloudOptions, IdentifyUserOptions } from "../types";
 import { log } from "../lib/log";
 import { validateFlowsOptions, validateCloudFlowsOptions } from "../core/validation";
 import { hash } from "../lib/hash";
+import { parsePreviewFlowId } from "../lib/location";
 import { api } from "./api";
 import { loadStyle } from "./style";
 import { saveEvent } from "./event";
@@ -62,10 +63,9 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       } else return saveEvent({ event, apiUrl });
     },
     onLocationChange: (pathname, context) => {
-      const params = new URLSearchParams(pathname.split("?")[1] ?? "");
-      const flowId = params.get("flows-flow-id");
-      const projectId = params.get("flows-project-id");
-      if (!flowId || !projectId) return;
+      const result = parsePreviewFlowId(pathname);
+      if (!result) return;
+      const { flowId, projectId } = result;
 
       const flowAlreadyLoaded = context.flowsById?.[flowId]?.draft;
       const flowRunning = context.instances.has(flowId);
