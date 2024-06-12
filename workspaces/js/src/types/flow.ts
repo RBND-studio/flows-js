@@ -258,7 +258,7 @@ export type FlowStep = FlowModalStep | FlowTooltipStep | FlowWaitStep;
 type Step = FlowStep | FlowStep[][];
 export type FlowSteps = Step[];
 
-export type FlowFrequency = "once" | "every-time";
+export type FlowFrequency = "once" | "every-session" | "every-time";
 
 export type PrimitiveValue = string | number | boolean | null;
 /**

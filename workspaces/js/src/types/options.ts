@@ -41,7 +41,7 @@ export type Debug = (event: DebugEvent) => Promise<{ referenceId: string } | und
 export interface SeenFlow {
   flowId: string;
   /**
-   * The time the flow was seen in ISO 8601 format.
+   * The time the flow was finished, formatted in ISO 8601.
    */
   seenAt: string;
 }

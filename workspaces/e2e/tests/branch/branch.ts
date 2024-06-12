@@ -52,6 +52,7 @@ void init({
   flows: [
     {
       id: "flow",
+      frequency: "every-time",
       start: { location: "/" },
       steps,
     },

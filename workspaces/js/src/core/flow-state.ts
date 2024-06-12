@@ -33,11 +33,12 @@ export class FlowState {
   constructor(flowId: string, context: FlowsContext) {
     this.flowId = flowId;
     this.flowsContext = context;
-    this._stepHistory = this.flowsContext.persistentState.instances.find((i) => i.flowId === flowId)
-      ?.stepHistory ?? [0];
+    this._stepHistory = this.flowsContext.persistentState.runningFlows.find(
+      (i) => i.flowId === flowId,
+    )?.stepHistory ?? [0];
     if (this.flow?._incompleteSteps)
       this.flowsContext.onIncompleteFlowStart?.(this.flowId, this.flowsContext);
-    const flowAlreadyRunning = this.flowsContext.persistentState.instances.some(
+    const flowAlreadyRunning = this.flowsContext.persistentState.runningFlows.some(
       (i) => i.flowId === flowId,
     );
     if (!flowAlreadyRunning) void this.track({ type: "startFlow" });
