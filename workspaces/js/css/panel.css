@@ -24,8 +24,13 @@
   box-shadow: var(--flows-panel-shadow);
   display: flex;
 }
-.flows-panel-buttons {
+.flows-panel-main {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.flows-panel-buttons {
   display: flex;
   gap: 8px;
 }

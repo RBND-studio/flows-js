@@ -37,16 +37,15 @@ export class PreviewPanel {
 
   loadStyle(): void {
     const id = "flows-panel-styles";
-    const styleEl =
-      (document.querySelector(`#${id}`) as HTMLLinkElement | undefined) ??
-      document.createElement("link");
-    styleEl.id = id;
-    styleEl.rel = "stylesheet";
-    styleEl.href = `https://cdn.jsdelivr.net/npm/@flows/js@${version}/css.min/panel.css`;
+    if (document.querySelector(`#${id}`)) return;
+    const href = `https://cdn.jsdelivr.net/npm/@flows/js@${version}/css.min/panel.css`;
+    const styleEl = <link id={id} rel="stylesheet" href={href} />;
     document.head.appendChild(styleEl);
   }
 
   render(): void {
+    // TODO: uncomment this line when the styles are ready
+    // this.loadStyle();
     this.unmount();
 
     const wrapperClassNames = ["flows-preview-panel"];
@@ -55,22 +54,29 @@ export class PreviewPanel {
 
     this.rootElement = (
       <div className={wrapperClassNames.join(" ")}>
+        <div className="flows-panel-main">
+          <p>
+            Flows preview: <code>{this.flowId}</code>
+          </p>
+          <div className="flows-panel-buttons">
+            <button className="flows-panel-btn flows-preview-reset">Reset</button>
+            <a
+              className="flows-panel-btn"
+              href={`https://app.flows.sh/project/${this.projectId}/flow/${this.flowId}/edit`}
+              target="_blank"
+            >
+              Edit flow
+            </a>
+          </div>
+        </div>
         <div className="flows-panel-buttons">
           <button className="flows-panel-btn flows-panel-btn-icon flows-panel-placement">
             <span className={this.placement === "top" ? "flows-arrow-down" : "flows-arrow-up"} />
           </button>
-          <button className="flows-panel-btn flows-preview-reset">Reset</button>
-          <a
-            className="flows-panel-btn"
-            href={`https://app.flows.sh/project/${this.projectId}/flow/${this.flowId}/edit`}
-            target="_blank"
-          >
-            Edit flow
-          </a>
+          <button className="flows-panel-btn flows-panel-btn-icon flows-panel-close">
+            <span className="flows-x" />
+          </button>
         </div>
-        <button className="flows-panel-btn flows-panel-btn-icon flows-panel-close">
-          <span className="flows-x" />
-        </button>
       </div>
     );
 

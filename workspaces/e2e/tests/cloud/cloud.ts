@@ -10,6 +10,11 @@ if (validLocalFlow) flows.push(validFlow);
 if (invalidLocalFlow) flows.push(invalidFlow);
 
 init({
-  projectId: "my-proj",
+  // For testing purposes
+  projectId: "6b44bfd5-0192-463f-9201-115a6016d8a5",
+  customApiUrl: "https://api.stage.flows-cloud.com",
+
+  // TODO: uncomment when the panel is ready
+  // projectId: "my-proj",
   flows,
 });

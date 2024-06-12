@@ -112,8 +112,7 @@ export const getStepFooter = ({
 };
 
 export const createRoot = (boundaryEl?: Element): HTMLElement => {
-  const root = document.createElement("div");
-  root.className = "flows-root";
+  const root = <div className="flows-root" />;
   root.style.pointerEvents = "auto";
   if (boundaryEl) boundaryEl.appendChild(root);
   else document.body.appendChild(root);
