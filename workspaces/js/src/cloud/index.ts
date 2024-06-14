@@ -41,6 +41,10 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
       projectId: options.projectId,
       userHash: options.userId ? await hash(options.userId) : undefined,
     })
+    .then((res) => {
+      if (res.error_message) log.error(res.error_message);
+      return res.results;
+    })
     .catch((err: unknown) => {
       log.error(
         `Failed to load data from cloud for %c${options.projectId}%c, make sure projectId is correct and your project domains are correctly set up.`,

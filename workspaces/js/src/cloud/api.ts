@@ -1,5 +1,17 @@
 import type { Flow } from "../types";
 
+type Params = Record<string, string | string[] | boolean | number | undefined>;
+
+export function createParams(params?: Params): string {
+  const filteredParams = Object.entries(params ?? {}).reduce<Params>((acc, [key, value]) => {
+    if (value) acc[key] = value;
+    return acc;
+  }, {});
+  const paramsString = new URLSearchParams(filteredParams as Record<string, string>).toString();
+  if (!paramsString) return "";
+  return `?${paramsString}`;
+}
+
 const f = <T>(
   url: string,
   { body, method }: { method?: string; body?: unknown } = {},
@@ -19,6 +31,11 @@ const f = <T>(
     }
     return resBody;
   });
+
+interface GetFlowsResponse {
+  results: Flow[];
+  error_message?: string;
+}
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- not needed
 export const api = (baseUrl: string) => ({
@@ -40,10 +57,16 @@ export const api = (baseUrl: string) => ({
       body,
     }),
   deleteEvent: (eventId: string) => f(`${baseUrl}/sdk/events/${eventId}`, { method: "DELETE" }),
-  getFlows: ({ projectId, userHash }: { projectId: string; userHash?: string }): Promise<Flow[]> =>
-    f(`${baseUrl}/sdk/flows?projectId=${projectId}${userHash ? `&userHash=${userHash}` : ""}`),
+  getFlows: ({
+    projectId,
+    userHash,
+  }: {
+    projectId: string;
+    userHash?: string;
+  }): Promise<GetFlowsResponse> =>
+    f(`${baseUrl}/v2/sdk/flows${createParams({ projectId, userHash })}`),
   getPreviewFlow: ({ flowId, projectId }: { projectId: string; flowId: string }): Promise<Flow> =>
-    f(`${baseUrl}/sdk/flows/${flowId}/draft?projectId=${projectId}`),
+    f(`${baseUrl}/sdk/flows/${flowId}/draft${createParams({ projectId })}`),
   getFlowDetail: ({ flowId, projectId }: { projectId: string; flowId: string }): Promise<Flow> =>
-    f(`${baseUrl}/sdk/flows/${flowId}?projectId=${projectId}`),
+    f(`${baseUrl}/sdk/flows/${flowId}${createParams({ projectId })}`),
 });
