@@ -1,5 +1,17 @@
 import type { Flow } from "../types";
 
+type Params = Record<string, string | string[] | boolean | number | undefined>;
+
+export function createParams(params?: Params): string {
+  const filteredParams = Object.entries(params ?? {}).reduce<Params>((acc, [key, value]) => {
+    if (value) acc[key] = value;
+    return acc;
+  }, {});
+  const paramsString = new URLSearchParams(filteredParams as Record<string, string>).toString();
+  if (!paramsString) return "";
+  return `?${paramsString}`;
+}
+
 const f = <T>(
   url: string,
   { body, method }: { method?: string; body?: unknown } = {},
@@ -52,9 +64,9 @@ export const api = (baseUrl: string) => ({
     projectId: string;
     userHash?: string;
   }): Promise<GetFlowsResponse> =>
-    f(`${baseUrl}/v2/sdk/flows?projectId=${projectId}${userHash ? `&userHash=${userHash}` : ""}`),
+    f(`${baseUrl}/v2/sdk/flows${createParams({ projectId, userHash })}`),
   getPreviewFlow: ({ flowId, projectId }: { projectId: string; flowId: string }): Promise<Flow> =>
-    f(`${baseUrl}/sdk/flows/${flowId}/draft?projectId=${projectId}`),
+    f(`${baseUrl}/sdk/flows/${flowId}/draft${createParams({ projectId })}`),
   getFlowDetail: ({ flowId, projectId }: { projectId: string; flowId: string }): Promise<Flow> =>
-    f(`${baseUrl}/sdk/flows/${flowId}?projectId=${projectId}`),
+    f(`${baseUrl}/sdk/flows/${flowId}${createParams({ projectId })}`),
 });
