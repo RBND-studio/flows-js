@@ -20,6 +20,11 @@ const f = <T>(
     return resBody;
   });
 
+interface GetFlowsResponse {
+  results: Flow[];
+  error_message?: string;
+}
+
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- not needed
 export const api = (baseUrl: string) => ({
   sendEvent: (body: {
@@ -40,8 +45,14 @@ export const api = (baseUrl: string) => ({
       body,
     }),
   deleteEvent: (eventId: string) => f(`${baseUrl}/sdk/events/${eventId}`, { method: "DELETE" }),
-  getFlows: ({ projectId, userHash }: { projectId: string; userHash?: string }): Promise<Flow[]> =>
-    f(`${baseUrl}/sdk/flows?projectId=${projectId}${userHash ? `&userHash=${userHash}` : ""}`),
+  getFlows: ({
+    projectId,
+    userHash,
+  }: {
+    projectId: string;
+    userHash?: string;
+  }): Promise<GetFlowsResponse> =>
+    f(`${baseUrl}/v2/sdk/flows?projectId=${projectId}${userHash ? `&userHash=${userHash}` : ""}`),
   getPreviewFlow: ({ flowId, projectId }: { projectId: string; flowId: string }): Promise<Flow> =>
     f(`${baseUrl}/sdk/flows/${flowId}/draft?projectId=${projectId}`),
   getFlowDetail: ({ flowId, projectId }: { projectId: string; flowId: string }): Promise<Flow> =>
