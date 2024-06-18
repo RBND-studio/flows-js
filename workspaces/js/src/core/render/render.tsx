@@ -20,7 +20,7 @@ export const render = (state: FlowState): void => {
     const target = document.querySelector(step.targetElement);
     const boundaryEl = getBoundaryEl(state);
     if (target && boundaryEl !== null) {
-      const root = createRoot(boundaryEl);
+      const root = createRoot({ boundaryEl, step });
       const { cleanup } = renderTooltip({ root, step, state, target, boundary: boundaryEl });
       state.flowElement = { element: root, cleanup, target };
     } else {
@@ -30,7 +30,7 @@ export const render = (state: FlowState): void => {
   if (isModalStep(step)) {
     const boundaryEl = getBoundaryEl(state);
     if (boundaryEl !== null) {
-      const root = createRoot(boundaryEl);
+      const root = createRoot({ boundaryEl, step });
       renderModal({ root, step, state });
       state.flowElement = { element: root };
     } else {

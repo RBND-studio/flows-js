@@ -16,7 +16,7 @@ export const renderModalElement = ({
   isFirstStep: boolean;
   root?: HTMLElement;
 }): { root: HTMLElement } => {
-  const root = _root ?? createRoot();
+  const root = _root ?? createRoot({ step });
 
   const modal = (
     <div className="flows-modal-wrapper">
