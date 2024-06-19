@@ -21,14 +21,13 @@ export default function HomePage() {
             target="_blank"
             className="logo"
           >
-            <img src="/logo.svg" alt="FlowsJS" height="36" />
+            <img src="/logo.svg" alt="FlowsJS" height="28" />
           </a>
         </div>
       </div>
       <div className="main-wrapper">
         <div className="flows-launch-wrapper">
-          <button id="start-cloud">Launch Cloud flow</button>
-          <button id="start-local">Launch Local flow</button>
+          <button id="start-cloud">Launch flow</button>
         </div>
         <div className="app-wrapper">
           <div className="app-header">
