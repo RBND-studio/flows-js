@@ -145,12 +145,14 @@ export const renderTooltipElement = ({
     overlayEl = <div className="flows-tooltip-overlay" />;
     root.appendChild(overlayEl);
 
-    const overlayClickLayer = (
-      <div
-        className={`flows-tooltip-overlay-click-layer${step.closeOnOverlayClick ? " flows-overlay-cancel" : ""}`}
-      />
-    );
-    root.appendChild(overlayClickLayer);
+    if (!step.disableOverlayClickLayer) {
+      const overlayClickLayer = (
+        <div
+          className={`flows-tooltip-overlay-click-layer${step.closeOnOverlayClick ? " flows-overlay-cancel" : ""}`}
+        />
+      );
+      root.appendChild(overlayClickLayer);
+    }
 
     if (target instanceof HTMLElement || target instanceof SVGElement) {
       target.classList.add("flows-target");

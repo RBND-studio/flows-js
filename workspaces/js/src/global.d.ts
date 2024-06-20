@@ -3,6 +3,7 @@ interface Props {
   className?: string;
   href?: string;
   target?: string;
+  style?: string;
   dangerouslySetInnerHTML?: { __html: string };
 }
 

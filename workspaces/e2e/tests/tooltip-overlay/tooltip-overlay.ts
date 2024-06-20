@@ -2,6 +2,8 @@ import { init } from "@flows/js/core";
 
 const closeOnOverlayClick =
   new URLSearchParams(window.location.search).get("closeOnOverlayClick") === "true";
+const disableOverlayClickLayer =
+  new URLSearchParams(window.location.search).get("disableOverlayClickLayer") === "true";
 
 init({
   flows: [
@@ -14,6 +16,7 @@ init({
           targetElement: ".target",
           overlay: true,
           closeOnOverlayClick,
+          disableOverlayClickLayer,
         },
         {
           title: "World",
@@ -23,3 +26,5 @@ init({
     },
   ],
 });
+
+document.querySelector(".console-btn")?.addEventListener("click", () => console.log("Hello!"));
