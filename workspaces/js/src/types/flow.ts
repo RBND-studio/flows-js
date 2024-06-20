@@ -88,6 +88,11 @@ export interface FlowTooltipStep extends CommonStepProps {
    */
   closeOnOverlayClick?: boolean;
   /**
+   * When enabled the user can interact with the elements under the overlay.
+   * @defaultValue `false`
+   */
+  disableOverlayClickLayer?: boolean;
+  /**
    * Hide the arrow pointing to the target element.
    * @defaultValue `false`
    */
@@ -151,6 +156,11 @@ export interface FlowModalStep extends CommonStepProps {
    * @defaultValue `false`
    */
   closeOnOverlayClick?: boolean;
+  /**
+   * When enabled the user can interact with the elements under the overlay.
+   * @defaultValue `false`
+   */
+  disableOverlayClickLayer?: boolean;
   /**
    * Hide the close button. Without the close button the user will not be able to close the tooltip.
    */

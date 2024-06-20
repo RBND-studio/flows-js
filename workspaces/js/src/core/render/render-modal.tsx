@@ -33,6 +33,7 @@ export const renderModalElement = ({
     root.appendChild(
       <div
         className={`flows-modal-overlay${step.closeOnOverlayClick ? " flows-overlay-cancel" : ""}`}
+        style={step.disableOverlayClickLayer ? "pointer-events:none" : undefined}
       />,
     );
   }
