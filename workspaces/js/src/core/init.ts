@@ -4,7 +4,7 @@ import { log } from "../lib/log";
 import type { FlowsInitOptions } from "../types";
 import { handleDocumentChange } from "./document-change";
 import { addHandlers } from "./handlers";
-import { handleLocationChange, startFlowsBasedOnLocation } from "./location-change";
+import { handleLocationChange, simulateLocationChangeAfterInit } from "./location-change";
 import { endFlow, startFlow } from "./public-methods";
 import { validateFlowsOptions } from "./validation";
 import { FlowsContext } from "./flows-context";
@@ -98,6 +98,11 @@ const _init = (options: FlowsInitOptions): void => {
         endFlow(flow.flowId, { variant: "cancel" });
       }
     }
+    if (eventTarget.matches(".flows-preview-reset"))
+      FlowsContext.getInstance().previewPanel?.resetFlow();
+    if (eventTarget.matches(".flows-panel-placement"))
+      FlowsContext.getInstance().previewPanel?.togglePlacement();
+    if (eventTarget.matches(".flows-panel-close")) FlowsContext.getInstance().previewPanel?.close();
   };
   const handleSubmit = (event: SubmitEvent): void => {
     const eventTarget = event.target;
@@ -166,6 +171,6 @@ const _init = (options: FlowsInitOptions): void => {
     { type: "pointerdown", handler: handlePointerDown },
   ]);
 
-  startFlowsBasedOnLocation();
+  simulateLocationChangeAfterInit();
   FlowsContext.getInstance().onLocationChange?.(getPathname(), FlowsContext.getInstance());
 };
