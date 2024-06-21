@@ -19,3 +19,21 @@ test("should hide overlay", async ({ page }) => {
   await expect(page.locator(".flows-modal")).toBeVisible();
   await expect(page.locator(".flows-modal-overlay")).toBeHidden();
 });
+
+test("should disable overlay click layer", async ({ page }) => {
+  await page.goto("/modal-overlay/modal-overlay.html?disableOverlayClickLayer=true");
+  await expect(page.locator(".flows-modal")).toBeVisible();
+  const msgPromise = page.waitForEvent("console");
+  await page.locator(".console-btn").click();
+  const msg = await msgPromise;
+  await expect(msg.text()).toBe("Hello!");
+});
+
+test("should be able to change zIndex", async ({ page }) => {
+  await page.goto("/modal-overlay/modal-overlay.html?appModal=true");
+  await expect(page.locator(".app-modal")).toHaveCSS("z-index", "5100");
+  await expect(page.locator(".flows-root")).toHaveCSS("z-index", "1500");
+  await page.goto("/modal-overlay/modal-overlay.html?appModal=true&zIndex=5200");
+  await expect(page.locator(".app-modal")).toHaveCSS("z-index", "5100");
+  await expect(page.locator(".flows-root")).toHaveCSS("z-index", "5200");
+});
