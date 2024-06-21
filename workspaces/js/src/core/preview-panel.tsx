@@ -44,8 +44,7 @@ export class PreviewPanel {
   }
 
   render(): void {
-    // TODO: uncomment this line when the styles are ready
-    // this.loadStyle();
+    this.loadStyle();
     this.unmount();
 
     const wrapperClassNames = ["flows-preview-panel"];

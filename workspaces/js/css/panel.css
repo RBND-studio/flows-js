@@ -14,8 +14,7 @@
 }
 
 .flows-preview-panel,
-.flows-preview-panel > *,
-.flows-preview-panel > * > * {
+.flows-preview-panel * {
   box-sizing: border-box;
   margin: 0;
 }
@@ -41,7 +40,7 @@
   align-items: center;
   flex-wrap: wrap;
 }
-.flows-panel-main > * > code {
+.flows-panel-main code {
   font-family: monospace;
   font-size: 12px;
   line-height: 16px;
@@ -93,7 +92,7 @@
   background: var(--flows-panel-bg-muted);
   border: var(--flows-panel-border);
 }
-.flows-panel-btn > * {
+.flows-panel-btn * {
   pointer-events: none;
 }
 .flows-panel-btn:hover {
