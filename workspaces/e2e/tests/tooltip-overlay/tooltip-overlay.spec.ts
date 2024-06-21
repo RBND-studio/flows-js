@@ -16,6 +16,19 @@ test("should close overlay on click", async ({ page }) => {
   await expect(page.locator(".flows-tooltip")).not.toBeVisible();
 });
 
+test("should be able to change zIndex", async ({ page }) => {
+  await page.goto("/tooltip-overlay/tooltip-overlay.html?appModal=true");
+  await expect(page.locator(".app-modal")).toHaveCSS("z-index", "5100");
+  await expect(page.locator(".flows-root")).toHaveCSS("z-index", "1500");
+  await expect(page.locator(".flows-target")).toHaveCSS("z-index", "5000");
+  await page.goto(
+    "/tooltip-overlay/tooltip-overlay.html?appModal=true&zIndex=5200&targetZIndex=5300",
+  );
+  await expect(page.locator(".app-modal")).toHaveCSS("z-index", "5100");
+  await expect(page.locator(".flows-root")).toHaveCSS("z-index", "5200");
+  await expect(page.locator(".flows-target")).toHaveCSS("z-index", "5300");
+});
+
 test("should match screenshot", async ({ page }) => {
   await page.goto("/tooltip-overlay/tooltip-overlay.html");
   await expect(page).toHaveScreenshot({ scale: "css" });

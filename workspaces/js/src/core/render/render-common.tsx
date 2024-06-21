@@ -111,10 +111,13 @@ export const getStepFooter = ({
   );
 };
 
-export const createRoot = (boundaryEl?: Element): HTMLElement => {
-  const root = document.createElement("div");
-  root.className = "flows-root";
+export const createRoot = ({
+  boundaryEl,
+  step,
+}: { boundaryEl?: Element; step?: FlowTooltipStep | FlowModalStep } = {}): HTMLElement => {
+  const root = <div className="flows-root" />;
   root.style.pointerEvents = "auto";
+  if (step?.zIndex !== undefined) root.style.zIndex = step.zIndex;
   if (boundaryEl) boundaryEl.appendChild(root);
   else document.body.appendChild(root);
   return root;
