@@ -88,6 +88,23 @@ export interface FlowTooltipStep extends CommonStepProps {
    */
   closeOnOverlayClick?: boolean;
   /**
+   * When enabled the user can interact with the elements under the overlay.
+   * @defaultValue `false`
+   */
+  disableOverlayClickLayer?: boolean;
+  /**
+   * `z-index` of the tooltip. You should only change this if this tooltip is positioned differently than your default.
+   *
+   * Defaults to `var(--flows-zIndex)` from the style template.
+   */
+  zIndex?: string;
+  /**
+   * z-index of the tooltip target element highlight when using `overlay: true`.
+   *
+   * Defaults to `var(--flows-target-zIndex)` from the style template.
+   */
+  targetZIndex?: string;
+  /**
    * Hide the arrow pointing to the target element.
    * @defaultValue `false`
    */
@@ -151,6 +168,17 @@ export interface FlowModalStep extends CommonStepProps {
    * @defaultValue `false`
    */
   closeOnOverlayClick?: boolean;
+  /**
+   * When enabled the user can interact with the elements under the overlay.
+   * @defaultValue `false`
+   */
+  disableOverlayClickLayer?: boolean;
+  /**
+   * `z-index` of the modal. You should only change this if this modal is positioned differently than your default.
+   *
+   * Defaults to `var(--flows-zIndex)` from the style template.
+   */
+  zIndex?: string;
   /**
    * Hide the close button. Without the close button the user will not be able to close the tooltip.
    */
@@ -344,7 +372,7 @@ export interface Flow {
    *
    * When array of matchers is given, all matchers must match for the Flow to run.
    * @example
-   * *`plan` is "premium" AND `age` is grater then 18*
+   * *`plan` is "premium" AND `age` is grater than 18*
    * ```
    * [
    *   { key: "plan", eq: "premium" },
@@ -357,7 +385,7 @@ export interface Flow {
    * When array of arrays of matchers is given, each of the array is a group of matchers. At least one of the groups must match for the Flow to run.
    *
    * @example
-   * *(`plan` is "premium" AND `age` is grater then 18) OR (`age` is grater then 65)*
+   * *(`plan` is "premium" AND `age` is grater than 18) OR (`age` is grater than 65)*
    * ```
    * [
    *   [

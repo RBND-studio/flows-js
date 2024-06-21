@@ -104,6 +104,9 @@ const TooltipStepStruct: Describe<FlowTooltipStep> = object({
   ),
   overlay: optional(boolean()),
   closeOnOverlayClick: optional(boolean()),
+  disableOverlayClickLayer: optional(boolean()),
+  zIndex: optional(string()),
+  targetZIndex: optional(string()),
   scrollElement: optional(string()),
   wait: optional(union([WaitOptionsStruct, array(WaitOptionsStruct)])),
 });
@@ -113,6 +116,8 @@ const ModalStepStruct: Describe<FlowModalStep> = object({
   body: optional(string()),
   hideOverlay: optional(boolean()),
   closeOnOverlayClick: optional(boolean()),
+  disableOverlayClickLayer: optional(boolean()),
+  zIndex: optional(string()),
   stepId: optional(string()),
   hideClose: optional(boolean()),
   hidePrev: optional(boolean()),

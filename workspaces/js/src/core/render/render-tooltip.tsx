@@ -121,7 +121,7 @@ export const renderTooltipElement = ({
   arrows?: [HTMLElement, HTMLElement];
   overlay?: HTMLElement;
 } => {
-  const root = _root ?? createRoot();
+  const root = _root ?? createRoot({ step });
   const target = _target ?? document.querySelector(step.targetElement);
 
   const arrowEls = !step.hideArrow
@@ -145,15 +145,18 @@ export const renderTooltipElement = ({
     overlayEl = <div className="flows-tooltip-overlay" />;
     root.appendChild(overlayEl);
 
-    const overlayClickLayer = (
-      <div
-        className={`flows-tooltip-overlay-click-layer${step.closeOnOverlayClick ? " flows-overlay-cancel" : ""}`}
-      />
-    );
-    root.appendChild(overlayClickLayer);
+    if (!step.disableOverlayClickLayer) {
+      const overlayClickLayer = (
+        <div
+          className={`flows-tooltip-overlay-click-layer${step.closeOnOverlayClick ? " flows-overlay-cancel" : ""}`}
+        />
+      );
+      root.appendChild(overlayClickLayer);
+    }
 
     if (target instanceof HTMLElement || target instanceof SVGElement) {
       target.classList.add("flows-target");
+      if (step.targetZIndex !== undefined) target.style.zIndex = step.targetZIndex;
       if (window.getComputedStyle(target).position === "static") target.style.position = "relative";
     }
   }
@@ -201,6 +204,7 @@ export const renderTooltip = ({
     positionCleanup();
     if (target instanceof HTMLElement || target instanceof SVGElement) {
       target.style.position = "";
+      target.style.zIndex = "";
       target.classList.remove("flows-target");
     }
   };
