@@ -5,4 +5,4 @@
 cd app
 corepack enable
 pnpm install --frozen-lockfile
-pnpm e2e playwright
+pnpm e2e playwright --update-snapshots

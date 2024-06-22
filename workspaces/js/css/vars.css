@@ -1,17 +1,17 @@
 :root {
   /* Colors */
   --flows-bg-default: #ffffff;
-  --flows-bg-subtle: #f5f5f5;
-  --flows-bg-hover: #ececec;
-  --flows-bg-primary: #ec6441;
-  --flows-bg-primary-hover: #d44121;
-  --flows-bg-overlay: rgba(0, 0, 0, 0.5);
+  --flows-bg-subtle: #f9fafc;
+  --flows-bg-hover: #ebeef3;
+  --flows-bg-primary: #067efd;
+  --flows-bg-primary-hover: #3a90ff;
+  --flows-bg-overlay: rgba(21, 24, 28, 0.5);
 
-  --flows-fg-default: #222222;
+  --flows-fg-default: #15181c;
   --flows-fg-onPrimary: #ffffff;
 
   --flows-borderWidth: 1px;
-  --flows-border: var(--flows-borderWidth) solid #cccccc;
+  --flows-border: var(--flows-borderWidth) solid #dfe3e8;
 
   --flows-shadow: 0px 8px 12px rgba(28, 26, 39, 0.08), 0px 6px 8px rgba(28, 26, 39, 0.12),
     0px 0px 1px rgba(28, 26, 39, 0.16);
@@ -57,17 +57,17 @@
 
 /* Dark mode */
 .dark {
-  --flows-bg-default: #181818;
-  --flows-bg-subtle: #1f1f1f;
-  --flows-bg-hover: #262626;
-  --flows-bg-primary: #e46a49;
-  --flows-bg-primary-hover: #d35131;
+  --flows-bg-default: #15181c;
+  --flows-bg-subtle: #1c2026;
+  --flows-bg-hover: #22262d;
+  --flows-bg-primary: #468ff1;
+  --flows-bg-primary-hover: #357ddb;
   --flows-bg-overlay: rgba(0, 0, 0, 0.6);
 
-  --flows-fg-default: #fafafa;
-  --flows-fg-onPrimary: #181818;
+  --flows-fg-default: #f9fafc;
+  --flows-fg-onPrimary: #15181c;
 
-  --flows-border: 1px solid #3b3b3b;
+  --flows-border: 1px solid #353c46;
 
   --flows-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2), 0px 6px 8px rgba(0, 0, 0, 0.25),
     0px 0px 1px rgba(0, 0, 0, 0.3);

@@ -1,7 +1,8 @@
 <p align="center">
-  <img src="https://flows.sh/images/logo/logo.svg" height="80">
-  <h1 align="center">Flows JS Library</h1>
+  <img alt="Flows banner" src="./docs/github-banner.png">
 </p>
+<h1 align="center">Flows JS Library</h1>
+
 <p align="center">
   <a href="https://www.npmjs.com/package/@flows/js">
     <img alt="NPM Version" src="https://img.shields.io/npm/v/%40flows%2Fjs">
