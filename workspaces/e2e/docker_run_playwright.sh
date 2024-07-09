@@ -6,5 +6,5 @@ docker run --rm --ipc=host \
   --mount type=bind,src=./../../,dst=/app \
   --mount type=volume,dst=/app/node_modules \
   --mount type=volume,dst=/app/.pnpm-store \
-  mcr.microsoft.com/playwright:v1.44.1-jammy \
+  mcr.microsoft.com/playwright:v1.45.1-jammy \
   $1
