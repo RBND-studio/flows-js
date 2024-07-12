@@ -46,6 +46,18 @@ test("Should call reset all flows endpoint", async ({ page }) => {
   await page.click(".reset-all");
   await reqPromise;
 });
+test("Should show flow again after reset all", async ({ page }) => {
+  await page.route("**/sdk/flows?projectId=my-proj**", (route) =>
+    route.fulfill({ json: { results: [validFlow] } }),
+  );
+  await page.goto("/cloud/cloud.html");
+  await expect(page.locator(".flows-tooltip")).toBeVisible();
+  await page.click(".flows-cancel");
+  await expect(page.locator(".flows-tooltip")).toBeHidden();
+  await page.route("**/sdk/user/**", (route) => route.fulfill());
+  await page.click(".reset-all");
+  await expect(page.locator(".flows-tooltip")).toBeVisible();
+});
 
 test("Should call reset flow endpoint", async ({ page }) => {
   await page.route("**/sdk/flows?projectId=my-proj**", (route) =>
@@ -57,10 +69,22 @@ test("Should call reset flow endpoint", async ({ page }) => {
     console.log(url);
     return (
       url.includes(`/sdk/user/${hashedUserId}/progress`) &&
-      url.includes("flowId=my-flow") &&
+      url.includes("flowId=valid-flow") &&
       url.includes("projectId=my-proj")
     );
   });
-  await page.click(".reset-my-flow");
+  await page.click(".reset-valid-flow");
   await reqPromise;
+});
+test("Should show flow again after reset", async ({ page }) => {
+  await page.route("**/sdk/flows?projectId=my-proj**", (route) =>
+    route.fulfill({ json: { results: [validFlow] } }),
+  );
+  await page.goto("/cloud/cloud.html");
+  await expect(page.locator(".flows-tooltip")).toBeVisible();
+  await page.click(".flows-cancel");
+  await expect(page.locator(".flows-tooltip")).toBeHidden();
+  await page.route("**/sdk/user/**", (route) => route.fulfill());
+  await page.click(".reset-valid-flow");
+  await expect(page.locator(".flows-tooltip")).toBeVisible();
 });

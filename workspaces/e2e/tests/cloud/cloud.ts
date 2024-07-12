@@ -19,6 +19,6 @@ document.querySelector(".reset-all")?.addEventListener("click", () => {
   resetAllFlows();
 });
 
-document.querySelector(".reset-my-flow")?.addEventListener("click", () => {
-  resetFlow("my-flow");
+document.querySelector(".reset-valid-flow")?.addEventListener("click", () => {
+  resetFlow("valid-flow");
 });

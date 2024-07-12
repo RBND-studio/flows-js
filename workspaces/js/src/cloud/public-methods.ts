@@ -40,6 +40,7 @@ export async function resetAllFlows(): Promise<void> {
     projectId,
     userHash,
   });
+  FlowsContext.getInstance().resetAllFlowsSeen();
   // Reinitialize Flows to load flows that have been reset
   const options = FlowsCloudContext.getInstance().options;
   if (!options) return;
@@ -68,6 +69,7 @@ export async function resetFlow(flowId: string): Promise<void> {
     userHash,
     flowId,
   });
+  FlowsContext.getInstance().resetFlowSeen(flowId);
   // Reinitialize Flows to load flows that have been reset
   const options = FlowsCloudContext.getInstance().options;
   if (!options) return;
