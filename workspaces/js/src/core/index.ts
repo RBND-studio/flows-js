@@ -1,22 +1,15 @@
 import "../lib/jsx";
 
-import type {
-  Flow,
-  FlowStep,
-  FlowSteps,
-  FlowsOptions,
-  StartFlowOptions,
-  TrackingEvent,
-  FlowTooltipStep,
-  FlowModalStep,
-  FlowWaitStep,
-  WaitStepOptions,
-  FooterActionItem,
-} from "../types";
+import type { FlowsOptions } from "../types";
 import { isValidFlow, isValidFlowsOptions, validateFlow, validateFlowsOptions } from "./validation";
 import { init as _init } from "./init";
 
-export { renderModalElement, renderTooltipElement, updateTooltip } from "./render";
+export {
+  renderModalElement,
+  renderTooltipElement,
+  updateTooltip,
+  renderBannerElement,
+} from "./render";
 
 export * from "./public-methods";
 export const init: (options: FlowsOptions) => Promise<void> = _init;
@@ -31,6 +24,7 @@ export type {
   TrackingEvent,
   FlowTooltipStep,
   FlowModalStep,
+  FlowBannerStep,
   FlowWaitStep,
   WaitStepOptions,
-};
+} from "../types";

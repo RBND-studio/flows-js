@@ -1,5 +1,5 @@
-import type { FlowModalStep, FlowTooltipStep, FooterActionItem } from "../../types";
-import { isTooltipStep } from "../../lib/step-type";
+import type { FlowBannerStep, FlowModalStep, FlowTooltipStep, FooterActionItem } from "../../types";
+import { isBannerStep, isModalStep, isTooltipStep } from "../../lib/step-type";
 
 export const getStepHeader = ({ step }: { step: FlowTooltipStep | FlowModalStep }): HTMLElement => (
   <div className="flows-header">
@@ -91,17 +91,21 @@ export const getStepFooter = ({
   if (!someFooterBtn) return null;
 
   const isTooltip = isTooltipStep(step);
+  const isModal = isModalStep(step);
+  const isBanner = isBannerStep(step);
 
   return (
     <div className="flows-footer">
       <div>
         {isTooltip && backBtn}
+        {isBanner && backBtn}
+        {isBanner && continueBtn}
         {leftOptions}
       </div>
       <div>
-        {!isTooltip && backBtn}
+        {isModal && backBtn}
         {centerOptions}
-        {!isTooltip && continueBtn}
+        {isModal && continueBtn}
       </div>
       <div>
         {rightOptions}
@@ -114,7 +118,10 @@ export const getStepFooter = ({
 export const createRoot = ({
   boundaryEl,
   step,
-}: { boundaryEl?: Element; step?: FlowTooltipStep | FlowModalStep } = {}): HTMLElement => {
+}: {
+  boundaryEl?: Element;
+  step?: FlowTooltipStep | FlowModalStep | FlowBannerStep;
+} = {}): HTMLElement => {
   const root = <div className="flows-root" />;
   root.style.pointerEvents = "auto";
   if (step?.zIndex !== undefined) root.style.zIndex = step.zIndex;
