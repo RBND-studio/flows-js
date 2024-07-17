@@ -219,7 +219,7 @@
 
 .flows-banner-wrapper {
   position: fixed;
-  padding: var(--flows-banner-padding);
+  padding: var(--flows-banner-screenEdgePadding);
 }
 .flows-banner-top-left {
   top: 0;
