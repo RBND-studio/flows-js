@@ -5,23 +5,13 @@ import { startFlow } from "./public-methods";
 
 export class PreviewPanel {
   flowId: string;
-  projectId: string;
   rootElement?: HTMLElement;
   placement: "top" | "bottom" = "bottom";
 
   flowsContext: FlowsContext;
 
-  constructor({
-    context,
-    flowId,
-    projectId,
-  }: {
-    context: FlowsContext;
-    flowId: string;
-    projectId: string;
-  }) {
+  constructor({ context, flowId }: { context: FlowsContext; flowId: string }) {
     this.flowId = flowId;
-    this.projectId = projectId;
     this.flowsContext = context;
     this.render();
   }
@@ -47,6 +37,9 @@ export class PreviewPanel {
     this.loadStyle();
     this.unmount();
 
+    const projectId = this.flowsContext.projectId;
+    if (!projectId) return;
+
     const wrapperClassNames = ["flows-preview-panel"];
     if (this.placement === "top") wrapperClassNames.push("flows-panel-top");
     if (this.placement === "bottom") wrapperClassNames.push("flows-panel-bottom");
@@ -61,7 +54,7 @@ export class PreviewPanel {
             <button className="flows-panel-btn flows-preview-reset">Reset</button>
             <a
               className="flows-panel-btn"
-              href={`https://app.flows.sh/project/${this.projectId}/flow/${this.flowId}/edit`}
+              href={`https://app.flows.sh/project/${projectId}/flow/${this.flowId}/edit`}
               target="_blank"
             >
               Edit flow

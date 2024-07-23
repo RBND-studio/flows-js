@@ -75,14 +75,13 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
     onLocationChange: (pathname, context) => {
       const result = parsePreviewFlowId(pathname);
       if (!result) return;
-      const { flowId, projectId } = result;
+      const { flowId } = result;
 
-      const flowAlreadyLoaded = context.flowsById?.[flowId]?.draft;
       const flowRunning = context.instances.has(flowId);
-      if (flowAlreadyLoaded && flowRunning) return;
+      if (flowRunning) return;
 
       void api(apiUrl)
-        .getPreviewFlow({ flowId, projectId })
+        .getPreviewFlow({ flowId, projectId: options.projectId })
         .then((flow) => {
           endFlow(flowId, { variant: "no-event" });
           context.addFlowData({ ...flow, draft: true }, { validate: false });
@@ -101,6 +100,13 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
         .catch((err: unknown) => {
           log.error("Failed to load flow detail", err);
         });
+    },
+    loadFlow: (flowId, { draft } = {}) => {
+      const fetchFn = draft ? api(apiUrl).getPreviewFlow : api(apiUrl).getFlowDetail;
+      return fetchFn({ flowId, projectId: options.projectId }).catch((err: unknown) => {
+        log.error("Failed to load flow detail", err);
+        return undefined;
+      });
     },
   });
 };

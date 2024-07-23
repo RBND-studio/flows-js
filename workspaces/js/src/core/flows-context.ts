@@ -21,7 +21,7 @@ import { type PreviewPanel } from "./preview-panel";
 
 interface PersistentState {
   seenFlows: SeenFlow[];
-  runningFlows: { flowId: string; stepHistory: FlowStepIndex[] }[];
+  runningFlows: { flowId: string; stepHistory: FlowStepIndex[]; draft: boolean }[];
 }
 
 export class FlowsContext {
@@ -56,6 +56,7 @@ export class FlowsContext {
         runningFlows: Array.from(this.#instances.values()).map((i) => ({
           flowId: i.flowId,
           stepHistory: i.stepHistory,
+          draft: i.flow?.draft ?? false,
         })),
         seenFlows: this.seenFlows,
       };
@@ -74,7 +75,12 @@ export class FlowsContext {
   }
   startInstancesFromLocalStorage(): this {
     this.persistentState.runningFlows.forEach((instance) => {
-      if (!this.flowsById?.[instance.flowId]) return;
+      if (!this.flowsById?.[instance.flowId]) {
+        void this.loadFlow?.(instance.flowId, { draft: instance.draft }).then((flow) => {
+          if (flow) this.addFlowData(flow);
+        });
+        return;
+      }
       const runningInstance = this.#instances.get(instance.flowId);
       if (runningInstance) return runningInstance.render();
       const state = new FlowState(instance.flowId, this);
@@ -96,6 +102,7 @@ export class FlowsContext {
   rootElement?: string;
   onLocationChange?: (pathname: string, context: FlowsContext) => void;
   onIncompleteFlowStart?: (flowId: string, context: FlowsContext) => void;
+  loadFlow?: (flowId: string, options?: { draft?: boolean }) => Promise<Flow | undefined>;
 
   updateFromOptions(options: FlowsInitOptions): void {
     this.projectId = options.projectId;
@@ -107,6 +114,7 @@ export class FlowsContext {
     this.onSeenFlowsChange = options.onSeenFlowsChange;
     this.onLocationChange = options.onLocationChange;
     this.onIncompleteFlowStart = options.onIncompleteFlowStart;
+    this.loadFlow = options.loadFlow;
     this.rootElement = options.rootElement;
     this.flowsById = {
       ...options.flows?.reduce(
