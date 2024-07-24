@@ -44,9 +44,9 @@ const startFlowsBasedOnLocation = (pathname: string): void => {
 
 const showPreviewPanel = (pathname: string): void => {
   const preview = parsePreviewFlowId(pathname);
-  if (preview) {
+  const context = FlowsContext.getInstance();
+  if (preview && !context.previewPanel) {
     const { flowId } = preview;
-    const context = FlowsContext.getInstance();
     context.previewPanel = new PreviewPanel({ context, flowId });
   }
 };
