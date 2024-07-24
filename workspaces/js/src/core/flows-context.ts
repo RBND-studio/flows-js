@@ -174,4 +174,16 @@ export class FlowsContext {
     this.onSeenFlowsChange?.([...this.seenFlows]);
     return this;
   }
+  resetFlowSeen(flowId: string): this {
+    this.seenFlows = this.seenFlows.filter((seenFlow) => seenFlow.flowId !== flowId);
+    this.savePersistentState();
+    this.onSeenFlowsChange?.([...this.seenFlows]);
+    return this;
+  }
+  resetAllFlowsSeen(): this {
+    this.seenFlows = [];
+    this.savePersistentState();
+    this.onSeenFlowsChange?.([...this.seenFlows]);
+    return this;
+  }
 }

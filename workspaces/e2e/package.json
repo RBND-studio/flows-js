@@ -4,6 +4,7 @@
   "scripts": {
     "serve:test": "vite",
     "playwright": "playwright test",
+    "playwright:install": "playwright install --with-deps",
     "playwright:docker": "./docker_run_playwright.sh /app/workspaces/e2e/docker_playwright_script.sh",
     "playwright:docker:update-snapshots": "./docker_run_playwright.sh /app/workspaces/e2e/docker_playwright_script_update_snapshots.sh",
     "tsc": "tsc -p tsconfig.json"
@@ -12,9 +13,9 @@
     "@flows/js": "workspace:*"
   },
   "devDependencies": {
-    "@playwright/test": "^1.45.1",
+    "@playwright/test": "^1.45.3",
     "@types/node": "^20.14.10",
     "typescript": "^5.5.3",
-    "vite": "^5.3.3"
+    "vite": "^5.3.4"
   }
 }

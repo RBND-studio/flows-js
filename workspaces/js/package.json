@@ -21,7 +21,7 @@
     "product-adoption",
     "product-tours"
   ],
-  "version": "0.2.0",
+  "version": "0.3.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RBND-studio/flows-js.git"
@@ -55,7 +55,7 @@
     "version": "pnpm version"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.6.7",
+    "@floating-ui/dom": "^1.6.8",
     "superstruct": "^2.0.2"
   },
   "devDependencies": {
@@ -65,7 +65,7 @@
     "lightningcss-cli": "^1.25.1",
     "rimraf": "^6.0.1",
     "ts-jest": "^29.2.2",
-    "tsup": "^8.1.0",
+    "tsup": "^8.2.2",
     "typescript": "^5.5.3"
   }
 }
