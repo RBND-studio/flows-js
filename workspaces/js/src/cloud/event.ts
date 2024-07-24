@@ -4,15 +4,11 @@ import { log } from "../lib/log";
 import { hash } from "../lib/hash";
 import { api } from "./api";
 
-export const saveEvent = async ({
-  apiUrl,
-  event,
-}: {
-  apiUrl: string;
-  event: DebugEvent | TrackingEvent;
-}): Promise<{ referenceId: string } | undefined> => {
+export const saveEvent = async (
+  event: DebugEvent | TrackingEvent,
+): Promise<{ referenceId: string } | undefined> => {
   const { flowHash, flowId, type, projectId = "", stepIndex, stepHash, userId, location } = event;
-  return api(apiUrl)
+  return api
     .sendEvent({
       eventTime: new Date().toISOString(),
       flowHash,

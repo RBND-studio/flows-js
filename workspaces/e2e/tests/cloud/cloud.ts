@@ -1,4 +1,4 @@
-import { init } from "@flows/js";
+import { init, resetAllFlows, resetFlow } from "@flows/js";
 import { invalidFlow, validFlow } from "./flow-mocks";
 
 const validLocalFlow = new URLSearchParams(window.location.search).get("validLocalFlow") === "true";
@@ -11,5 +11,14 @@ if (invalidLocalFlow) flows.push(invalidFlow);
 
 init({
   projectId: "my-proj",
+  userId: "user-123",
   flows,
+});
+
+document.querySelector(".reset-all")?.addEventListener("click", () => {
+  resetAllFlows();
+});
+
+document.querySelector(".reset-valid-flow")?.addEventListener("click", () => {
+  resetFlow("valid-flow");
 });
