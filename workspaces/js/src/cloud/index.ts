@@ -5,6 +5,7 @@ import { log } from "../lib/log";
 import { validateFlowsOptions, validateCloudFlowsOptions } from "../core/validation";
 import { hash } from "../lib/hash";
 import { getPathname, parsePreviewFlowId } from "../lib/location";
+import { getPersistentState } from "../lib/persistent-state";
 import { api } from "./api";
 import { loadStyle } from "./style";
 import { saveEvent } from "./event";
@@ -37,10 +38,11 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
   loadStyle({ apiUrl, projectId: options.projectId });
 
   const previewParams = parsePreviewFlowId(getPathname());
+  const persistentState = getPersistentState();
 
   const flows = await (async () => {
     // If previewing a flow, don't load flows from cloud
-    if (previewParams) return [];
+    if (Boolean(previewParams) || persistentState.runningFlows.some((f) => f.draft)) return [];
     return await api(apiUrl)
       .getFlows({
         projectId: options.projectId,

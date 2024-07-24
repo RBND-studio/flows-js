@@ -14,7 +14,7 @@ import type {
   SeenFlow,
 } from "../types";
 import { log } from "../lib/log";
-import { storage } from "../lib/storage";
+import { getPersistentState, setPersistentState } from "../lib/persistent-state";
 import { FlowState } from "./flow-state";
 import { validateFlow } from "./validation";
 import { type PreviewPanel } from "./preview-panel";
@@ -42,26 +42,18 @@ export class FlowsContext {
   }
   previewPanel: PreviewPanel | null = null;
   get persistentState(): PersistentState {
-    try {
-      const data = storage("session").get<PersistentState>("flows.state");
-      if (!data) throw new Error();
-      return data;
-    } catch {
-      return { runningFlows: [], seenFlows: [] };
-    }
+    return getPersistentState();
   }
   savePersistentState(): this {
-    try {
-      const state: PersistentState = {
-        runningFlows: Array.from(this.#instances.values()).map((i) => ({
-          flowId: i.flowId,
-          stepHistory: i.stepHistory,
-          draft: i.flow?.draft ?? false,
-        })),
-        seenFlows: this.seenFlows,
-      };
-      storage("session").set("flows.state", state);
-    } catch {}
+    const state: PersistentState = {
+      runningFlows: Array.from(this.#instances.values()).map((i) => ({
+        flowId: i.flowId,
+        stepHistory: i.stepHistory,
+        draft: i.flow?.draft ?? false,
+      })),
+      seenFlows: this.seenFlows,
+    };
+    setPersistentState(state);
     return this;
   }
 
