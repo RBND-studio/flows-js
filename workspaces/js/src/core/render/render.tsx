@@ -1,5 +1,6 @@
-import { isModalStep, isTooltipStep } from "../../lib/step-type";
+import { isBannerStep, isModalStep, isTooltipStep } from "../../lib/step-type";
 import type { FlowState } from "../flow-state";
+import { renderBanner } from "./render-banner";
 import { createRoot } from "./render-common";
 import { renderModal } from "./render-modal";
 import { renderTooltip } from "./render-tooltip";
@@ -32,6 +33,16 @@ export const render = (state: FlowState): void => {
     if (boundaryEl !== null) {
       const root = createRoot({ boundaryEl, step });
       renderModal({ root, step, state });
+      state.flowElement = { element: root };
+    } else {
+      state.waitingForElement = true;
+    }
+  }
+  if (isBannerStep(step)) {
+    const boundaryEl = getBoundaryEl(state);
+    if (boundaryEl !== null) {
+      const root = createRoot({ boundaryEl, step });
+      renderBanner({ root, step, state });
       state.flowElement = { element: root };
     } else {
       state.waitingForElement = true;

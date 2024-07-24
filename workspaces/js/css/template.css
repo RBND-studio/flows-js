@@ -214,3 +214,43 @@
   top: var(--flows-modal-padding);
   right: var(--flows-modal-padding);
 }
+
+/* Banner styles */
+
+.flows-banner-wrapper {
+  position: fixed;
+  padding: var(--flows-banner-screenEdgePadding);
+}
+.flows-banner-top-left {
+  top: 0;
+  left: 0;
+}
+.flows-banner-top-right {
+  top: 0;
+  right: 0;
+}
+.flows-banner-bottom-left {
+  bottom: 0;
+  left: 0;
+}
+.flows-banner-bottom-right {
+  bottom: 0;
+  right: 0;
+}
+.flows-banner {
+  pointer-events: auto;
+  position: relative;
+  box-sizing: border-box;
+  background-color: var(--flows-bg-default);
+  padding: var(--flows-banner-padding);
+  min-width: var(--flows-banner-minWidth);
+  max-width: var(--flows-banner-maxWidth);
+  color: var(--flows-fg-default);
+  border: var(--flows-border);
+  border-radius: var(--flows-borderRadius-medium);
+  box-shadow: var(--flows-shadow);
+}
+.flows-banner .flows-close-btn {
+  top: var(--flows-banner-padding);
+  right: var(--flows-banner-padding);
+}

@@ -13,6 +13,7 @@ import {
   date,
   object,
   type,
+  literal,
 } from "superstruct";
 import type {
   FlowTooltipStep,
@@ -30,6 +31,7 @@ import type {
   FooterActions,
   FooterActionItem,
   SeenFlow,
+  FlowBannerStep,
 } from "../types";
 
 const WaitOptionsStruct: Describe<WaitStepOptions> = object({
@@ -128,6 +130,22 @@ const ModalStepStruct: Describe<FlowModalStep> = object({
   wait: optional(union([WaitOptionsStruct, array(WaitOptionsStruct)])),
 });
 
+const BannerStepStruct: Describe<FlowBannerStep> = object({
+  type: literal("banner"),
+  bannerPosition: optional(enums(["top-left", "top-right", "bottom-left", "bottom-right"])),
+  title: string(),
+  body: optional(string()),
+  zIndex: optional(string()),
+  stepId: optional(string()),
+  hideClose: optional(boolean()),
+  hidePrev: optional(boolean()),
+  hideNext: optional(boolean()),
+  prevLabel: optional(string()),
+  nextLabel: optional(string()),
+  footerActions: optional(FooterActionsStruct),
+  wait: optional(union([WaitOptionsStruct, array(WaitOptionsStruct)])),
+});
+
 const WaitStepStruct: Describe<FlowWaitStep> = object({
   stepId: optional(string()),
   wait: union([WaitOptionsStruct, array(WaitOptionsStruct)]) as unknown as Describe<
@@ -135,7 +153,7 @@ const WaitStepStruct: Describe<FlowWaitStep> = object({
   >,
 });
 
-const StepStruct = union([TooltipStepStruct, ModalStepStruct, WaitStepStruct]);
+const StepStruct = union([TooltipStepStruct, ModalStepStruct, BannerStepStruct, WaitStepStruct]);
 
 const FlowStepsStruct = array(union([StepStruct, array(array(StepStruct))]));
 
