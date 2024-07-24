@@ -1,13 +1,10 @@
 export const getPathname = (): string => window.location.pathname + window.location.search;
 
-export const parsePreviewFlowId = (
-  pathname: string,
-): { flowId: string; projectId: string } | undefined => {
+export const parsePreviewFlowId = (pathname: string): { flowId: string } | undefined => {
   const params = new URLSearchParams(pathname.split("?")[1] ?? "");
   const flowId = params.get("flows-flow-id");
-  const projectId = params.get("flows-project-id");
 
-  if (!flowId || !projectId) return;
+  if (!flowId) return;
 
-  return { flowId, projectId };
+  return { flowId };
 };

@@ -27,6 +27,17 @@ test("Should run invalid cloud flow", async ({ page }) => {
   await expect(page.locator(".flows-tooltip")).toBeVisible();
 });
 
+test("Should show preview flow", async ({ page }) => {
+  await page.route(`**/sdk/flows/${validFlow.id}/draft?projectId=my-proj`, (route) =>
+    route.fulfill({ json: validFlow }),
+  );
+  await page.goto(`/cloud/cloud.html?flows-flow-id=${validFlow.id}`);
+  await expect(page.locator(".flows-tooltip")).toBeVisible();
+  await expect(page.locator(".flows-title")).toHaveText("Hello");
+  await page.goto(`/cloud/cloud.html`);
+  await expect(page.locator(".flows-tooltip")).toBeVisible();
+});
+
 const hashedUserId =
   "4343cd4c8e4ab3025c1710bd79014401ed8ba9aaff328cac5a6c85292586e19023c35b0cfb0e09904004a003f272cdc5";
 
@@ -76,6 +87,7 @@ test("Should call reset flow endpoint", async ({ page }) => {
   await page.click(".reset-valid-flow");
   await reqPromise;
 });
+
 test("Should show flow again after reset", async ({ page }) => {
   await page.route("**/sdk/flows?projectId=my-proj**", (route) =>
     route.fulfill({ json: { results: [validFlow] } }),

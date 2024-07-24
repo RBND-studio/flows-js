@@ -5,6 +5,7 @@ import { log } from "../lib/log";
 import { validateFlowsOptions, validateCloudFlowsOptions } from "../core/validation";
 import { hash } from "../lib/hash";
 import { getPathname, parsePreviewFlowId } from "../lib/location";
+import { getPersistentState } from "../lib/persistent-state";
 import { api } from "./api";
 import { loadStyle } from "./style";
 import { saveEvent } from "./event";
@@ -32,27 +33,28 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
   loadStyle(options.projectId);
 
   const previewParams = parsePreviewFlowId(getPathname());
+  const persistentState = getPersistentState();
+  const previewFlowId =
+    previewParams?.flowId ?? persistentState.runningFlows.find((f) => f.draft)?.flowId;
 
-  const flows = await (async () => {
-    // If previewing a flow, don't load flows from cloud
-    if (previewParams) return [];
-    return await api
-      .getFlows({
-        projectId: options.projectId,
-        userHash: options.userId ? await hash(options.userId) : undefined,
-      })
-      .then((res) => {
-        if (res.error_message) log.error(res.error_message);
-        return res.results;
-      })
-      .catch((err: unknown) => {
-        log.error(
-          `Failed to load data from cloud for %c${options.projectId}%c, make sure projectId is correct and your project domains are correctly set up.`,
-          "font-weight:bold",
-          err,
-        );
-      });
-  })();
+  const flows = await api
+    .getFlows({
+      projectId: options.projectId,
+      userHash: options.userId ? await hash(options.userId) : undefined,
+    })
+    .then((res) => {
+      if (res.error_message) log.error(res.error_message);
+      // If previewing a flow, filter it out so we load draft version instead
+      if (previewFlowId) return res.results.filter((flow) => flow.id !== previewFlowId);
+      return res.results;
+    })
+    .catch((err: unknown) => {
+      log.error(
+        `Failed to load data from cloud for %c${options.projectId}%c, make sure projectId is correct and your project domains are correctly set up.`,
+        "font-weight:bold",
+        err,
+      );
+    });
 
   return flowsInit({
     ...options,
@@ -70,14 +72,13 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
     onLocationChange: (pathname, context) => {
       const result = parsePreviewFlowId(pathname);
       if (!result) return;
-      const { flowId, projectId } = result;
+      const { flowId } = result;
 
-      const flowAlreadyLoaded = context.flowsById?.[flowId]?.draft;
       const flowRunning = context.instances.has(flowId);
-      if (flowAlreadyLoaded && flowRunning) return;
+      if (flowRunning) return;
 
       void api
-        .getPreviewFlow({ flowId, projectId })
+        .getPreviewFlow({ flowId, projectId: options.projectId })
         .then((flow) => {
           endFlow(flowId, { variant: "no-event" });
           context.addFlowData({ ...flow, draft: true }, { validate: false });
@@ -96,6 +97,13 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
         .catch((err: unknown) => {
           log.error("Failed to load flow detail", err);
         });
+    },
+    loadFlow: (flowId, { draft } = {}) => {
+      const fetchFn = draft ? api.getPreviewFlow : api.getFlowDetail;
+      return fetchFn({ flowId, projectId: options.projectId }).catch((err: unknown) => {
+        log.error("Failed to load flow detail", err);
+        return undefined;
+      });
     },
   });
 };

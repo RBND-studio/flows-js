@@ -14,14 +14,14 @@ import type {
   SeenFlow,
 } from "../types";
 import { log } from "../lib/log";
-import { storage } from "../lib/storage";
+import { getPersistentState, setPersistentState } from "../lib/persistent-state";
 import { FlowState } from "./flow-state";
 import { validateFlow } from "./validation";
 import { type PreviewPanel } from "./preview-panel";
 
 interface PersistentState {
   seenFlows: SeenFlow[];
-  runningFlows: { flowId: string; stepHistory: FlowStepIndex[] }[];
+  runningFlows: { flowId: string; stepHistory: FlowStepIndex[]; draft: boolean }[];
 }
 
 export class FlowsContext {
@@ -42,25 +42,18 @@ export class FlowsContext {
   }
   previewPanel: PreviewPanel | null = null;
   get persistentState(): PersistentState {
-    try {
-      const data = storage("session").get<PersistentState>("flows.state");
-      if (!data) throw new Error();
-      return data;
-    } catch {
-      return { runningFlows: [], seenFlows: [] };
-    }
+    return getPersistentState();
   }
   savePersistentState(): this {
-    try {
-      const state: PersistentState = {
-        runningFlows: Array.from(this.#instances.values()).map((i) => ({
-          flowId: i.flowId,
-          stepHistory: i.stepHistory,
-        })),
-        seenFlows: this.seenFlows,
-      };
-      storage("session").set("flows.state", state);
-    } catch {}
+    const state: PersistentState = {
+      runningFlows: Array.from(this.#instances.values()).map((i) => ({
+        flowId: i.flowId,
+        stepHistory: i.stepHistory,
+        draft: i.flow?.draft ?? false,
+      })),
+      seenFlows: this.seenFlows,
+    };
+    setPersistentState(state);
     return this;
   }
 
@@ -74,7 +67,12 @@ export class FlowsContext {
   }
   startInstancesFromLocalStorage(): this {
     this.persistentState.runningFlows.forEach((instance) => {
-      if (!this.flowsById?.[instance.flowId]) return;
+      if (!this.flowsById?.[instance.flowId]) {
+        void this.loadFlow?.(instance.flowId, { draft: instance.draft }).then((flow) => {
+          if (flow) this.addFlowData(flow);
+        });
+        return;
+      }
       const runningInstance = this.#instances.get(instance.flowId);
       if (runningInstance) return runningInstance.render();
       const state = new FlowState(instance.flowId, this);
@@ -96,6 +94,7 @@ export class FlowsContext {
   rootElement?: string;
   onLocationChange?: (pathname: string, context: FlowsContext) => void;
   onIncompleteFlowStart?: (flowId: string, context: FlowsContext) => void;
+  loadFlow?: (flowId: string, options?: { draft?: boolean }) => Promise<Flow | undefined>;
 
   updateFromOptions(options: FlowsInitOptions): void {
     this.projectId = options.projectId;
@@ -107,6 +106,7 @@ export class FlowsContext {
     this.onSeenFlowsChange = options.onSeenFlowsChange;
     this.onLocationChange = options.onLocationChange;
     this.onIncompleteFlowStart = options.onIncompleteFlowStart;
+    this.loadFlow = options.loadFlow;
     this.rootElement = options.rootElement;
     this.flowsById = {
       ...options.flows?.reduce(
