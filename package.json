@@ -18,7 +18,7 @@
     "@vercel/style-guide": "^6.0.0",
     "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
-    "husky": "^9.0.11",
+    "husky": "^9.1.1",
     "prettier": "^3.3.3"
   },
   "packageManager": "pnpm@9.4.0"
