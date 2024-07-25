@@ -29,7 +29,9 @@ export const getWaitMatchingByClick = (props: {
   const waitOptions = Array.isArray(props.wait) ? props.wait : [props.wait];
   const matchingWait = waitOptions.find((wait) => {
     if (!wait.clickElement) return false;
-    const clickMatch = document.querySelector(wait.clickElement)?.contains(props.eventTarget);
+    const clickMatch = Array.from(document.querySelectorAll(wait.clickElement)).some((el) =>
+      el.contains(props.eventTarget),
+    );
     const locMatch = wait.location
       ? locationMatch({ location: wait.location, pathname: getPathname() })
       : true;

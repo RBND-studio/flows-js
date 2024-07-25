@@ -10,6 +10,8 @@ const location = new URLSearchParams(window.location.search).get("location") ?? 
 const anotherWaitWithWrongLocation =
   new URLSearchParams(window.location.search).get("anotherWaitWithWrongLocation") === "true";
 const waitForStart = new URLSearchParams(window.location.search).get("waitForStart") === "true";
+const duplicateTarget =
+  new URLSearchParams(window.location.search).get("duplicateTarget") === "true";
 
 let wait: FlowWaitStep["wait"] = {};
 if (click) wait.clickElement = ".target";
@@ -62,3 +64,12 @@ document.querySelector(".add-element")?.addEventListener("click", () => {
   div.textContent = "New Element";
   document.body.appendChild(div);
 });
+
+if (duplicateTarget) {
+  const target = document.createElement("div");
+  target.classList.add("target");
+  const divInTarget = document.createElement("div");
+  divInTarget.classList.add("div-in-target");
+  target.appendChild(divInTarget);
+  document.body.prepend(target);
+}

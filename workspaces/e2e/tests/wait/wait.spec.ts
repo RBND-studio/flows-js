@@ -18,6 +18,18 @@ test("Start by click with nested elements", async ({ page }) => {
   await page.locator(".div-in-target").click();
   await expect(page.locator(".flows-tooltip")).toBeVisible();
 });
+test("start by click with duplicate target", async ({ page }) => {
+  await page.goto("/wait/wait.html?click=true&duplicateTarget=true&waitForStart=true");
+  await expect(page.locator(".flows-tooltip")).toBeHidden();
+  await page.locator(".target").nth(1).click();
+  await expect(page.locator(".flows-tooltip")).toBeVisible();
+});
+test("start by click with duplicate target and nested elements", async ({ page }) => {
+  await page.goto("/wait/wait.html?click=true&waitForStart=true&duplicateTarget=true");
+  await expect(page.locator(".flows-tooltip")).toBeHidden();
+  await page.locator(".div-in-target").nth(1).click();
+  await expect(page.locator(".flows-tooltip")).toBeVisible();
+});
 test("Start by input change", async ({ page }) => {
   await page.goto("/wait/wait.html?change=true&waitForStart=true");
   await expect(page.locator(".flows-tooltip")).toBeHidden();
