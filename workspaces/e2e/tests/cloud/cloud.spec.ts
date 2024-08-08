@@ -28,14 +28,20 @@ test("Should run invalid cloud flow", async ({ page }) => {
 });
 
 test("Should show preview flow", async ({ page }) => {
+  await page.route("**/sdk/flows?projectId=my-proj**", (route) =>
+    route.fulfill({ json: { results: [] } }),
+  );
   await page.route(`**/sdk/flows/${validFlow.id}/draft?projectId=my-proj`, (route) =>
     route.fulfill({ json: validFlow }),
   );
   await page.goto(`/cloud/cloud.html?flows-flow-id=${validFlow.id}`);
   await expect(page.locator(".flows-tooltip")).toBeVisible();
   await expect(page.locator(".flows-title")).toHaveText("Hello");
+  await expect(page.locator(".flows-preview-panel")).toBeVisible();
   await page.goto(`/cloud/cloud.html`);
   await expect(page.locator(".flows-tooltip")).toBeVisible();
+  await expect(page.locator(".flows-title")).toHaveText("Hello");
+  await expect(page.locator(".flows-preview-panel")).toBeVisible();
 });
 
 const hashedUserId =
