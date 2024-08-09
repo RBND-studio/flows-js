@@ -1,8 +1,7 @@
-import { getPathname, parsePreviewFlowId } from "../lib/location";
+import { getPathname } from "../lib/location";
 import { endFlow, startFlow } from "./public-methods";
 import { FlowsContext } from "./flows-context";
 import { getWaitMatchingByLocation } from "./wait";
-import { PreviewPanel } from "./preview-panel";
 
 // We're not setting default to avoid accessing window on the server
 let prevPathname: string | null = null;
@@ -29,8 +28,6 @@ export const handleLocationChange = (): void => {
     }
   });
 
-  showPreviewPanel(pathname);
-
   startFlowsBasedOnLocation(pathname);
 };
 
@@ -42,17 +39,7 @@ const startFlowsBasedOnLocation = (pathname: string): void => {
   });
 };
 
-const showPreviewPanel = (pathname: string): void => {
-  const preview = parsePreviewFlowId(pathname);
-  const context = FlowsContext.getInstance();
-  if (preview && !context.previewPanel) {
-    const { flowId } = preview;
-    context.previewPanel = new PreviewPanel({ context, flowId });
-  }
-};
-
 export const simulateLocationChangeAfterInit = (): void => {
   const pathname = getPathname();
-  showPreviewPanel(pathname);
   startFlowsBasedOnLocation(pathname);
 };

@@ -183,6 +183,7 @@ export class FlowState {
       scrollEl?.scrollIntoView({ behavior: "smooth" });
     }
 
+    if (this.flow?.draft) this.flowsContext.showPreviewPanel(this.flowId);
     render(this);
 
     if (

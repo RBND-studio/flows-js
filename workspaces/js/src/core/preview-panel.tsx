@@ -1,7 +1,6 @@
 import { version } from "../lib/version";
 import { type FlowState } from "./flow-state";
 import { type FlowsContext } from "./flows-context";
-import { startFlow } from "./public-methods";
 
 export class PreviewPanel {
   flowId: string;
@@ -22,7 +21,7 @@ export class PreviewPanel {
 
   resetFlow(): void {
     if (this.flowState) this.flowState.destroy();
-    startFlow(this.flowId, { startDraft: true });
+    this.flowsContext.flowsController.startFlow(this.flowId, { startDraft: true });
   }
 
   loadStyle(): void {

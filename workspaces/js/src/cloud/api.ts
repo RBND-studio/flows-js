@@ -68,7 +68,10 @@ export const api = {
     userHash?: string;
   }): Promise<GetFlowsResponse> => f(`/v2/sdk/flows${createParams({ projectId, userHash })}`),
   getPreviewFlow: ({ flowId, projectId }: { projectId: string; flowId: string }): Promise<Flow> =>
-    f(`/sdk/flows/${flowId}/draft${createParams({ projectId })}`),
+    f<Flow>(`/sdk/flows/${flowId}/draft${createParams({ projectId })}`).then((flow) => ({
+      ...flow,
+      draft: true,
+    })),
   getFlowDetail: ({ flowId, projectId }: { projectId: string; flowId: string }): Promise<Flow> =>
     f(`/sdk/flows/${flowId}${createParams({ projectId })}`),
   resetUserProgress: ({

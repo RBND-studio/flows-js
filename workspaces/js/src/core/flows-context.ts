@@ -17,7 +17,8 @@ import { log } from "../lib/log";
 import { getPersistentState, setPersistentState } from "../lib/persistent-state";
 import { FlowState } from "./flow-state";
 import { validateFlow } from "./validation";
-import { type PreviewPanel } from "./preview-panel";
+import { PreviewPanel } from "./preview-panel";
+import { FlowsController } from "./flows-controller";
 
 interface PersistentState {
   seenFlows: SeenFlow[];
@@ -34,6 +35,7 @@ export class FlowsContext {
     }
     return FlowsContext.instance;
   }
+  flowsController: FlowsController = new FlowsController(this);
 
   seenFlows: SeenFlow[] = this.persistentState.seenFlows;
   readonly #instances = new Map<string, FlowState>();
@@ -65,21 +67,26 @@ export class FlowsContext {
     this.#instances.delete(flowId);
     return this.savePersistentState();
   }
-  startInstancesFromLocalStorage(): this {
-    this.persistentState.runningFlows.forEach((instance) => {
+  async startInstancesFromLocalStorage(): Promise<void> {
+    for (const instance of this.persistentState.runningFlows) {
       if (!this.flowsById?.[instance.flowId]) {
-        void this.loadFlow?.(instance.flowId, { draft: instance.draft }).then((flow) => {
-          if (flow) this.addFlowData(flow);
+        await this.loadFlow?.(instance.flowId, { draft: instance.draft }).then((flow) => {
+          if (flow)
+            this.addFlowData(flow, {
+              // Do not validate flow because SDK can be older the cloud, and validation can detect new fields which will fail
+              validate: false,
+            });
         });
-        return;
       }
       const runningInstance = this.#instances.get(instance.flowId);
-      if (runningInstance) return runningInstance.render();
+      if (runningInstance) {
+        runningInstance.render();
+        return;
+      }
       const state = new FlowState(instance.flowId, this);
       this.#instances.set(instance.flowId, state);
       state.render();
-    });
-    return this;
+    }
   }
 
   projectId?: string;
@@ -118,7 +125,7 @@ export class FlowsContext {
       ),
     };
     this.updateUser(options);
-    this.startInstancesFromLocalStorage();
+    void this.startInstancesFromLocalStorage();
   }
 
   updateUser = (options: IdentifyUserOptions): this => {
@@ -140,7 +147,6 @@ export class FlowsContext {
 
     if (!this.flowsById) this.flowsById = {};
     this.flowsById[flow.id] = flow;
-    this.startInstancesFromLocalStorage();
     return this;
   }
 
@@ -185,5 +191,10 @@ export class FlowsContext {
     this.savePersistentState();
     this.onSeenFlowsChange?.([...this.seenFlows]);
     return this;
+  }
+
+  showPreviewPanel(flowId: string): void {
+    if (this.previewPanel) return;
+    this.previewPanel = new PreviewPanel({ context: this, flowId });
   }
 }

@@ -81,7 +81,7 @@ export const init = async (options: FlowsCloudOptions): Promise<void> => {
         .getPreviewFlow({ flowId, projectId: options.projectId })
         .then((flow) => {
           endFlow(flowId, { variant: "no-event" });
-          context.addFlowData({ ...flow, draft: true }, { validate: false });
+          context.addFlowData(flow, { validate: false });
           startFlow(flow.id, { startDraft: true });
         })
         .catch((err: unknown) => {
