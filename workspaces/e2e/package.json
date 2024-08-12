@@ -16,6 +16,6 @@
     "@playwright/test": "^1.45.3",
     "@types/node": "^20.14.10",
     "typescript": "^5.5.3",
-    "vite": "^5.3.5"
+    "vite": "^5.4.0"
   }
 }
