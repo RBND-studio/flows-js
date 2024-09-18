@@ -16,7 +16,7 @@
     "@commitlint/cli": "^19.4.1",
     "@commitlint/config-conventional": "^19.2.2",
     "@vercel/style-guide": "^6.0.0",
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.0.1",
     "eslint": "^8.57.0",
     "husky": "^9.1.4",
     "prettier": "^3.3.3"
