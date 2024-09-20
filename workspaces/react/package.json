@@ -1,0 +1,33 @@
+{
+  "name": "@flows/react",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "dev": "tsup --watch --env.NODE_ENV development",
+    "build": "tsup --env.NODE_ENV production && pnpm tsc -p tsconfig.dist.json",
+    "lint": "eslint src",
+    "tsc": "tsc -p tsconfig.json",
+    "version": "pnpm version"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RBND-studio/flows-js.git"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.3",
+    "@types/react": "^18.3.7",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.2"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  }
+}
