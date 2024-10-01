@@ -1,4 +1,3 @@
-import { type Block } from "./types";
+import { type TourBlock, type Block } from "./types";
 
-export const getSlot = (block?: Block): string | undefined =>
-  block?.data.f__slot as string | undefined;
+export const getSlot = (block?: Block | TourBlock): string | undefined => block?.slotId;
