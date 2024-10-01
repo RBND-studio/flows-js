@@ -1,28 +1,38 @@
-import { type FC, type ReactNode } from "react";
+import { useMemo, type FC, type ReactNode } from "react";
 import { Block } from "./block";
-import { useFlowsContext } from "./flows-context";
-import { TourBlock } from "./tour-block";
+import { type RunningTour, useFlowsContext } from "./flows-context";
 import { getSlot } from "./selectors";
+import { type Block as IBlock } from "./types";
+import { TourBlock } from "./tour-block";
 
 export interface FlowsSlotProps {
   id: string;
   placeholder?: ReactNode;
 }
 
+const isBlock = (item: IBlock | RunningTour): item is IBlock => "type" in item;
+
+const getSlotIndex = (item: IBlock | RunningTour): number => {
+  if (isBlock(item)) return item.slotIndex ?? 0;
+  return item.activeStep?.slotIndex ?? 0;
+};
+
 export const FlowsSlot: FC<FlowsSlotProps> = ({ id, placeholder }) => {
   const { blocks, runningTours } = useFlowsContext();
 
-  const slotBlocks = blocks.filter((b) => getSlot(b) === id);
-  const slotTourBlocks = runningTours.filter((b) => getSlot(b.activeStep) === id);
-  if (slotBlocks.length || slotTourBlocks.length)
+  const sortedItems = useMemo(() => {
+    const slotBlocks = blocks.filter((b) => getSlot(b) === id);
+    const slotTourBlocks = runningTours.filter((b) => getSlot(b.activeStep) === id);
+    return [...slotBlocks, ...slotTourBlocks].sort((a, b) => getSlotIndex(a) - getSlotIndex(b));
+  }, [blocks, id, runningTours]);
+
+  if (sortedItems.length)
     return (
       <>
-        {slotBlocks.map((block) => (
-          <Block key={block.id} block={block} />
-        ))}
-        {slotTourBlocks.map((tour) => (
-          <TourBlock key={tour.block.id} tour={tour} />
-        ))}
+        {sortedItems.map((item) => {
+          if (isBlock(item)) return <Block key={item.id} block={item} />;
+          return <TourBlock key={item.block.id} tour={item} />;
+        })}
       </>
     );
 

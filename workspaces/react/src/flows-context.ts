@@ -1,11 +1,11 @@
 import { createContext, useContext } from "react";
-import { type Block, type Components } from "./types";
+import { type TourBlock, type Block, type Components } from "./types";
 
 export interface RunningTour {
   block: Block;
   currentBlockIndex: number;
   setCurrentBlockIndex: (changeFn: (prevIndex: number) => number) => void;
-  activeStep?: Block;
+  activeStep?: TourBlock;
 }
 
 export interface IFlowsContext {

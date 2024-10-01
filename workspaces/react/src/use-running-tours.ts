@@ -27,7 +27,7 @@ export const useRunningTours = (blocks: Block[]): RunningTour[] => {
       };
 
     setRunningTours((prev) => {
-      const tourBlocks = blocks.filter((block) => block.type === "Tour");
+      const tourBlocks = blocks.filter((block) => block.type === "tour");
       const newRunningTours = tourBlocks.map((block): StateItem => {
         const currentBlockIndex =
           prev.find((tour) => tour.blockId === block.id)?.currentBlockIndex ?? 0;
@@ -48,8 +48,7 @@ export const useRunningTours = (blocks: Block[]): RunningTour[] => {
         .map(({ blockId, currentBlockIndex, setCurrentBlockIndex }): RunningTour | undefined => {
           const block = blocks.find((b) => b.id === blockId);
           if (!block) return;
-          const tourBlocks = block.data.blocks as Block[] | undefined;
-          const activeStep = Array.isArray(tourBlocks) ? tourBlocks[currentBlockIndex] : undefined;
+          const activeStep = block.tourBlocks?.[currentBlockIndex];
           return { currentBlockIndex, setCurrentBlockIndex, activeStep, block };
         })
         .filter((x): x is RunningTour => Boolean(x)),
