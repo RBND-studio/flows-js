@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { type TourBlock, type Block, type Components } from "./types";
+import { type TourBlock, type Block, type Components, type TourComponents } from "./types";
 
 export interface RunningTour {
   block: Block;
@@ -11,6 +11,7 @@ export interface RunningTour {
 export interface IFlowsContext {
   blocks: Block[];
   components: Components;
+  tourComponents: TourComponents;
   transition: (props: { exitNode: string; blockId: string }) => Promise<void>;
   runningTours: RunningTour[];
 }
@@ -20,6 +21,7 @@ const asyncNoop = async (): Promise<void> => {};
 export const FlowsContext = createContext<IFlowsContext>({
   blocks: [],
   components: {},
+  tourComponents: {},
   transition: asyncNoop,
   runningTours: [],
 });

@@ -1,6 +1,5 @@
 import { useCallback, useMemo, type FC } from "react";
 import { type RunningTour, useFlowsContext } from "./flows-context";
-import { type Block } from "./types";
 
 interface Props {
   tour: RunningTour;
@@ -10,13 +9,13 @@ export const TourBlock: FC<Props> = ({ tour }) => {
   const { setCurrentBlockIndex, block, activeStep } = tour;
   const blockId = block.id;
 
-  const { components, transition } = useFlowsContext();
+  const { tourComponents, transition } = useFlowsContext();
 
   const isLastStep = useMemo(() => {
-    const blocks = tour.block.data.blocks as Block[] | undefined;
+    const blocks = tour.block.tourBlocks;
     if (!blocks) return false;
     return tour.currentBlockIndex === blocks.length - 1;
-  }, [tour.block.data.blocks, tour.currentBlockIndex]);
+  }, [tour.block.tourBlocks, tour.currentBlockIndex]);
 
   const cancel = useCallback(
     () => transition({ exitNode: "cancel", blockId }),
@@ -43,7 +42,7 @@ export const TourBlock: FC<Props> = ({ tour }) => {
 
   if (!activeStep) return null;
 
-  const Component = components[activeStep.type];
+  const Component = tourComponents[activeStep.type];
   if (!Component) return null;
 
   return <Component {...activeStep.data} next={next} prev={prev} cancel={cancel} />;
