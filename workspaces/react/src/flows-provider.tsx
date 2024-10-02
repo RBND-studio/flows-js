@@ -1,6 +1,6 @@
 import { type FC, type ReactNode, useMemo } from "react";
 import { getApi } from "./api";
-import { type Components } from "./types";
+import { type TourComponents, type Components } from "./types";
 import { Block } from "./block";
 import { FlowsContext, type IFlowsContext } from "./flows-context";
 import { useRunningTours } from "./use-running-tours";
@@ -15,6 +15,7 @@ interface Props {
   userId?: string;
   apiUrl?: string;
   components: Components;
+  tourComponents: TourComponents;
 }
 
 export const FlowsProvider: FC<Props> = ({
@@ -24,6 +25,7 @@ export const FlowsProvider: FC<Props> = ({
   organizationId,
   userId,
   components,
+  tourComponents,
 }) => {
   const blocks = useBlocks({ apiUrl, environment, organizationId, userId });
   const runningTours = useRunningTours(blocks);
@@ -46,7 +48,7 @@ export const FlowsProvider: FC<Props> = ({
   );
 
   return (
-    <FlowsContext.Provider value={{ blocks, components, transition, runningTours }}>
+    <FlowsContext.Provider value={{ blocks, components, transition, runningTours, tourComponents }}>
       {children}
       {floatingBlocks.map((block) => {
         return <Block block={block} key={block.id} />;
