@@ -25,8 +25,36 @@ export interface TrackingEvent {
    * - "/search?query=foo" - Query params are included
    */
   location: string;
+  /**
+   * Current step ID.
+   */
+  stepId?: string;
 }
 export type Tracking = (event: TrackingEvent) => void;
+
+export interface OnFlowUpdateProps {
+  /**
+   * Previous step that user was on. Undefined if the flow has just started.
+   */
+  prevStep?: FlowStep;
+  /**
+   * The current step that user is on. Undefined if the flow has ended.
+   */
+  currentStep?: FlowStep;
+  /**
+   * The flow ID that the step belongs to.
+   */
+  flowId: string;
+  /**
+   * Browser location
+   * @example
+   * - "/" - Root
+   * - "/checkout"
+   * - "/search?query=foo" - Query params are included
+   */
+  location: string;
+}
+export type OnFlowUpdate = (props: OnFlowUpdateProps) => void;
 
 export interface DebugEvent extends Omit<TrackingEvent, "type"> {
   type: "tooltipError" | "invalidateTooltipError" | "invalidStepError";
@@ -81,6 +109,10 @@ export interface FlowsOptions extends IdentifyUserOptions {
    * Method to be called when the user goes back to a previous step.
    */
   onPrevStep?: (step: FlowStep) => void;
+  /**
+   * Method to be called when a flow is started, ended or its step changes.
+   */
+  onFlowUpdate?: OnFlowUpdate;
   /**
    * Method for integrating 3rd party tracking tools. When using Flows Cloud, this is automatically managed.
    */

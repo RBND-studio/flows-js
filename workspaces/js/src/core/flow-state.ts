@@ -2,6 +2,7 @@ import type { DebugEvent, Flow, FlowStep, FlowStepIndex, TrackingEvent } from ".
 import { hash } from "../lib/hash";
 import { isModalStep, isTooltipStep } from "../lib/step-type";
 import { log } from "../lib/log";
+import { getPathname } from "../lib/location";
 import { render } from "./render";
 import type { FlowsContext } from "./flows-context";
 
@@ -42,6 +43,7 @@ export class FlowState {
       (i) => i.flowId === flowId,
     );
     if (!flowAlreadyRunning) void this.track({ type: "startFlow" });
+    this.onFlowUpdate();
     this.enterStep();
   }
 
@@ -62,9 +64,25 @@ export class FlowState {
       stepIndex: this.step,
       stepHash: this.currentStep ? await hash(JSON.stringify(this.currentStep)) : undefined,
       flowHash: await hash(JSON.stringify(this.flow)),
+      stepId: this.currentStep?.stepId,
       ...props,
     });
   }
+  onFlowUpdate({ end }: { end?: boolean } = {}): void {
+    const prevStepIndex = this.stepHistory.at(-2);
+    const prevStep =
+      this.flow && prevStepIndex !== undefined
+        ? getStep({ flow: this.flow, step: prevStepIndex })
+        : undefined;
+    const currentStep = this.currentStep;
+    this.flowsContext.onFlowUpdate?.({
+      flowId: this.flowId,
+      location: getPathname(),
+      currentStep: end ? undefined : currentStep,
+      prevStep: end ? currentStep : prevStep,
+    });
+  }
+
   async debug(
     props: Pick<DebugEvent, "type" | "referenceId" | "targetElement">,
   ): Promise<{ referenceId: string } | undefined> {
@@ -134,6 +152,7 @@ export class FlowState {
 
     if (this.currentStep) this.flowsContext.onNextStep?.(this.currentStep);
     void this.track({ type: "nextStep" });
+    this.onFlowUpdate();
     return this;
   }
   get hasNextStep(): boolean {
@@ -166,6 +185,7 @@ export class FlowState {
       this.stepHistory = this.stepHistory.slice(0, -1);
     if (this.currentStep) this.flowsContext.onPrevStep?.(this.currentStep);
     void this.track({ type: "prevStep" });
+    this.onFlowUpdate();
     return this;
   }
   get hasPrevStep(): boolean {
@@ -206,6 +226,7 @@ export class FlowState {
 
   cancel(): this {
     void this.track({ type: "cancelFlow" });
+    this.onFlowUpdate({ end: true });
     this.flowsContext.flowSeen(this.flowId);
     this.unmount();
     return this;
@@ -213,6 +234,7 @@ export class FlowState {
 
   finish(): this {
     void this.track({ type: "finishFlow" });
+    this.onFlowUpdate({ end: true });
     this.flowsContext.flowSeen(this.flowId);
     this.unmount();
     return this;
