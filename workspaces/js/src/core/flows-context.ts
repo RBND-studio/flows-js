@@ -12,6 +12,7 @@ import type {
   DebugEvent,
   IdentifyUserOptions,
   SeenFlow,
+  OnFlowUpdate,
 } from "../types";
 import { log } from "../lib/log";
 import { getPersistentState, setPersistentState } from "../lib/persistent-state";
@@ -95,6 +96,7 @@ export class FlowsContext {
   flowsById?: Record<string, Flow>;
   onNextStep?: (step: FlowStep) => void;
   onPrevStep?: (step: FlowStep) => void;
+  onFlowUpdate?: OnFlowUpdate;
   tracking?: Tracking;
   debug?: Debug;
   onSeenFlowsChange?: (seenFlows: SeenFlow[]) => void;
@@ -107,6 +109,7 @@ export class FlowsContext {
     this.projectId = options.projectId;
     this.onNextStep = options.onNextStep;
     this.onPrevStep = options.onPrevStep;
+    this.onFlowUpdate = options.onFlowUpdate;
     this.tracking = options.tracking;
     this.debug = options._debug;
     this.seenFlows = options.seenFlows ? [...options.seenFlows] : this.seenFlows;
