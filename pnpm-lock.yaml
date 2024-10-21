@@ -68,8 +68,8 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.16.5)
       lightningcss-cli:
-        specifier: ^1.25.1
-        version: 1.25.1
+        specifier: ^1.27.0
+        version: 1.27.0
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -2424,62 +2424,68 @@ packages:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
 
-  lightningcss-cli-darwin-arm64@1.25.1:
-    resolution: {integrity: sha512-T+8n8AtfRnNxI97dKLT3+FpYDyioH0KLkoAjBxnUZVdyScmgqsBGtqXsdObLxyiNpLCJUfrL4oSQbMI1Fq5KVw==}
+  lightningcss-cli-darwin-arm64@1.27.0:
+    resolution: {integrity: sha512-5vXCakJA/m2WSVmCUSpeEjsGy+LB/N2YCy/PjoZturH7doAXW8IP/p5X1fbuyX4AwynpzCWGiVjmFFymPOTBUg==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [darwin]
 
-  lightningcss-cli-darwin-x64@1.25.1:
-    resolution: {integrity: sha512-x0N9I4f4NXUesFQa03EmOb3kIg/4TPAGPNY/UZDMAEhGA8bDTOgesvMdQqD4dss1ADsbWA5kIMeUyPKS8A12SQ==}
+  lightningcss-cli-darwin-x64@1.27.0:
+    resolution: {integrity: sha512-xCMimAAgbhCdJjTvwxulMzR/Im4Sp3jh6nQjMqzUXFdhV6vkA9sAJeUeFgZfuPu3cTRI8w74DllLvbK77e76nw==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [darwin]
 
-  lightningcss-cli-freebsd-x64@1.25.1:
-    resolution: {integrity: sha512-uzEwexbRy/GkaPhW1GbTgXB6CKQhR7abVcp1uuMP1G9yICy8o6bCC941xCPtICDW6VfimPrAe9a9xt6UJwKI1A==}
+  lightningcss-cli-freebsd-x64@1.27.0:
+    resolution: {integrity: sha512-hsIu9VSQNUccZUWiUYvUXB7zq6w+xbjT52VZcWxd6SvHiBTXGUox5BFxYJ3tKc2HGB8jcbYMH7HVfbEM9kuszg==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [freebsd]
 
-  lightningcss-cli-linux-arm-gnueabihf@1.25.1:
-    resolution: {integrity: sha512-Wgu0WoEPgGzdB4pSmfsiTnyQf2/nzz794R9YMa0tOReW/JP75pvTdv6vjUGvo0L9sasMKEehWAKoWi8s86YuMg==}
+  lightningcss-cli-linux-arm-gnueabihf@1.27.0:
+    resolution: {integrity: sha512-Io1ZjfNx3UN1fnk4ojOM+x1njtVUo1pBpdrsKeR7EpLfdzbeuZ2VyZ1dQpc2OY45uwwpBO/BaQFid/GAy1j8jg==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm]
     os: [linux]
 
-  lightningcss-cli-linux-arm64-gnu@1.25.1:
-    resolution: {integrity: sha512-nwCPUmsbjtJaKfaqGc2Cbsc1An1e40wgWa1sWrIL6pjLGlCGAym37jbe54h9U9UuAjQAik14lRZ45n9jJgeojg==}
+  lightningcss-cli-linux-arm64-gnu@1.27.0:
+    resolution: {integrity: sha512-TfVnMGDWcCGRwPBb7asEdWYE+kTVceMob+Lm2abfEepPPgDMSc/wYMeP5saofDvYsGINluJO6bZiPpFJCGDr7w==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
 
-  lightningcss-cli-linux-arm64-musl@1.25.1:
-    resolution: {integrity: sha512-Fj/XW+ahY5VXIWGjf4/GCMxVDn5W+qJKaa0V35qmjGmdGSeR/utCq7f4qDxzzPTgrAlQ/zxJ4M94eaQL3aac0w==}
+  lightningcss-cli-linux-arm64-musl@1.27.0:
+    resolution: {integrity: sha512-yWOUarFdgSjBINUt58ijEGEPpCSIu8ZQF6HaI18szGHG9GbkLM0etEMTv1udpd6cmDkymxk1lXHbPkD+DWty7A==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
 
-  lightningcss-cli-linux-x64-gnu@1.25.1:
-    resolution: {integrity: sha512-ax5XP0ZIoA7A8JVbVmgjsNdyKzzRKVllBASpAJZq6a7BJWceZ/QM9ScUdjs15J4Q4FSsz1Uvk5JKq5y3/lOzFA==}
+  lightningcss-cli-linux-x64-gnu@1.27.0:
+    resolution: {integrity: sha512-b8ouWePiwhQdKD9vBu7ywLwDXJ+Y3MHWY7hLbnwxp1+HWQ/Q9fLNEpfR4ZoFXrw1BwMDBp5T68c1hPBlGhDgqg==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
 
-  lightningcss-cli-linux-x64-musl@1.25.1:
-    resolution: {integrity: sha512-6OK8l3mNDStoAh6v1v5bZumfh4uGqu+8ZxrFVYplyKSKNZcGVvP3Vh5VlRfOIFyOHB0td8BOW/V3aOR8X//WxQ==}
+  lightningcss-cli-linux-x64-musl@1.27.0:
+    resolution: {integrity: sha512-Cnh4KtkSXT30jzjgh5ImHIpBptqmemTxPyWHC7O4l5RgkPjnyytfOjgWJFjiSfeCHfNEmNy0evDH38l5TXf5Eg==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
 
-  lightningcss-cli-win32-x64-msvc@1.25.1:
-    resolution: {integrity: sha512-78SN/Yn2alLEQd/PF4TvcRzIGeu1EXLV6XZZs4M+aEqn4IMEY/k6JWXDvighXpHOM2KyIDfmUA72pARQKFeAAg==}
+  lightningcss-cli-win32-arm64-msvc@1.27.0:
+    resolution: {integrity: sha512-HWX6aY0CHft7QkxhC6NhAAD0Qm9yrAH8JKTfNRDxvyL+q6E+JQDO/vG33x4YVRQoIL3Evh9CULyHDyHCNy0IdQ==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [win32]
+
+  lightningcss-cli-win32-x64-msvc@1.27.0:
+    resolution: {integrity: sha512-CkurSCmj5iDJ5Jgcg+XibVo3GSEo6W6WbVeKuzU4bfeh3lRLcMHUG/F3+L66JJedUUKUq8eMQgbLOPmtgwqxJA==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [win32]
 
-  lightningcss-cli@1.25.1:
-    resolution: {integrity: sha512-rrAgDqDIcG3bPHG7a77jxqvLIXkm3nvMIFbfeD6GPjlIs+EtTMdKMKDR917RE5MGdLseRKf+3yu+1nsroMZHnQ==}
+  lightningcss-cli@1.27.0:
+    resolution: {integrity: sha512-wR6VRIY7JoLm7zRerqoGZ89Yyv149XllizcVh0iWVYfDR8per+IbcTyd+c7MPF1E+HaDCxRd9GCst1eeYAssiQ==}
     engines: {node: '>= 12.0.0'}
     hasBin: true
 
@@ -4458,7 +4464,7 @@ snapshots:
       '@typescript-eslint/eslint-plugin': 7.13.0(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint@8.57.0)(typescript@5.5.4)
       '@typescript-eslint/parser': 7.13.0(eslint@8.57.0)(typescript@5.5.4)
       eslint-config-prettier: 9.1.0(eslint@8.57.0)
-      eslint-import-resolver-alias: 1.1.2(eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0))
+      eslint-import-resolver-alias: 1.1.2(eslint-plugin-import@2.29.1)
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-plugin-import@2.29.1)(eslint@8.57.0)
       eslint-plugin-eslint-comments: 3.2.0(eslint@8.57.0)
       eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
@@ -5142,7 +5148,7 @@ snapshots:
     dependencies:
       eslint: 8.57.0
 
-  eslint-import-resolver-alias@1.1.2(eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)):
+  eslint-import-resolver-alias@1.1.2(eslint-plugin-import@2.29.1):
     dependencies:
       eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
 
@@ -5159,7 +5165,7 @@ snapshots:
       debug: 4.3.5
       enhanced-resolve: 5.17.0
       eslint: 8.57.0
-      eslint-module-utils: 2.8.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-plugin-import@2.29.1)(eslint@8.57.0))(eslint@8.57.0)
+      eslint-module-utils: 2.8.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       fast-glob: 3.3.2
       get-tsconfig: 4.7.5
@@ -5171,7 +5177,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-module-utils@2.8.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-plugin-import@2.29.1)(eslint@8.57.0))(eslint@8.57.0):
+  eslint-module-utils@2.8.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -5198,7 +5204,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.8.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-plugin-import@2.29.1)(eslint@8.57.0))(eslint@8.57.0)
+      eslint-module-utils: 2.8.1(@typescript-eslint/parser@7.13.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       hasown: 2.0.2
       is-core-module: 2.13.1
       is-glob: 4.0.3
@@ -6251,46 +6257,50 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  lightningcss-cli-darwin-arm64@1.25.1:
+  lightningcss-cli-darwin-arm64@1.27.0:
     optional: true
 
-  lightningcss-cli-darwin-x64@1.25.1:
+  lightningcss-cli-darwin-x64@1.27.0:
     optional: true
 
-  lightningcss-cli-freebsd-x64@1.25.1:
+  lightningcss-cli-freebsd-x64@1.27.0:
     optional: true
 
-  lightningcss-cli-linux-arm-gnueabihf@1.25.1:
+  lightningcss-cli-linux-arm-gnueabihf@1.27.0:
     optional: true
 
-  lightningcss-cli-linux-arm64-gnu@1.25.1:
+  lightningcss-cli-linux-arm64-gnu@1.27.0:
     optional: true
 
-  lightningcss-cli-linux-arm64-musl@1.25.1:
+  lightningcss-cli-linux-arm64-musl@1.27.0:
     optional: true
 
-  lightningcss-cli-linux-x64-gnu@1.25.1:
+  lightningcss-cli-linux-x64-gnu@1.27.0:
     optional: true
 
-  lightningcss-cli-linux-x64-musl@1.25.1:
+  lightningcss-cli-linux-x64-musl@1.27.0:
     optional: true
 
-  lightningcss-cli-win32-x64-msvc@1.25.1:
+  lightningcss-cli-win32-arm64-msvc@1.27.0:
     optional: true
 
-  lightningcss-cli@1.25.1:
+  lightningcss-cli-win32-x64-msvc@1.27.0:
+    optional: true
+
+  lightningcss-cli@1.27.0:
     dependencies:
       detect-libc: 1.0.3
     optionalDependencies:
-      lightningcss-cli-darwin-arm64: 1.25.1
-      lightningcss-cli-darwin-x64: 1.25.1
-      lightningcss-cli-freebsd-x64: 1.25.1
-      lightningcss-cli-linux-arm-gnueabihf: 1.25.1
-      lightningcss-cli-linux-arm64-gnu: 1.25.1
-      lightningcss-cli-linux-arm64-musl: 1.25.1
-      lightningcss-cli-linux-x64-gnu: 1.25.1
-      lightningcss-cli-linux-x64-musl: 1.25.1
-      lightningcss-cli-win32-x64-msvc: 1.25.1
+      lightningcss-cli-darwin-arm64: 1.27.0
+      lightningcss-cli-darwin-x64: 1.27.0
+      lightningcss-cli-freebsd-x64: 1.27.0
+      lightningcss-cli-linux-arm-gnueabihf: 1.27.0
+      lightningcss-cli-linux-arm64-gnu: 1.27.0
+      lightningcss-cli-linux-arm64-musl: 1.27.0
+      lightningcss-cli-linux-x64-gnu: 1.27.0
+      lightningcss-cli-linux-x64-musl: 1.27.0
+      lightningcss-cli-win32-arm64-msvc: 1.27.0
+      lightningcss-cli-win32-x64-msvc: 1.27.0
 
   lilconfig@3.1.2: {}
 
