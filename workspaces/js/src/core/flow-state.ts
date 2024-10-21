@@ -1,4 +1,11 @@
-import type { DebugEvent, Flow, FlowStep, FlowStepIndex, TrackingEvent } from "../types";
+import type {
+  DebugEvent,
+  Flow,
+  FlowEventType,
+  FlowStep,
+  FlowStepIndex,
+  TrackingEvent,
+} from "../types";
 import { hash } from "../lib/hash";
 import { isModalStep, isTooltipStep } from "../lib/step-type";
 import { log } from "../lib/log";
@@ -43,7 +50,7 @@ export class FlowState {
       (i) => i.flowId === flowId,
     );
     if (!flowAlreadyRunning) void this.track({ type: "startFlow" });
-    this.onFlowUpdate();
+    this.onFlowUpdate({ eventType: "startFlow" });
     this.enterStep();
   }
 
@@ -68,7 +75,7 @@ export class FlowState {
       ...props,
     });
   }
-  onFlowUpdate({ end }: { end?: boolean } = {}): void {
+  onFlowUpdate({ end, eventType }: { end?: boolean; eventType: FlowEventType }): void {
     const prevStepIndex = this.stepHistory.at(-2);
     const prevStep =
       this.flow && prevStepIndex !== undefined
@@ -80,6 +87,7 @@ export class FlowState {
       location: getPathname(),
       currentStep: end ? undefined : currentStep,
       prevStep: end ? currentStep : prevStep,
+      eventType,
     });
   }
 
@@ -152,7 +160,7 @@ export class FlowState {
 
     if (this.currentStep) this.flowsContext.onNextStep?.(this.currentStep);
     void this.track({ type: "nextStep" });
-    this.onFlowUpdate();
+    this.onFlowUpdate({ eventType: "nextStep" });
     return this;
   }
   get hasNextStep(): boolean {
@@ -185,7 +193,7 @@ export class FlowState {
       this.stepHistory = this.stepHistory.slice(0, -1);
     if (this.currentStep) this.flowsContext.onPrevStep?.(this.currentStep);
     void this.track({ type: "prevStep" });
-    this.onFlowUpdate();
+    this.onFlowUpdate({ eventType: "prevStep" });
     return this;
   }
   get hasPrevStep(): boolean {
@@ -226,7 +234,7 @@ export class FlowState {
 
   cancel(): this {
     void this.track({ type: "cancelFlow" });
-    this.onFlowUpdate({ end: true });
+    this.onFlowUpdate({ end: true, eventType: "cancelFlow" });
     this.flowsContext.flowSeen(this.flowId);
     this.unmount();
     return this;
@@ -234,7 +242,7 @@ export class FlowState {
 
   finish(): this {
     void this.track({ type: "finishFlow" });
-    this.onFlowUpdate({ end: true });
+    this.onFlowUpdate({ end: true, eventType: "finishFlow" });
     this.flowsContext.flowSeen(this.flowId);
     this.unmount();
     return this;
