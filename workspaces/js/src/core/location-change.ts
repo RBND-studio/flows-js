@@ -41,5 +41,6 @@ const startFlowsBasedOnLocation = (pathname: string): void => {
 
 export const simulateLocationChangeAfterInit = (): void => {
   const pathname = getPathname();
+  prevPathname = pathname;
   startFlowsBasedOnLocation(pathname);
 };

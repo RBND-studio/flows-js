@@ -3,8 +3,9 @@ import type { Flow, FlowStep } from "./flow";
 import type { IdentifyUserOptions } from "./user";
 
 export type FlowStepIndex = number | number[];
+export type FlowEventType = "startFlow" | "nextStep" | "prevStep" | "finishFlow" | "cancelFlow";
 export interface TrackingEvent {
-  type: "startFlow" | "nextStep" | "prevStep" | "finishFlow" | "cancelFlow";
+  type: FlowEventType;
   flowId: string;
   stepIndex?: FlowStepIndex;
   /**
@@ -53,6 +54,10 @@ export interface OnFlowUpdateProps {
    * - "/search?query=foo" - Query params are included
    */
   location: string;
+  /**
+   * The type of event that caused the flow to update.
+   */
+  eventType: FlowEventType;
 }
 export type OnFlowUpdate = (props: OnFlowUpdateProps) => void;
 
