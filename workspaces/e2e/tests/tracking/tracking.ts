@@ -1,4 +1,6 @@
-import { init } from "@flows/js/core";
+import { endFlow, init } from "@flows/js/core";
+
+const endOnPrev = new URLSearchParams(location.search).get("endOnPrev") === "true";
 
 void init({
   flows: [
@@ -22,5 +24,10 @@ void init({
     p.dataset.type = e.type;
     p.innerText = JSON.stringify(e);
     document.querySelector(".log")?.appendChild(p);
+  },
+  onFlowUpdate: (flow) => {
+    if (endOnPrev && flow.eventType === "prevStep") {
+      endFlow(flow.flowId);
+    }
   },
 });

@@ -205,6 +205,9 @@ export class FlowState {
   }
 
   render(): this {
+    const flowIsDestroyed = !this.flowsContext.instances.has(this.flowId);
+    if (flowIsDestroyed) return this;
+
     const step = this.currentStep;
     if (step && isTooltipStep(step) && step.scrollElement) {
       const scrollEl = document.querySelector(step.scrollElement);
