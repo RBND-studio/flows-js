@@ -24,7 +24,7 @@ export const handleLocationChange = (): void => {
 
     if (step.wait) {
       const matchingWait = getWaitMatchingByLocation({ wait: step.wait, pathname });
-      if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
+      if (matchingWait) state.nextStep(matchingWait.targetBranch)?.render();
     }
   });
 
