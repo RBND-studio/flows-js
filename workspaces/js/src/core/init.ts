@@ -58,7 +58,7 @@ const _init = (options: FlowsInitOptions): void => {
       const step = state.currentStep;
       if (!step?.wait) return;
       const matchingWait = getWaitMatchingByClick({ wait: step.wait, eventTarget });
-      if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
+      if (matchingWait) state.nextStep(matchingWait.targetBranch)?.render();
     });
 
     if (eventTarget.matches(".flows-prev")) {
@@ -71,7 +71,7 @@ const _init = (options: FlowsInitOptions): void => {
       const flow = Array.from(FlowsContext.getInstance().instances.values()).find((s) =>
         s.flowElement?.element.contains(eventTarget),
       );
-      flow?.nextStep().render();
+      flow?.nextStep()?.render();
     }
     if (eventTarget.matches(".flows-action")) {
       const action = Number(eventTarget.getAttribute("data-action"));
@@ -79,7 +79,7 @@ const _init = (options: FlowsInitOptions): void => {
       const flow = Array.from(FlowsContext.getInstance().instances.values()).find((s) =>
         s.flowElement?.element.contains(eventTarget),
       );
-      flow?.nextStep(action).render();
+      flow?.nextStep(action)?.render();
     }
 
     if (eventTarget.matches(".flows-finish")) {
@@ -118,7 +118,7 @@ const _init = (options: FlowsInitOptions): void => {
       const step = state.currentStep;
       if (!step?.wait) return;
       const matchingWait = getWaitMatchingBySubmit({ eventTarget, wait: step.wait });
-      if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
+      if (matchingWait) state.nextStep(matchingWait.targetBranch)?.render();
     });
   };
   const handleChange = (event: Event): void => {
@@ -135,7 +135,7 @@ const _init = (options: FlowsInitOptions): void => {
       const step = state.currentStep;
       if (!step?.wait) return;
       const matchingWait = getWaitMatchingByChange({ eventTarget, wait: step.wait });
-      if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
+      if (matchingWait) state.nextStep(matchingWait.targetBranch)?.render();
     });
   };
   const handlePointerDown = (event: PointerEvent): void => {

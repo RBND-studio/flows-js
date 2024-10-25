@@ -94,6 +94,6 @@ export class FlowsController {
   nextStep = (flowId: string, targetBranch?: number): void => {
     const state = this.flowsContext.instances.get(flowId);
     if (!state) return;
-    state.nextStep(targetBranch).render();
+    state.nextStep(targetBranch)?.render();
   };
 }

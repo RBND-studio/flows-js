@@ -49,8 +49,10 @@ export class FlowState {
     const flowAlreadyRunning = this.flowsContext.persistentState.runningFlows.some(
       (i) => i.flowId === flowId,
     );
-    if (!flowAlreadyRunning) void this.track({ type: "startFlow" });
-    this.onFlowUpdate({ eventType: "startFlow" });
+    if (!flowAlreadyRunning) {
+      void this.track({ type: "startFlow" });
+      this.onFlowUpdate({ eventType: "startFlow" });
+    }
     this.enterStep();
   }
 
@@ -134,8 +136,15 @@ export class FlowState {
     return this;
   }
 
-  nextStep(branch?: number): this {
-    if (!this.flow || this.flow._incompleteSteps) return this;
+  /**
+   * @returns `this` if the flow proceeded to the next step, otherwise `undefined`
+   */
+  nextStep(branch?: number): this | undefined {
+    if (!this.flow) return undefined;
+    if (this.flow._incompleteSteps) {
+      log.warn(`cannot proceed to the next step, flow hasn't been fully loaded`);
+      return undefined;
+    }
 
     let newStepIndex = Array.isArray(this.step) ? [...this.step] : this.step;
 
