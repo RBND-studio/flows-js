@@ -16,7 +16,7 @@ const _handleDocumentChange = (): void => {
 
     if (step?.wait) {
       const matchingWait = getWaitMatchingByElement({ wait: step.wait });
-      if (matchingWait) state.nextStep(matchingWait.targetBranch).render();
+      if (matchingWait) state.nextStep(matchingWait.targetBranch)?.render();
     }
   });
 
