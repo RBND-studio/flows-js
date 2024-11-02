@@ -7,6 +7,7 @@ import { useRunningTours } from "./use-running-tours";
 import { useBlocks } from "./use-blocks";
 import { getSlot } from "./selectors";
 import { TourBlock } from "./tour-block";
+import { Tooltip } from "./components/tooltip/tooltip";
 
 interface Props {
   children: ReactNode;
@@ -14,8 +15,8 @@ interface Props {
   environment: string;
   userId?: string;
   apiUrl?: string;
-  components: Components;
-  tourComponents: TourComponents;
+  components?: Components;
+  tourComponents?: TourComponents;
 }
 
 export const FlowsProvider: FC<Props> = ({
@@ -24,8 +25,8 @@ export const FlowsProvider: FC<Props> = ({
   environment,
   organizationId,
   userId,
-  components,
-  tourComponents,
+  components: _components,
+  tourComponents: _tourComponents,
 }) => {
   const blocks = useBlocks({ apiUrl, environment, organizationId, userId });
   const runningTours = useRunningTours(blocks);
@@ -46,6 +47,9 @@ export const FlowsProvider: FC<Props> = ({
     () => runningTours.filter((b) => !getSlot(b.activeStep)),
     [runningTours],
   );
+
+  const components = useMemo(() => ({ Tooltip, ..._components }), [_components]);
+  const tourComponents = useMemo(() => ({ ..._tourComponents }), [_tourComponents]);
 
   return (
     <FlowsContext.Provider value={{ blocks, components, transition, runningTours, tourComponents }}>

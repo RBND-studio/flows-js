@@ -9,4 +9,7 @@ export default defineConfig({
   banner: {
     js: '"use client"',
   },
+  loader: {
+    ".css": "local-css",
+  },
 });
