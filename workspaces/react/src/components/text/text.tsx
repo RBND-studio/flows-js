@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { type FC, type ReactNode } from "react";
-import classes from "./Text.module.css";
+import classes from "./text.module.css";
 
 interface Props {
   className?: string;

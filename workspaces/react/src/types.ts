@@ -40,3 +40,5 @@ export interface BlockState<T extends Record<string, unknown>> {
   exited_at?: string;
   data: T;
 }
+
+export type UserProperties = Record<string, string | number | boolean | null | Date | undefined>;

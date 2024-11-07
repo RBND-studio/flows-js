@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { type Block } from "./types";
+import { useEffect, useRef, useState } from "react";
+import { type UserProperties, type Block } from "./types";
 import { getApi } from "./api";
 
 interface Props {
@@ -7,6 +7,7 @@ interface Props {
   environment: string;
   organizationId: string;
   userId?: string;
+  userProperties?: UserProperties;
 }
 
 interface BlockUpdatesPayload {
@@ -14,8 +15,19 @@ interface BlockUpdatesPayload {
   updatedBlocks: Block[];
 }
 
-export const useBlocks = ({ apiUrl, environment, organizationId, userId }: Props): Block[] => {
+export const useBlocks = ({
+  apiUrl,
+  environment,
+  organizationId,
+  userId,
+  userProperties,
+}: Props): Block[] => {
   const [blocks, setBlocks] = useState<Block[]>([]);
+
+  const userPropertiesRef = useRef(userProperties);
+  useEffect(() => {
+    userPropertiesRef.current = userProperties;
+  }, [userProperties]);
 
   useEffect(() => {
     const webSocketUrl = apiUrl.replace("https://", "wss://").replace("http://", "ws://");
@@ -45,7 +57,7 @@ export const useBlocks = ({ apiUrl, environment, organizationId, userId }: Props
     });
 
     void getApi(apiUrl)
-      .getBlocks(params)
+      .getBlocks({ ...params, userProperties: userPropertiesRef.current })
       .then((res) => {
         setBlocks(res.blocks);
       })

@@ -1,6 +1,6 @@
 import { type FC, type ReactNode, useMemo } from "react";
 import { getApi } from "./api";
-import { type TourComponents, type Components } from "./types";
+import { type TourComponents, type Components, type UserProperties } from "./types";
 import { Block } from "./block";
 import { FlowsContext, type IFlowsContext } from "./flows-context";
 import { useRunningTours } from "./use-running-tours";
@@ -17,6 +17,7 @@ interface Props {
   apiUrl?: string;
   components?: Components;
   tourComponents?: TourComponents;
+  userProperties?: UserProperties;
 }
 
 export const FlowsProvider: FC<Props> = ({
@@ -27,8 +28,9 @@ export const FlowsProvider: FC<Props> = ({
   userId,
   components: _components,
   tourComponents: _tourComponents,
+  userProperties,
 }) => {
-  const blocks = useBlocks({ apiUrl, environment, organizationId, userId });
+  const blocks = useBlocks({ apiUrl, environment, organizationId, userId, userProperties });
   const runningTours = useRunningTours(blocks);
 
   const transition: IFlowsContext["transition"] = async ({ blockId, exitNode }) => {
