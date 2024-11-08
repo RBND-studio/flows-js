@@ -8,6 +8,7 @@ import { useBlocks } from "./use-blocks";
 import { getSlot } from "./selectors";
 import { TourBlock } from "./tour-block";
 import { Tooltip } from "./components/tooltip/tooltip";
+import { PathnameProvider } from "./contexts/pathname-context";
 
 interface Props {
   children: ReactNode;
@@ -54,14 +55,18 @@ export const FlowsProvider: FC<Props> = ({
   const tourComponents = useMemo(() => ({ ..._tourComponents }), [_tourComponents]);
 
   return (
-    <FlowsContext.Provider value={{ blocks, components, transition, runningTours, tourComponents }}>
-      {children}
-      {floatingBlocks.map((block) => {
-        return <Block block={block} key={block.id} />;
-      })}
-      {floatingTourBlocks.map((tour) => {
-        return <TourBlock key={tour.block.id} tour={tour} />;
-      })}
-    </FlowsContext.Provider>
+    <PathnameProvider>
+      <FlowsContext.Provider
+        value={{ blocks, components, transition, runningTours, tourComponents }}
+      >
+        {children}
+        {floatingBlocks.map((block) => {
+          return <Block block={block} key={block.id} />;
+        })}
+        {floatingTourBlocks.map((tour) => {
+          return <TourBlock key={tour.block.id} tour={tour} />;
+        })}
+      </FlowsContext.Provider>
+    </PathnameProvider>
   );
 };

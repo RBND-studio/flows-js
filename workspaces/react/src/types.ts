@@ -11,6 +11,9 @@ export interface Block {
   slotId?: string;
   slotIndex?: number;
 
+  page_targeting_operator?: string;
+  page_targeting_values?: string[];
+
   tourBlocks?: TourBlock[];
 }
 
@@ -21,6 +24,9 @@ export interface TourBlock {
 
   slotId?: string;
   slotIndex?: number;
+
+  page_targeting_operator?: string;
+  page_targeting_values?: string[];
 }
 
 type FlowsComponentProps<T extends Record<string, any> = any> = T;

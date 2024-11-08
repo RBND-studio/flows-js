@@ -1,6 +1,8 @@
 import { useMemo, type FC } from "react";
 import { type Block as IBlock } from "./types";
 import { useFlowsContext } from "./flows-context";
+import { usePathname } from "./contexts/pathname-context";
+import { locationMatch } from "./lib/page-targeting";
 
 interface Props {
   block: IBlock;
@@ -8,6 +10,7 @@ interface Props {
 
 export const Block: FC<Props> = ({ block }) => {
   const { components, transition } = useFlowsContext();
+  const pathname = usePathname();
 
   const methods = useMemo(
     () =>
@@ -64,6 +67,15 @@ export const Block: FC<Props> = ({ block }) => {
 
   const Component = components[block.type];
   if (!Component) return null;
+
+  if (
+    !locationMatch({
+      pathname,
+      pageTargetingOperator: block.page_targeting_operator,
+      pageTargetingValues: block.page_targeting_values,
+    })
+  )
+    return null;
 
   return <Component key={block.id} {...data} {...methods} />;
 };

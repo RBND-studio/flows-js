@@ -1,5 +1,7 @@
 import { useCallback, useMemo, type FC } from "react";
 import { type RunningTour, useFlowsContext } from "./flows-context";
+import { locationMatch } from "./lib/page-targeting";
+import { usePathname } from "./contexts/pathname-context";
 
 interface Props {
   tour: RunningTour;
@@ -10,6 +12,7 @@ export const TourBlock: FC<Props> = ({ tour }) => {
   const blockId = block.id;
 
   const { tourComponents, transition } = useFlowsContext();
+  const pathname = usePathname();
 
   const isLastStep = useMemo(() => {
     const blocks = tour.block.tourBlocks;
@@ -44,6 +47,15 @@ export const TourBlock: FC<Props> = ({ tour }) => {
 
   const Component = tourComponents[activeStep.type];
   if (!Component) return null;
+
+  if (
+    !locationMatch({
+      pathname,
+      pageTargetingOperator: activeStep.page_targeting_operator,
+      pageTargetingValues: activeStep.page_targeting_values,
+    })
+  )
+    return null;
 
   return <Component {...activeStep.data} next={next} prev={prev} cancel={cancel} />;
 };
