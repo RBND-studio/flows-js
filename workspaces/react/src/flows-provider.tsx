@@ -7,7 +7,7 @@ import { useRunningTours } from "./use-running-tours";
 import { useBlocks } from "./use-blocks";
 import { getSlot } from "./selectors";
 import { TourBlock } from "./tour-block";
-import { Tooltip } from "./components/tooltip/tooltip";
+import { Tooltip, TourTooltip } from "./components/tooltip";
 import { PathnameProvider } from "./contexts/pathname-context";
 
 interface Props {
@@ -52,7 +52,7 @@ export const FlowsProvider: FC<Props> = ({
   );
 
   const components = useMemo(() => ({ Tooltip, ..._components }), [_components]);
-  const tourComponents = useMemo(() => ({ ..._tourComponents }), [_tourComponents]);
+  const tourComponents = useMemo(() => ({ TourTooltip, ..._tourComponents }), [_tourComponents]);
 
   return (
     <PathnameProvider>

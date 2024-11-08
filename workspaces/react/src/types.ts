@@ -33,9 +33,9 @@ type FlowsComponentProps<T extends Record<string, any> = any> = T;
 export type Components = Record<string, FC<FlowsComponentProps>>;
 
 export type TourComponentProps<T extends Record<string, any> = any> = {
-  next: () => void;
-  prev: () => void;
-  cancel: () => Promise<void>;
+  continue: () => void;
+  previous: () => void;
+  cancel: () => void;
 } & T;
 export type TourComponent = FC<TourComponentProps>;
 export type TourComponents = Record<string, TourComponent>;
