@@ -12,6 +12,13 @@ on:
           - patch
           - minor
           - major
+      package:
+        description: "Package"
+        required: true
+        type: choice
+        options:
+          - react
+          - js
 
 jobs:
   npm-publish:
@@ -39,4 +46,4 @@ jobs:
       - run: git config user.email "170794745+flowsbotapp[bot]@users.noreply.github.com"
       - run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
       - run: pnpm install
-      - run: node scripts/release.js --${{ github.event.inputs.type }}
+      - run: node scripts/release.js --release=${{ github.event.inputs.type }} --package=${{ github.event.inputs.package }}
