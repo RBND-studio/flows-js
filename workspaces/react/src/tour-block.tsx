@@ -2,6 +2,7 @@ import { useCallback, useMemo, type FC } from "react";
 import { type RunningTour, useFlowsContext } from "./flows-context";
 import { locationMatch } from "./lib/page-targeting";
 import { usePathname } from "./contexts/pathname-context";
+import { log } from "./lib/log";
 
 interface Props {
   tour: RunningTour;
@@ -46,7 +47,10 @@ export const TourBlock: FC<Props> = ({ tour }) => {
   if (!activeStep) return null;
 
   const Component = tourComponents[activeStep.type];
-  if (!Component) return null;
+  if (!Component) {
+    log.error(`Tour Component not found for block ${block.type}`);
+    return null;
+  }
 
   if (
     !locationMatch({

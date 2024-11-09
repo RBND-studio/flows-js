@@ -3,6 +3,7 @@ import { type Block as IBlock } from "./types";
 import { useFlowsContext } from "./flows-context";
 import { usePathname } from "./contexts/pathname-context";
 import { locationMatch } from "./lib/page-targeting";
+import { log } from "./lib/log";
 
 interface Props {
   block: IBlock;
@@ -66,7 +67,10 @@ export const Block: FC<Props> = ({ block }) => {
   }, [block.data, block.id, transition]);
 
   const Component = components[block.type];
-  if (!Component) return null;
+  if (!Component) {
+    log.error(`Component not found for block "${block.type}"`);
+    return null;
+  }
 
   if (
     !locationMatch({

@@ -1,0 +1,45 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--flows-modal-overlayBackground);
+  pointer-events: none;
+}
+
+.wrapper {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--flows-modal-padding);
+  overflow: auto;
+  pointer-events: none;
+  z-index: var(--flows-zIndex);
+}
+
+.modal {
+  pointer-events: auto;
+  background-color: var(--flows-bg-default);
+  border: var(--flows-border);
+  color: var(--flows-fg-default);
+  border-radius: var(--flows-borderRadius-medium);
+  box-shadow: var(--flows-shadow);
+  padding: var(--flows-modal-padding);
+  position: relative;
+  box-sizing: border-box;
+  min-width: var(--flows-modal-minWidth);
+  max-width: var(--flows-modal-maxWidth);
+}
+
+.footer {
+  margin-top: var(--flows-size-medium);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--flows-size-small);
+}
+
+.close {
+  position: absolute;
+  top: var(--flows-modal-padding);
+  right: var(--flows-modal-padding);
+}

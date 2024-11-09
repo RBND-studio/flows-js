@@ -20,12 +20,12 @@ interface Props {
   onClose?: () => void;
 }
 
-export const BaseTooltip: FC<Props> = ({ body, buttons, title, onClose, targetElement }) => {
+export const BaseTooltip: FC<Props> = (props) => {
   const arrowRef = useRef<HTMLDivElement>(null);
 
   const offsetDistance = DISTANCE + ARROW_SIZE;
   const { refs, middlewareData, placement, x, y } = useFloating({
-    elements: { reference: document.querySelector(targetElement) },
+    elements: { reference: document.querySelector(props.targetElement) },
     middleware: [
       flip({ fallbackPlacements: ["top", "bottom", "left", "right"] }),
       shift({ crossAxis: true, padding: BOUNDARY_PADDING }),
@@ -55,12 +55,12 @@ export const BaseTooltip: FC<Props> = ({ body, buttons, title, onClose, targetEl
   return (
     <div className={classes.root}>
       <div className={classes.tooltip} ref={refs.setFloating} style={{ left: x, top: y }}>
-        <Text variant="title">{title}</Text>
-        <Text variant="body">{body}</Text>
+        <Text variant="title">{props.title}</Text>
+        <Text variant="body">{props.body}</Text>
 
-        <div className={classes.footer}>{buttons}</div>
-        {onClose ? (
-          <IconButton className={classes.close} onClick={onClose}>
+        <div className={classes.footer}>{props.buttons}</div>
+        {props.onClose ? (
+          <IconButton className={classes.close} onClick={props.onClose}>
             <Close16 />
           </IconButton>
         ) : null}

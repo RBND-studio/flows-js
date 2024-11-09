@@ -9,6 +9,7 @@ import { getSlot } from "./selectors";
 import { TourBlock } from "./tour-block";
 import { Tooltip, TourTooltip } from "./components/tooltip";
 import { PathnameProvider } from "./contexts/pathname-context";
+import { Modal, TourModal } from "./components/modal";
 
 interface Props {
   children: ReactNode;
@@ -51,8 +52,22 @@ export const FlowsProvider: FC<Props> = ({
     [runningTours],
   );
 
-  const components = useMemo(() => ({ Tooltip, ..._components }), [_components]);
-  const tourComponents = useMemo(() => ({ TourTooltip, ..._tourComponents }), [_tourComponents]);
+  const components = useMemo(
+    () => ({
+      Tooltip,
+      Modal,
+      ..._components,
+    }),
+    [_components],
+  );
+  const tourComponents = useMemo(
+    () => ({
+      Tooltip: TourTooltip,
+      Modal: TourModal,
+      ..._tourComponents,
+    }),
+    [_tourComponents],
+  );
 
   return (
     <PathnameProvider>
