@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const TourBlock: FC<Props> = ({ tour }) => {
-  const { setCurrentBlockIndex, block, activeStep } = tour;
+  const { setCurrentBlockIndex, block, activeStep, currentBlockIndex } = tour;
   const blockId = block.id;
 
   const { tourComponents, transition } = useFlowsContext();
@@ -60,11 +60,13 @@ export const TourBlock: FC<Props> = ({ tour }) => {
   )
     return null;
 
+  const isFirstStep = currentBlockIndex === 0;
+
   return (
     <Component
       {...activeStep.data}
       continue={handleContinue}
-      previous={handlePrevious}
+      previous={!isFirstStep ? handlePrevious : undefined}
       cancel={handleCancel}
     />
   );

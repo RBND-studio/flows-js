@@ -21,9 +21,11 @@ export const TourTooltip: FC<Props> = (props) => {
       onClose={props.showCloseButton ? props.cancel : undefined}
       buttons={
         <>
-          <Button variant="secondary" onClick={props.previous}>
-            {props.previousText}
-          </Button>
+          {props.previous ? (
+            <Button variant="secondary" onClick={props.previous}>
+              {props.previousText}
+            </Button>
+          ) : null}
           <Button variant="primary" onClick={props.continue}>
             {props.continueText}
           </Button>

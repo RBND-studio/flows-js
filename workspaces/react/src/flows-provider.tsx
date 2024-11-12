@@ -48,7 +48,10 @@ export const FlowsProvider: FC<Props> = ({
     });
   };
 
-  const floatingBlocks = useMemo(() => blocks.filter((b) => !getSlot(b)), [blocks]);
+  const floatingBlocks = useMemo(
+    () => blocks.filter((b) => !getSlot(b) && b.type !== "tour"),
+    [blocks],
+  );
   const floatingTourBlocks = useMemo(
     () => runningTours.filter((b) => !getSlot(b.activeStep)),
     [runningTours],

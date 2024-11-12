@@ -34,7 +34,7 @@ export type Components = Record<string, FC<FlowsComponentProps>>;
 
 export type TourComponentProps<T extends Record<string, any> = any> = {
   continue: () => void;
-  previous: () => void;
+  previous?: () => void;
   cancel: () => void;
 } & T;
 export type TourComponent = FC<TourComponentProps>;
