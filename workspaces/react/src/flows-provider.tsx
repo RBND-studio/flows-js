@@ -11,6 +11,8 @@ import { Tooltip, TourTooltip } from "./components/tooltip";
 import { PathnameProvider } from "./contexts/pathname-context";
 import { Modal, TourModal } from "./components/modal";
 
+import "./styles/vars.css";
+
 interface Props {
   children: ReactNode;
   organizationId: string;

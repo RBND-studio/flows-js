@@ -21,15 +21,14 @@ export const TourBlock: FC<Props> = ({ tour }) => {
     return tour.currentBlockIndex === blocks.length - 1;
   }, [tour.block.tourBlocks, tour.currentBlockIndex]);
 
-  const cancel = useCallback(
-    () => transition({ exitNode: "cancel", blockId }),
-    [blockId, transition],
-  );
+  const handleCancel = useCallback(() => {
+    void transition({ exitNode: "cancel", blockId });
+  }, [blockId, transition]);
   const finish = useCallback(
     () => transition({ exitNode: "finish", blockId }),
     [blockId, transition],
   );
-  const next = useCallback(() => {
+  const handleContinue = useCallback(() => {
     if (isLastStep) {
       void finish();
       // TODO: hide the tour
@@ -37,7 +36,7 @@ export const TourBlock: FC<Props> = ({ tour }) => {
 
     setCurrentBlockIndex((i) => i + 1);
   }, [finish, isLastStep, setCurrentBlockIndex]);
-  const prev = useCallback(() => {
+  const handlePrevious = useCallback(() => {
     setCurrentBlockIndex((i) => {
       if (i === 0) return i;
       return i - 1;
@@ -61,5 +60,12 @@ export const TourBlock: FC<Props> = ({ tour }) => {
   )
     return null;
 
-  return <Component {...activeStep.data} next={next} prev={prev} cancel={cancel} />;
+  return (
+    <Component
+      {...activeStep.data}
+      continue={handleContinue}
+      previous={handlePrevious}
+      cancel={handleCancel}
+    />
+  );
 };
