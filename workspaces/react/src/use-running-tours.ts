@@ -2,7 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { type RunningTour } from "./flows-context";
 import { type Block } from "./types";
 
-type StateItem = Pick<RunningTour, "currentBlockIndex" | "setCurrentBlockIndex"> & {
+type StateItem = Pick<
+  RunningTour,
+  "currentBlockIndex" | "setCurrentBlockIndex" | "hide" | "hidden"
+> & {
   blockId: string;
 };
 
@@ -26,6 +29,20 @@ export const useRunningTours = (blocks: Block[]): RunningTour[] => {
         );
       };
 
+    const handleHide = (blockId: string) => () => {
+      setRunningTours((prev) =>
+        prev.map((runningTour) => {
+          if (runningTour.blockId === blockId) {
+            return {
+              ...runningTour,
+              hidden: true,
+            };
+          }
+          return runningTour;
+        }),
+      );
+    };
+
     setRunningTours((prev) => {
       const tourBlocks = blocks.filter((block) => block.type === "tour");
       const newRunningTours = tourBlocks.map((block): StateItem => {
@@ -36,6 +53,8 @@ export const useRunningTours = (blocks: Block[]): RunningTour[] => {
           blockId: block.id,
           currentBlockIndex,
           setCurrentBlockIndex: handleSetCurrentBlockIndex(block.id),
+          hidden: false,
+          hide: handleHide(block.id),
         };
       });
       return newRunningTours;
@@ -45,12 +64,20 @@ export const useRunningTours = (blocks: Block[]): RunningTour[] => {
   const runningToursWithActiveBlock = useMemo(
     () =>
       runningTours
-        .map(({ blockId, currentBlockIndex, setCurrentBlockIndex }): RunningTour | undefined => {
-          const block = blocks.find((b) => b.id === blockId);
-          if (!block) return;
-          const activeStep = block.tourBlocks?.[currentBlockIndex];
-          return { currentBlockIndex, setCurrentBlockIndex, activeStep, block };
-        })
+        .map(
+          ({
+            blockId,
+            currentBlockIndex,
+            setCurrentBlockIndex,
+            hide,
+            hidden,
+          }): RunningTour | undefined => {
+            const block = blocks.find((b) => b.id === blockId);
+            if (!block) return;
+            const activeStep = block.tourBlocks?.[currentBlockIndex];
+            return { currentBlockIndex, setCurrentBlockIndex, activeStep, block, hide, hidden };
+          },
+        )
         .filter((x): x is RunningTour => Boolean(x)),
     [blocks, runningTours],
   );

@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const TourBlock: FC<Props> = ({ tour }) => {
-  const { setCurrentBlockIndex, block, activeStep, currentBlockIndex } = tour;
+  const { setCurrentBlockIndex, block, activeStep, currentBlockIndex, hidden, hide } = tour;
   const blockId = block.id;
 
   const { tourComponents, transition } = useFlowsContext();
@@ -22,20 +22,21 @@ export const TourBlock: FC<Props> = ({ tour }) => {
   }, [tour.block.tourBlocks, tour.currentBlockIndex]);
 
   const handleCancel = useCallback(() => {
+    hide();
     void transition({ exitNode: "cancel", blockId });
-  }, [blockId, transition]);
+  }, [blockId, hide, transition]);
   const finish = useCallback(
     () => transition({ exitNode: "finish", blockId }),
     [blockId, transition],
   );
   const handleContinue = useCallback(() => {
     if (isLastStep) {
+      hide();
       void finish();
-      // TODO: hide the tour
     }
 
     setCurrentBlockIndex((i) => i + 1);
-  }, [finish, isLastStep, setCurrentBlockIndex]);
+  }, [finish, hide, isLastStep, setCurrentBlockIndex]);
   const handlePrevious = useCallback(() => {
     setCurrentBlockIndex((i) => {
       if (i === 0) return i;
@@ -43,7 +44,7 @@ export const TourBlock: FC<Props> = ({ tour }) => {
     });
   }, [setCurrentBlockIndex]);
 
-  if (!activeStep) return null;
+  if (!activeStep || hidden) return null;
 
   const Component = tourComponents[activeStep.type];
   if (!Component) {

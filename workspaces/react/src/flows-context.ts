@@ -6,6 +6,8 @@ export interface RunningTour {
   currentBlockIndex: number;
   setCurrentBlockIndex: (changeFn: (prevIndex: number) => number) => void;
   activeStep?: TourBlock;
+  hidden: boolean;
+  hide: () => void;
 }
 
 export interface IFlowsContext {
