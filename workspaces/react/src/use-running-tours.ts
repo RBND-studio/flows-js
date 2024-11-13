@@ -14,14 +14,14 @@ export const useRunningTours = (blocks: Block[]): RunningTour[] => {
 
   useEffect(() => {
     const handleSetCurrentBlockIndex =
-      (blockId: string) => (changeFn: (prevIndex: number) => number) => {
+      (blockId: string) =>
+      (value: number): void => {
         setRunningTours((prev) =>
           prev.map((runningTour) => {
             if (runningTour.blockId === blockId) {
-              const prevBlockIndex = runningTour.currentBlockIndex;
               return {
                 ...runningTour,
-                currentBlockIndex: changeFn(prevBlockIndex),
+                currentBlockIndex: value,
               };
             }
             return runningTour;
@@ -47,7 +47,7 @@ export const useRunningTours = (blocks: Block[]): RunningTour[] => {
       const tourBlocks = blocks.filter((block) => block.type === "tour");
       const newRunningTours = tourBlocks.map((block): StateItem => {
         const currentState = prev.find((tour) => tour.blockId === block.id);
-        const currentBlockIndex = currentState?.currentBlockIndex ?? 0;
+        const currentBlockIndex = currentState?.currentBlockIndex ?? block.currentTourIndex ?? 0;
         const hidden = currentState?.hidden ?? false;
 
         return {

@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const Block: FC<Props> = ({ block }) => {
-  const { components, transition } = useFlowsContext();
+  const { components, sendEvent } = useFlowsContext();
   const pathname = usePathname();
 
   const methods = useMemo(
@@ -18,11 +18,11 @@ export const Block: FC<Props> = ({ block }) => {
       block.exitNodes.reduce(
         (acc, exitNode) => ({
           ...acc,
-          [exitNode]: () => transition({ exitNode, blockId: block.id }),
+          [exitNode]: () => sendEvent({ name: "transition", exitNode, blockId: block.id }),
         }),
         {},
       ),
-    [block.exitNodes, block.id, transition],
+    [block.exitNodes, block.id, sendEvent],
   );
 
   const data = useMemo(() => {
@@ -54,7 +54,8 @@ export const Block: FC<Props> = ({ block }) => {
       delete _data.f__exit_nodes;
       (properties.f__exit_nodes as string[] | undefined)?.forEach((exitNode) => {
         _data[exitNode] = () =>
-          transition({
+          sendEvent({
+            name: "transition",
             exitNode: [parentKey, exitNode].filter((x) => x !== undefined).join("."),
             blockId: block.id,
           });
@@ -64,7 +65,7 @@ export const Block: FC<Props> = ({ block }) => {
     };
 
     return processData({ properties: block.data });
-  }, [block.data, block.id, transition]);
+  }, [block.data, block.id, sendEvent]);
 
   const Component = components[block.type];
   if (!Component) {

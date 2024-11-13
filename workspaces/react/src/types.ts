@@ -15,6 +15,7 @@ export interface Block {
   page_targeting_values?: string[];
 
   tourBlocks?: TourBlock[];
+  currentTourIndex?: number;
 }
 
 export interface TourBlock {

@@ -12,37 +12,43 @@ export const TourBlock: FC<Props> = ({ tour }) => {
   const { setCurrentBlockIndex, block, activeStep, currentBlockIndex, hidden, hide } = tour;
   const blockId = block.id;
 
-  const { tourComponents, transition } = useFlowsContext();
+  const { tourComponents, sendEvent } = useFlowsContext();
   const pathname = usePathname();
 
   const isLastStep = useMemo(() => {
     const blocks = tour.block.tourBlocks;
     if (!blocks) return false;
-    return tour.currentBlockIndex === blocks.length - 1;
-  }, [tour.block.tourBlocks, tour.currentBlockIndex]);
+    return currentBlockIndex === blocks.length - 1;
+  }, [currentBlockIndex, tour.block.tourBlocks]);
 
   const handleCancel = useCallback(() => {
     hide();
-    void transition({ exitNode: "cancel", blockId });
-  }, [blockId, hide, transition]);
-  const finish = useCallback(
-    () => transition({ exitNode: "finish", blockId }),
-    [blockId, transition],
+    void sendEvent({ name: "transition", blockId, exitNode: "cancel" });
+  }, [blockId, hide, sendEvent]);
+  const complete = useCallback(
+    () => sendEvent({ name: "transition", exitNode: "complete", blockId }),
+    [blockId, sendEvent],
+  );
+  const sendTourUpdate = useCallback(
+    (currentTourIndex: number) =>
+      void sendEvent({ name: "tour-update", blockId, properties: { currentTourIndex } }),
+    [blockId, sendEvent],
   );
   const handleContinue = useCallback(() => {
     if (isLastStep) {
       hide();
-      void finish();
+      void complete();
+    } else {
+      const newIndex = currentBlockIndex + 1;
+      setCurrentBlockIndex(newIndex);
+      sendTourUpdate(newIndex);
     }
-
-    setCurrentBlockIndex((i) => i + 1);
-  }, [finish, hide, isLastStep, setCurrentBlockIndex]);
+  }, [currentBlockIndex, complete, hide, isLastStep, sendTourUpdate, setCurrentBlockIndex]);
   const handlePrevious = useCallback(() => {
-    setCurrentBlockIndex((i) => {
-      if (i === 0) return i;
-      return i - 1;
-    });
-  }, [setCurrentBlockIndex]);
+    const newIndex = currentBlockIndex === 0 ? currentBlockIndex : currentBlockIndex - 1;
+    setCurrentBlockIndex(newIndex);
+    sendTourUpdate(newIndex);
+  }, [currentBlockIndex, sendTourUpdate, setCurrentBlockIndex]);
 
   if (!activeStep || hidden) return null;
 

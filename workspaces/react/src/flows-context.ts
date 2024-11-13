@@ -4,7 +4,7 @@ import { type TourBlock, type Block, type Components, type TourComponents } from
 export interface RunningTour {
   block: Block;
   currentBlockIndex: number;
-  setCurrentBlockIndex: (changeFn: (prevIndex: number) => number) => void;
+  setCurrentBlockIndex: (value: number) => void;
   activeStep?: TourBlock;
   hidden: boolean;
   hide: () => void;
@@ -14,7 +14,12 @@ export interface IFlowsContext {
   blocks: Block[];
   components: Components;
   tourComponents: TourComponents;
-  transition: (props: { exitNode: string; blockId: string }) => Promise<void>;
+  sendEvent: (props: {
+    name: "transition" | "tour-update";
+    exitNode?: string;
+    blockId: string;
+    properties?: Record<string, unknown>;
+  }) => Promise<void>;
   runningTours: RunningTour[];
 }
 
@@ -24,7 +29,7 @@ export const FlowsContext = createContext<IFlowsContext>({
   blocks: [],
   components: {},
   tourComponents: {},
-  transition: asyncNoop,
+  sendEvent: asyncNoop,
   runningTours: [],
 });
 

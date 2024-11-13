@@ -1,4 +1,4 @@
-import { type FC, type ReactNode, useMemo } from "react";
+import { type FC, type ReactNode, useCallback, useMemo } from "react";
 import { getApi } from "./api";
 import { type TourComponents, type Components, type UserProperties } from "./types";
 import { Block } from "./block";
@@ -37,16 +37,20 @@ export const FlowsProvider: FC<Props> = ({
   const blocks = useBlocks({ apiUrl, environment, organizationId, userId, userProperties });
   const runningTours = useRunningTours(blocks);
 
-  const transition: IFlowsContext["transition"] = async ({ blockId, exitNode }) => {
-    await getApi(apiUrl).sendEvent({
-      userId: userId ?? "",
-      environment,
-      organizationId,
-      name: "transition",
-      blockId,
-      propertyKey: exitNode,
-    });
-  };
+  const sendEvent: IFlowsContext["sendEvent"] = useCallback(
+    async ({ blockId, name, exitNode, properties }) => {
+      await getApi(apiUrl).sendEvent({
+        userId: userId ?? "",
+        environment,
+        organizationId,
+        name,
+        blockId,
+        propertyKey: exitNode,
+        properties,
+      });
+    },
+    [apiUrl, environment, organizationId, userId],
+  );
 
   const floatingBlocks = useMemo(
     () => blocks.filter((b) => !getSlot(b) && b.type !== "tour"),
@@ -77,7 +81,7 @@ export const FlowsProvider: FC<Props> = ({
   return (
     <PathnameProvider>
       <FlowsContext.Provider
-        value={{ blocks, components, transition, runningTours, tourComponents }}
+        value={{ blocks, components, sendEvent, runningTours, tourComponents }}
       >
         {children}
         {floatingBlocks.map((block) => {
