@@ -46,14 +46,15 @@ export const useRunningTours = (blocks: Block[]): RunningTour[] => {
     setRunningTours((prev) => {
       const tourBlocks = blocks.filter((block) => block.type === "tour");
       const newRunningTours = tourBlocks.map((block): StateItem => {
-        const currentBlockIndex =
-          prev.find((tour) => tour.blockId === block.id)?.currentBlockIndex ?? 0;
+        const currentState = prev.find((tour) => tour.blockId === block.id);
+        const currentBlockIndex = currentState?.currentBlockIndex ?? 0;
+        const hidden = currentState?.hidden ?? false;
 
         return {
           blockId: block.id,
           currentBlockIndex,
+          hidden,
           setCurrentBlockIndex: handleSetCurrentBlockIndex(block.id),
-          hidden: false,
           hide: handleHide(block.id),
         };
       });
