@@ -35,7 +35,6 @@ export const FlowsProvider: FC<Props> = ({
   userProperties,
 }) => {
   const blocks = useBlocks({ apiUrl, environment, organizationId, userId, userProperties });
-  const runningTours = useRunningTours(blocks);
 
   const sendEvent: IFlowsContext["sendEvent"] = useCallback(
     async ({ blockId, name, exitNode, properties }) => {
@@ -51,6 +50,8 @@ export const FlowsProvider: FC<Props> = ({
     },
     [apiUrl, environment, organizationId, userId],
   );
+
+  const runningTours = useRunningTours({ blocks, sendEvent });
 
   const floatingBlocks = useMemo(
     () => blocks.filter((b) => !getSlot(b) && b.type !== "tour"),

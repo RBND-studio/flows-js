@@ -4,10 +4,12 @@ import { type TourBlock, type Block, type Components, type TourComponents } from
 export interface RunningTour {
   block: Block;
   currentBlockIndex: number;
-  setCurrentBlockIndex: (value: number) => void;
   activeStep?: TourBlock;
   hidden: boolean;
   hide: () => void;
+  previous: () => void;
+  continue: () => void;
+  cancel: () => void;
 }
 
 export interface IFlowsContext {
