@@ -1,17 +1,16 @@
 // TODO: write tests for this function
 export const locationMatch = ({
-  pageTargetingValues,
+  value,
   pathname,
-  pageTargetingOperator,
+  operator,
 }: {
   pathname?: string;
-  pageTargetingOperator?: string;
-  pageTargetingValues?: string[];
+  operator?: string;
+  value?: string[];
 }): boolean => {
   if (!pathname) return false;
 
-  const operator = pageTargetingOperator;
-  const values = (pageTargetingValues ?? []).filter(Boolean);
+  const values = (value ?? []).filter(Boolean);
   if (!operator || !values.length) return true;
 
   if (operator === "contains") return values.some((v) => pathname.includes(v));
@@ -20,3 +19,12 @@ export const locationMatch = ({
 
   return false;
 };
+
+// TODO: write tests for this function
+export const clickMatch = ({
+  eventTarget,
+  value,
+}: {
+  eventTarget: Element;
+  value: string;
+}): boolean => Array.from(document.querySelectorAll(value)).some((el) => el.contains(eventTarget));

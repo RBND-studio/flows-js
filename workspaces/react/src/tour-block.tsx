@@ -33,8 +33,8 @@ export const TourBlock: FC<Props> = ({ tour }) => {
   if (
     !locationMatch({
       pathname,
-      pageTargetingOperator: activeStep.page_targeting_operator,
-      pageTargetingValues: activeStep.page_targeting_values,
+      operator: activeStep.page_targeting_operator,
+      value: activeStep.page_targeting_values,
     })
   )
     return null;

@@ -10,6 +10,7 @@ import { TourBlock } from "./tour-block";
 import { Tooltip, TourTooltip } from "./components/tooltip";
 import { PathnameProvider } from "./contexts/pathname-context";
 import { Modal, TourModal } from "./components/modal";
+import { TourController } from "./tour-controller";
 
 import "./styles/vars.css";
 
@@ -91,6 +92,7 @@ export const FlowsProvider: FC<Props> = ({
         {floatingTourBlocks.map((tour) => {
           return <TourBlock key={tour.block.id} tour={tour} />;
         })}
+        <TourController />
       </FlowsContext.Provider>
     </PathnameProvider>
   );

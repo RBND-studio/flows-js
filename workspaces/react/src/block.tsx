@@ -76,8 +76,8 @@ export const Block: FC<Props> = ({ block }) => {
   if (
     !locationMatch({
       pathname,
-      pageTargetingOperator: block.page_targeting_operator,
-      pageTargetingValues: block.page_targeting_values,
+      operator: block.page_targeting_operator,
+      value: block.page_targeting_values,
     })
   )
     return null;

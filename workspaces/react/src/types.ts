@@ -28,6 +28,11 @@ export interface TourBlock {
 
   page_targeting_operator?: string;
   page_targeting_values?: string[];
+
+  tourWait?: {
+    navigation?: { operator: string; value: string[] };
+    interaction?: { operator: string; value: string };
+  };
 }
 
 type FlowsComponentProps<T extends Record<string, any> = any> = T;
