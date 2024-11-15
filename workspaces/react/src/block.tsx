@@ -67,9 +67,11 @@ export const Block: FC<Props> = ({ block }) => {
     return processData({ properties: block.data });
   }, [block.data, block.id, sendEvent]);
 
-  const Component = components[block.type];
+  if (!block.componentType) return null;
+
+  const Component = components[block.componentType];
   if (!Component) {
-    log.error(`Component not found for block "${block.type}"`);
+    log.error(`Component not found for workflow block "${block.componentType}"`);
     return null;
   }
 

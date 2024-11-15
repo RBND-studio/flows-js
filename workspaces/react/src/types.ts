@@ -5,6 +5,7 @@ import { type FC } from "react";
 export interface Block {
   id: string;
   type: string;
+  componentType?: string;
   data: Record<string, unknown>;
   exitNodes: string[];
 
@@ -21,6 +22,7 @@ export interface Block {
 export interface TourBlock {
   id: string;
   type: string;
+  componentType?: string;
   data: Record<string, unknown>;
 
   slotId?: string;

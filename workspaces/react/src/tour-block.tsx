@@ -22,11 +22,11 @@ export const TourBlock: FC<Props> = ({ tour }) => {
   const { tourComponents } = useFlowsContext();
   const pathname = usePathname();
 
-  if (!activeStep || hidden) return null;
+  if (!activeStep || hidden || !activeStep.componentType) return null;
 
-  const Component = tourComponents[activeStep.type];
+  const Component = tourComponents[activeStep.componentType];
   if (!Component) {
-    log.error(`Tour Component not found for block ${block.type}`);
+    log.error(`Tour Component not found for tour block "${block.componentType}"`);
     return null;
   }
 

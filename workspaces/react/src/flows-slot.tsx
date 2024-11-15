@@ -21,7 +21,7 @@ export const FlowsSlot: FC<FlowsSlotProps> = ({ id, placeholder }) => {
   const { blocks, runningTours } = useFlowsContext();
 
   const sortedItems = useMemo(() => {
-    const slotBlocks = blocks.filter((b) => getSlot(b) === id && b.type !== "tour");
+    const slotBlocks = blocks.filter((b) => getSlot(b) === id);
     const slotTourBlocks = runningTours.filter((b) => getSlot(b.activeStep) === id);
     return [...slotBlocks, ...slotTourBlocks].sort((a, b) => getSlotIndex(a) - getSlotIndex(b));
   }, [blocks, id, runningTours]);

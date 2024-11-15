@@ -55,7 +55,7 @@ export const FlowsProvider: FC<Props> = ({
   const runningTours = useRunningTours({ blocks, sendEvent });
 
   const floatingBlocks = useMemo(
-    () => blocks.filter((b) => !getSlot(b) && b.type !== "tour"),
+    () => blocks.filter((b) => !getSlot(b) && b.componentType),
     [blocks],
   );
   const floatingTourBlocks = useMemo(
