@@ -2,7 +2,7 @@ import { useMemo, type FC } from "react";
 import { type Block as IBlock } from "./types";
 import { useFlowsContext } from "./flows-context";
 import { usePathname } from "./contexts/pathname-context";
-import { locationMatch } from "./lib/page-targeting";
+import { pathnameMatch } from "./lib/matchers";
 import { log } from "./lib/log";
 
 interface Props {
@@ -76,7 +76,7 @@ export const Block: FC<Props> = ({ block }) => {
   }
 
   if (
-    !locationMatch({
+    !pathnameMatch({
       pathname,
       operator: block.page_targeting_operator,
       value: block.page_targeting_values,

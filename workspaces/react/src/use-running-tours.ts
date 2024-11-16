@@ -67,7 +67,9 @@ export const useRunningTours = ({ blocks, sendEvent }: Props): RunningTour[] => 
           }
         };
         const handlePrevious = (): void => {
-          const newIndex = currentBlockIndex === 0 ? currentBlockIndex : currentBlockIndex - 1;
+          let newIndex = currentBlockIndex === 0 ? currentBlockIndex : currentBlockIndex - 1;
+          while (newIndex > 0 && block.tourBlocks && !block.tourBlocks.at(newIndex)?.componentType)
+            newIndex -= 1;
           setCurrentBlockIndex(blockId, newIndex);
           sendTourUpdate(newIndex);
         };

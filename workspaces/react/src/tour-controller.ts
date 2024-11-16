@@ -1,7 +1,7 @@
 import { type FC, useEffect, useMemo } from "react";
 import { useFlowsContext } from "./flows-context";
 import { usePathname } from "./contexts/pathname-context";
-import { clickMatch, locationMatch } from "./lib/page-targeting";
+import { elementContains, pathnameMatch } from "./lib/matchers";
 
 export const TourController: FC = () => {
   const { runningTours } = useFlowsContext();
@@ -20,7 +20,7 @@ export const TourController: FC = () => {
       const navigationWait = tour.activeStep?.tourWait?.navigation;
       const noInteractionWait = !interactionWait?.operator || !interactionWait.value;
       if (navigationWait && !noInteractionWait) {
-        const match = locationMatch({
+        const match = pathnameMatch({
           pathname,
           operator: navigationWait.operator,
           value: navigationWait.value,
@@ -43,13 +43,13 @@ export const TourController: FC = () => {
         if (interactionWait?.operator !== "click") return;
 
         const navigationMatch = navigationWait
-          ? locationMatch({
+          ? pathnameMatch({
               pathname,
               operator: navigationWait.operator,
               value: navigationWait.value,
             })
           : true;
-        const interactionMatch = clickMatch({ eventTarget, value: interactionWait.value });
+        const interactionMatch = elementContains({ eventTarget, value: interactionWait.value });
 
         if (navigationMatch && interactionMatch) tour.continue();
       });

@@ -1,6 +1,6 @@
 import { type FC } from "react";
 import { type RunningTour, useFlowsContext } from "./flows-context";
-import { locationMatch } from "./lib/page-targeting";
+import { pathnameMatch } from "./lib/matchers";
 import { usePathname } from "./contexts/pathname-context";
 import { log } from "./lib/log";
 
@@ -31,7 +31,7 @@ export const TourBlock: FC<Props> = ({ tour }) => {
   }
 
   if (
-    !locationMatch({
+    !pathnameMatch({
       pathname,
       operator: activeStep.page_targeting_operator,
       value: activeStep.page_targeting_values,

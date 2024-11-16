@@ -1,3 +1,4 @@
 tsup.config.ts
 dist
 index.d.ts
+jest.config.ts
