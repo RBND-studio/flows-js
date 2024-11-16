@@ -16,14 +16,12 @@ export const TourController: FC = () => {
   // Handle navigation waits
   useEffect(() => {
     relevantTours.forEach((tour) => {
-      const interactionWait = tour.activeStep?.tourWait?.interaction;
-      const navigationWait = tour.activeStep?.tourWait?.navigation;
-      const noInteractionWait = !interactionWait?.operator || !interactionWait.value;
-      if (navigationWait && !noInteractionWait) {
+      const tourWait = tour.activeStep?.tourWait;
+      if (tourWait?.interaction === "navigation") {
         const match = pathnameMatch({
           pathname,
-          operator: navigationWait.operator,
-          value: navigationWait.value,
+          operator: tourWait.page?.operator,
+          value: tourWait.page?.value,
         });
 
         if (match) tour.continue();
@@ -38,20 +36,19 @@ export const TourController: FC = () => {
       if (!eventTarget || !(eventTarget instanceof Element)) return;
 
       relevantTours.forEach((tour) => {
-        const interactionWait = tour.activeStep?.tourWait?.interaction;
-        const navigationWait = tour.activeStep?.tourWait?.navigation;
-        if (interactionWait?.operator !== "click") return;
+        const tourWait = tour.activeStep?.tourWait;
 
-        const navigationMatch = navigationWait
-          ? pathnameMatch({
-              pathname,
-              operator: navigationWait.operator,
-              value: navigationWait.value,
-            })
-          : true;
-        const interactionMatch = elementContains({ eventTarget, value: interactionWait.value });
+        if (tourWait?.interaction === "click") {
+          const pageMatch = pathnameMatch({
+            pathname,
+            operator: tourWait.page?.operator,
+            value: tourWait.page?.value,
+          });
 
-        if (navigationMatch && interactionMatch) tour.continue();
+          const clickMatch = elementContains({ eventTarget, value: tourWait.element });
+
+          if (clickMatch && pageMatch) tour.continue();
+        }
       });
     };
 

@@ -2,6 +2,12 @@
 
 import { type FC } from "react";
 
+interface TourWait {
+  interaction: string;
+  element?: string;
+  page?: { operator: string; value: string[] };
+}
+
 export interface Block {
   id: string;
   type: string;
@@ -31,10 +37,7 @@ export interface TourBlock {
   page_targeting_operator?: string;
   page_targeting_values?: string[];
 
-  tourWait?: {
-    navigation?: { operator: string; value: string[] };
-    interaction?: { operator: string; value: string };
-  };
+  tourWait?: TourWait;
 }
 
 type FlowsComponentProps<T extends Record<string, any> = any> = T;

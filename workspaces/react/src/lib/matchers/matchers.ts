@@ -24,5 +24,8 @@ export const elementContains = ({
   value,
 }: {
   eventTarget: Element;
-  value: string;
-}): boolean => Array.from(document.querySelectorAll(value)).some((el) => el.contains(eventTarget));
+  value?: string;
+}): boolean => {
+  if (!value) return false;
+  return Array.from(document.querySelectorAll(value)).some((el) => el.contains(eventTarget));
+};

@@ -59,4 +59,9 @@ describe("elementContains", () => {
     document.body.appendChild(child);
     expect(matchers.elementContains({ eventTarget: parent, value: ".child" })).toBe(false);
   });
+  it("should return false if value is undefined", () => {
+    const el = document.createElement("div");
+    document.body.appendChild(el);
+    expect(matchers.elementContains({ eventTarget: el, value: undefined })).toBe(false);
+  });
 });
