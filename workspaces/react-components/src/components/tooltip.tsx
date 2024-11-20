@@ -1,6 +1,6 @@
 import { type FC } from "react";
-import { Button } from "../button/button";
-import { BaseTooltip } from "./base-tooltip";
+import { BaseTooltip } from "../internal-components/tooltip";
+import { Button } from "../internal-components/button";
 
 interface Props {
   title: string;

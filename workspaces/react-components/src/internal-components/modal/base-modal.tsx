@@ -1,7 +1,7 @@
 import { type FC, type ReactNode } from "react";
 import classNames from "classnames";
 import { Text } from "../text/text";
-import { IconButton } from "../icon-button/icon-button";
+import { IconButton } from "../icon-button";
 import { Close16 } from "../../icons/close16";
 import classes from "./modal.module.css";
 

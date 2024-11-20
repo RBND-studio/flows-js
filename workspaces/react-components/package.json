@@ -1,6 +1,6 @@
 {
-  "name": "@flows/react",
-  "version": "0.0.2-canary.3",
+  "name": "@flows/react-components",
+  "version": "0.0.1",
   "description": "",
   "scripts": {
     "dev": "tsup --watch --env.NODE_ENV development",
@@ -8,9 +8,8 @@
     "lint": "eslint src",
     "tsc": "tsc -p tsconfig.json",
     "version": "pnpm version",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "prepare": "pnpm build"
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch"
   },
   "license": "MIT",
   "repository": {
@@ -18,6 +17,7 @@
     "url": "git+https://github.com/RBND-studio/flows-js.git"
   },
   "devDependencies": {
+    "@flows/react": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/node": "^20.16.3",
     "@types/react": "^18.3.12",
@@ -30,15 +30,19 @@
   "peerDependencies": {
     "react": ">=17.0.2"
   },
+  "dependencies": {
+    "@floating-ui/react-dom": "^2.1.2",
+    "classnames": "^2.5.1"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./index.css": {
+      "import": "./dist/index.css",
+      "require": "./dist/index.css"
     }
-  },
-  "dependencies": {
-    "@floating-ui/react-dom": "^2.1.2",
-    "classnames": "^2.5.1"
   }
 }

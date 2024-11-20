@@ -1,7 +1,7 @@
 import { type FC } from "react";
-import { Button } from "../button/button";
-import { type TourComponentProps } from "../../types";
-import { BaseTooltip } from "./base-tooltip";
+import { type TourComponentProps } from "@flows/react";
+import { BaseTooltip } from "../internal-components/tooltip";
+import { Button } from "../internal-components/button";
 
 type Props = TourComponentProps<{
   title: string;

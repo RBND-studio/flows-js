@@ -9,13 +9,16 @@ const allowedReleases = ["canary", "patch", "minor", "major"];
 if (!allowedReleases.includes(release))
   throw new Error(`You must specify a release type (--release=...): ${allowedReleases.join(", ")}`);
 
-const allowedPackages = ["js", "react"];
+const allowedPackages = ["js", "react", "react-components"];
 if (!allowedPackages.includes(package))
   throw new Error(`You must specify a package (--package=...): ${allowedPackages.join(", ")}`);
 
 const main = async () => {
   if (release === "canary") await exec(`pnpm ${package} version prerelease --preid=canary`);
   else await exec(`pnpm ${package} version ${release}`);
+
+  await exec(`pnpm ${package} build`);
+  await exec(`cp README.md workspaces/${package}`);
 
   const currentVersion = require(`../workspaces/${package}/package.json`).version;
   await exec(`git commit -am "${currentVersion}"`);
@@ -24,8 +27,6 @@ const main = async () => {
   await exec("git push --no-verify");
   await exec(`git push --no-verify --tags`);
 
-  await exec(`pnpm ${package} build`);
-  await exec(`cp README.md workspaces/${package}`);
   await exec(
     `pnpm ${package} publish --access=public --provenance --no-git-checks ${release === "canary" ? "--tag=canary" : ""}`,
   );

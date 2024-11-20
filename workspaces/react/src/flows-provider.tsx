@@ -7,12 +7,8 @@ import { useRunningTours } from "./use-running-tours";
 import { useBlocks } from "./use-blocks";
 import { getSlot } from "./selectors";
 import { TourBlock } from "./tour-block";
-import { Tooltip, TourTooltip } from "./components/tooltip";
 import { PathnameProvider } from "./contexts/pathname-context";
-import { Modal, TourModal } from "./components/modal";
 import { TourController } from "./tour-controller";
-
-import "./styles/vars.css";
 
 interface Props {
   children: ReactNode;
@@ -20,8 +16,8 @@ interface Props {
   environment: string;
   userId?: string;
   apiUrl?: string;
-  components?: Components;
-  tourComponents?: TourComponents;
+  components: Components;
+  tourComponents: TourComponents;
   userProperties?: UserProperties;
 }
 
@@ -31,8 +27,8 @@ export const FlowsProvider: FC<Props> = ({
   environment,
   organizationId,
   userId,
-  components: _components,
-  tourComponents: _tourComponents,
+  components,
+  tourComponents,
   userProperties,
 }) => {
   const blocks = useBlocks({ apiUrl, environment, organizationId, userId, userProperties });
@@ -61,23 +57,6 @@ export const FlowsProvider: FC<Props> = ({
   const floatingTourBlocks = useMemo(
     () => runningTours.filter((b) => !getSlot(b.activeStep)),
     [runningTours],
-  );
-
-  const components = useMemo(
-    () => ({
-      Tooltip,
-      Modal,
-      ..._components,
-    }),
-    [_components],
-  );
-  const tourComponents = useMemo(
-    () => ({
-      Tooltip: TourTooltip,
-      Modal: TourModal,
-      ..._tourComponents,
-    }),
-    [_tourComponents],
   );
 
   return (
