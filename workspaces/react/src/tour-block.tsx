@@ -10,7 +10,6 @@ interface Props {
 
 export const TourBlock: FC<Props> = ({ tour }) => {
   const {
-    block,
     activeStep,
     currentBlockIndex,
     hidden,
@@ -26,7 +25,7 @@ export const TourBlock: FC<Props> = ({ tour }) => {
 
   const Component = tourComponents[activeStep.componentType];
   if (!Component) {
-    log.error(`Tour Component not found for tour block "${block.componentType}"`);
+    log.error(`Tour Component not found for tour block "${activeStep.componentType}"`);
     return null;
   }
 

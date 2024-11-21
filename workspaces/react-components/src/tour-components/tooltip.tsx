@@ -12,7 +12,7 @@ type Props = TourComponentProps<{
   targetElement: string;
 }>;
 
-export const TourTooltip: FC<Props> = (props) => {
+export const Tooltip: FC<Props> = (props) => {
   return (
     <BaseTooltip
       title={props.title}

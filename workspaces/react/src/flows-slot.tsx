@@ -1,7 +1,7 @@
 import { useMemo, type FC, type ReactNode } from "react";
 import { Block } from "./block";
 import { type RunningTour, useFlowsContext } from "./flows-context";
-import { getSlot } from "./selectors";
+import { getSlot } from "./lib/selectors";
 import { type Block as IBlock } from "./types";
 import { TourBlock } from "./tour-block";
 

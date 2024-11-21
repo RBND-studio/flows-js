@@ -12,7 +12,7 @@ type Props = TourComponentProps<{
   hideOverlay: boolean;
 }>;
 
-export const TourModal: FC<Props> = (props) => {
+export const Modal: FC<Props> = (props) => {
   return (
     <BaseModal
       title={props.title}

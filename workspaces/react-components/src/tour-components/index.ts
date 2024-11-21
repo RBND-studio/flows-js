@@ -1,2 +1,2 @@
-export * from "./tour-modal";
-export * from "./tour-tooltip";
+export * from "./modal";
+export * from "./tooltip";
