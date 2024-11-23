@@ -21,9 +21,9 @@ const main = async () => {
   await exec(`cp README.md workspaces/${package}`);
 
   const currentVersion = require(`../workspaces/${package}/package.json`).version;
-  await exec(`git commit -am "${currentVersion}"`);
-  const gitTagName = `@flows/${package}@${currentVersion}`;
-  await exec(`git tag -a ${gitTagName} -m '${gitTagName}'`);
+  const packageAndVersion = `@flows/${package}@${currentVersion}`;
+  await exec(`git commit -am "${packageAndVersion}"`);
+  await exec(`git tag -a ${packageAndVersion} -m '${packageAndVersion}'`);
   await exec("git push --no-verify");
   await exec(`git push --no-verify --tags`);
 
