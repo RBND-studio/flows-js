@@ -36,8 +36,5 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     }
-  },
-  "dependencies": {
-    "react-use-websocket": "^4.11.1"
   }
 }

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import useWebSocket from "react-use-websocket";
 import { type UserProperties, type Block } from "../types";
 import { getApi } from "../api";
+import { useWebsocket } from "./use-websocket";
 
 interface Props {
   apiUrl: string;
@@ -54,7 +54,7 @@ export const useBlocks = ({
       });
     });
   }, []);
-  useWebSocket(url, { onMessage });
+  useWebsocket({ url, onMessage });
 
   const userPropertiesRef = useRef(userProperties);
   useEffect(() => {
