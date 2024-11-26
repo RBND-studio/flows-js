@@ -1,6 +1,6 @@
 {
   "name": "@flows/react-components",
-  "version": "0.0.2-canary.3",
+  "version": "0.0.2-canary.4",
   "description": "",
   "scripts": {
     "dev": "tsup --watch --env.NODE_ENV development",
