@@ -40,6 +40,11 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
+    "./tour": {
+      "types": "./dist/tour.d.ts",
+      "import": "./dist/tour.mjs",
+      "require": "./dist/tour.js"
+    },
     "./index.css": {
       "import": "./dist/index.css",
       "require": "./dist/index.css"
