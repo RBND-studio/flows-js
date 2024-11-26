@@ -2,7 +2,7 @@ import { type FC } from "react";
 import { Button } from "../internal-components/button";
 import { BaseModal } from "../internal-components/modal";
 
-interface Props {
+export interface ModalProps {
   title: string;
   body: string;
   continueText: string;
@@ -13,7 +13,7 @@ interface Props {
   close: () => void;
 }
 
-export const Modal: FC<Props> = (props) => {
+export const Modal: FC<ModalProps> = (props) => {
   return (
     <BaseModal
       title={props.title}

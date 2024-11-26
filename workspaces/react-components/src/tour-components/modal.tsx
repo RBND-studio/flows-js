@@ -3,7 +3,7 @@ import { type TourComponentProps } from "@flows/react";
 import { BaseModal } from "../internal-components/modal";
 import { Button } from "../internal-components/button";
 
-type Props = TourComponentProps<{
+export type ModalProps = TourComponentProps<{
   title: string;
   body: string;
   continueText: string;
@@ -12,7 +12,7 @@ type Props = TourComponentProps<{
   hideOverlay: boolean;
 }>;
 
-export const Modal: FC<Props> = (props) => {
+export const Modal: FC<ModalProps> = (props) => {
   return (
     <BaseModal
       title={props.title}

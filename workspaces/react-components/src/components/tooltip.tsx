@@ -2,7 +2,7 @@ import { type FC } from "react";
 import { BaseTooltip } from "../internal-components/tooltip";
 import { Button } from "../internal-components/button";
 
-interface Props {
+export interface TooltipProps {
   title: string;
   body: string;
   continueText: string;
@@ -13,7 +13,7 @@ interface Props {
   close: () => void;
 }
 
-export const Tooltip: FC<Props> = (props) => {
+export const Tooltip: FC<TooltipProps> = (props) => {
   return (
     <BaseTooltip
       title={props.title}

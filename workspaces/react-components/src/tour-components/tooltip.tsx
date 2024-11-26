@@ -3,7 +3,7 @@ import { type TourComponentProps } from "@flows/react";
 import { BaseTooltip } from "../internal-components/tooltip";
 import { Button } from "../internal-components/button";
 
-type Props = TourComponentProps<{
+export type TooltipProps = TourComponentProps<{
   title: string;
   body: string;
   continueText: string;
@@ -12,7 +12,7 @@ type Props = TourComponentProps<{
   targetElement: string;
 }>;
 
-export const Tooltip: FC<Props> = (props) => {
+export const Tooltip: FC<TooltipProps> = (props) => {
   return (
     <BaseTooltip
       title={props.title}
