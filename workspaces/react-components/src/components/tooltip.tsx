@@ -5,7 +5,7 @@ import { Button } from "../internal-components/button";
 export interface TooltipProps {
   title: string;
   body: string;
-  continueText: string;
+  continueText?: string;
   targetElement: string;
   showCloseButton: boolean;
 
@@ -21,9 +21,11 @@ export const Tooltip: FC<TooltipProps> = (props) => {
       targetElement={props.targetElement}
       onClose={props.showCloseButton ? props.close : undefined}
       buttons={
-        <Button variant="primary" onClick={props.continue}>
-          {props.continueText}
-        </Button>
+        props.continueText ? (
+          <Button variant="primary" onClick={props.continue}>
+            {props.continueText}
+          </Button>
+        ) : null
       }
     />
   );

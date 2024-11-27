@@ -6,8 +6,8 @@ import { Button } from "../internal-components/button";
 export type ModalProps = TourComponentProps<{
   title: string;
   body: string;
-  continueText: string;
-  previousText: string;
+  continueText?: string;
+  previousText?: string;
   showCloseButton: boolean;
   hideOverlay: boolean;
 }>;
@@ -20,14 +20,16 @@ export const Modal: FC<ModalProps> = (props) => {
       overlay={!props.hideOverlay}
       buttons={
         <>
-          {props.previous ? (
+          {props.previous && props.previousText ? (
             <Button variant="secondary" onClick={props.previous}>
               {props.previousText}
             </Button>
           ) : null}
-          <Button variant="primary" onClick={props.continue}>
-            {props.continueText}
-          </Button>
+          {props.continueText ? (
+            <Button variant="primary" onClick={props.continue}>
+              {props.continueText}
+            </Button>
+          ) : null}
         </>
       }
       onClose={props.showCloseButton ? props.cancel : undefined}

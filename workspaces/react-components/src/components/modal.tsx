@@ -5,7 +5,7 @@ import { BaseModal } from "../internal-components/modal";
 export interface ModalProps {
   title: string;
   body: string;
-  continueText: string;
+  continueText?: string;
   showCloseButton: boolean;
   hideOverlay: boolean;
 
@@ -19,9 +19,11 @@ export const Modal: FC<ModalProps> = (props) => {
       title={props.title}
       body={props.body}
       buttons={
-        <Button variant="primary" onClick={props.continue}>
-          {props.continueText}
-        </Button>
+        props.continueText ? (
+          <Button variant="primary" onClick={props.continue}>
+            {props.continueText}
+          </Button>
+        ) : null
       }
       overlay={!props.hideOverlay}
       onClose={props.showCloseButton ? props.close : undefined}

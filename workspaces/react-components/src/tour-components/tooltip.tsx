@@ -6,8 +6,8 @@ import { Button } from "../internal-components/button";
 export type TooltipProps = TourComponentProps<{
   title: string;
   body: string;
-  continueText: string;
-  previousText: string;
+  continueText?: string;
+  previousText?: string;
   showCloseButton: boolean;
   targetElement: string;
 }>;
@@ -21,14 +21,16 @@ export const Tooltip: FC<TooltipProps> = (props) => {
       onClose={props.showCloseButton ? props.cancel : undefined}
       buttons={
         <>
-          {props.previous ? (
+          {props.previous && props.previousText ? (
             <Button variant="secondary" onClick={props.previous}>
               {props.previousText}
             </Button>
           ) : null}
-          <Button variant="primary" onClick={props.continue}>
-            {props.continueText}
-          </Button>
+          {props.continueText ? (
+            <Button variant="primary" onClick={props.continue}>
+              {props.continueText}
+            </Button>
+          ) : null}
         </>
       }
     />
