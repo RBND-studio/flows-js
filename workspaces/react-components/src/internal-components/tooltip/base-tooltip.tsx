@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type FC, type ReactNode } from "react";
+import { useEffect, useRef, type FC, type ReactNode } from "react";
 import { useFloating, shift, offset, arrow, flip, type Side } from "@floating-ui/react-dom";
 import { Text } from "../text/text";
 import { IconButton } from "../icon-button";
@@ -51,6 +51,16 @@ export const BaseTooltip: FC<Props> = (props) => {
     bottom: "",
     [staticSide]: `${-ARROW_SIZE}px`,
   };
+
+  useEffect(() => {
+    if (!props.targetElement) {
+      // TODO: refactor the branded console log and use it in all packages
+      // eslint-disable-next-line no-console -- debug message
+      console.error("Flows: Cannot render tooltip without target element");
+    }
+  }, [props.targetElement]);
+
+  if (!props.targetElement) return null;
 
   return (
     <div className={classes.root}>
