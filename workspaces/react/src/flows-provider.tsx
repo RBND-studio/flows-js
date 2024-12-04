@@ -14,7 +14,7 @@ interface Props {
   children: ReactNode;
   organizationId: string;
   environment: string;
-  userId?: string;
+  userId: string;
   apiUrl?: string;
   components: Components;
   tourComponents: TourComponents;
@@ -36,7 +36,7 @@ export const FlowsProvider: FC<Props> = ({
   const sendEvent: IFlowsContext["sendEvent"] = useCallback(
     async ({ blockId, name, exitNode, properties }) => {
       await getApi(apiUrl).sendEvent({
-        userId: userId ?? "",
+        userId,
         environment,
         organizationId,
         name,
