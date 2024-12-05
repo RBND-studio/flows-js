@@ -27,7 +27,7 @@ export const BaseModal: FC<Props> = (props) => {
       <div className={classes.wrapper}>
         <div className={classes.modal}>
           <Text variant="title">{props.title}</Text>
-          <Text variant="body">{props.body}</Text>
+          <Text variant="body" dangerouslySetInnerHTML={{ __html: props.body }} />
 
           <div className={classes.footer}>{props.buttons}</div>
           {props.onClose ? (

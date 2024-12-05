@@ -66,7 +66,7 @@ export const BaseTooltip: FC<Props> = (props) => {
     <div className={classes.root}>
       <div className={classes.tooltip} ref={refs.setFloating} style={{ left: x, top: y }}>
         <Text variant="title">{props.title}</Text>
-        <Text variant="body">{props.body}</Text>
+        <Text variant="body" dangerouslySetInnerHTML={{ __html: props.body }} />
 
         <div className={classes.footer}>{props.buttons}</div>
         {props.onClose ? (

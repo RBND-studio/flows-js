@@ -1,10 +1,8 @@
 import classNames from "classnames";
-import { type FC, type ReactNode } from "react";
+import { type FC } from "react";
 import classes from "./text.module.css";
 
-interface Props {
-  className?: string;
-  children?: ReactNode;
+interface Props extends React.HTMLAttributes<HTMLParagraphElement> {
   variant: "title" | "body";
 }
 
