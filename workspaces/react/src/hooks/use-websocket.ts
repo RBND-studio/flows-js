@@ -33,7 +33,13 @@ export const useWebsocket = ({ url, onMessage, onOpen }: Props): void => {
     const cleanup = (): void => {
       socket.removeEventListener("open", handleOpen);
       socket.removeEventListener("close", handleClose);
-      socket.close();
+
+      if (socket.readyState === WebSocket.CONNECTING) {
+        socket.addEventListener("open", () => {
+          socket.close();
+        });
+      } else socket.close();
+
       setWs(undefined);
     };
 
