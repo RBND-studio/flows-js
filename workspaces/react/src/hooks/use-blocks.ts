@@ -7,7 +7,7 @@ interface Props {
   apiUrl: string;
   environment: string;
   organizationId: string;
-  userId?: string;
+  userId: string;
   userProperties?: UserProperties;
 }
 
@@ -26,21 +26,35 @@ export const useBlocks = ({
   const [blocks, setBlocks] = useState<Block[]>([]);
 
   const params = useMemo(
-    () => ({
-      environment,
-      organizationId,
-      userId: userId ?? "",
-    }),
+    () => ({ environment, organizationId, userId }),
     [environment, organizationId, userId],
   );
+  const userPropertiesRef = useRef(userProperties);
+  useEffect(() => {
+    userPropertiesRef.current = userProperties;
+  }, [userProperties]);
+
+  // TODO: call fetchBlocks on reconnect
+  const fetchBlocks = useCallback(() => {
+    void getApi(apiUrl)
+      .getBlocks({ ...params, userProperties: userPropertiesRef.current })
+      .then((res) => {
+        setBlocks(res.blocks);
+      })
+      .catch((err: unknown) => {
+        // eslint-disable-next-line no-console -- This is a debug message
+        console.log(err);
+      });
+  }, [apiUrl, params]);
+
   const url = useMemo(() => {
     const baseUrl = apiUrl.replace("https://", "wss://").replace("http://", "ws://");
     return `${baseUrl}/sdk/block-updates?${new URLSearchParams(params).toString()}`;
   }, [apiUrl, params]);
 
   const onMessage = useCallback((event: MessageEvent<unknown>) => {
-    // eslint-disable-next-line no-console -- This is a debug message
-    console.log("Message from server", event.data);
+    // TODO: add debug logging
+    // console.log("Message from server", event.data);
     const data = JSON.parse(event.data as string) as BlockUpdatesPayload;
     const exitedBlockIdsSet = new Set(data.exitedBlockIds);
     setBlocks((prevBlocks) => prevBlocks.filter((block) => !exitedBlockIdsSet.has(block.id)));
@@ -54,24 +68,7 @@ export const useBlocks = ({
       });
     });
   }, []);
-  useWebsocket({ url, onMessage });
-
-  const userPropertiesRef = useRef(userProperties);
-  useEffect(() => {
-    userPropertiesRef.current = userProperties;
-  }, [userProperties]);
-
-  useEffect(() => {
-    void getApi(apiUrl)
-      .getBlocks({ ...params, userProperties: userPropertiesRef.current })
-      .then((res) => {
-        setBlocks(res.blocks);
-      })
-      .catch((err: unknown) => {
-        // eslint-disable-next-line no-console -- This is a debug message
-        console.log(err);
-      });
-  }, [apiUrl, params]);
+  useWebsocket({ url, onMessage, onOpen: fetchBlocks });
 
   return blocks;
 };

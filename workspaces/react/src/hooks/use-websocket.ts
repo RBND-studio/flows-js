@@ -3,9 +3,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 interface Props {
   url: string;
   onMessage: (event: MessageEvent<unknown>) => void;
+  onOpen?: () => void;
 }
 
-export const useWebsocket = ({ url, onMessage }: Props): void => {
+export const useWebsocket = ({ url, onMessage, onOpen }: Props): void => {
   const [ws, setWs] = useState<WebSocket>();
   const cleanupRef = useRef<() => void>();
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
@@ -61,6 +62,15 @@ export const useWebsocket = ({ url, onMessage }: Props): void => {
       clearTimeout(timeout);
     };
   }, [reconnectAttempts, ws, connect]);
+
+  useEffect(() => {
+    if (!ws || !onOpen) return;
+
+    ws.addEventListener("open", onOpen);
+    return () => {
+      ws.removeEventListener("open", onOpen);
+    };
+  }, [onOpen, ws]);
 
   useEffect(() => {
     if (!ws) return;
