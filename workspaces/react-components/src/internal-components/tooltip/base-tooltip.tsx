@@ -1,7 +1,15 @@
 "use client";
 
 import { useEffect, useRef, type FC, type ReactNode } from "react";
-import { useFloating, shift, offset, arrow, flip, type Side } from "@floating-ui/react-dom";
+import {
+  useFloating,
+  shift,
+  offset,
+  arrow,
+  flip,
+  type Side,
+  type Placement,
+} from "@floating-ui/react-dom";
 import { Text } from "../text/text";
 import { IconButton } from "../icon-button";
 import { Close16 } from "../../icons/close16";
@@ -18,6 +26,7 @@ interface Props {
   targetElement: string;
   buttons: ReactNode;
   onClose?: () => void;
+  placement?: Placement;
 }
 
 export const BaseTooltip: FC<Props> = (props) => {
@@ -25,6 +34,7 @@ export const BaseTooltip: FC<Props> = (props) => {
 
   const offsetDistance = DISTANCE + ARROW_SIZE;
   const { refs, middlewareData, placement, x, y } = useFloating({
+    placement: props.placement,
     elements: { reference: document.querySelector(props.targetElement) },
     middleware: [
       flip({ fallbackPlacements: ["top", "bottom", "left", "right"] }),
