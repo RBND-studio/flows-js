@@ -1,0 +1,7 @@
+src
+tsconfig*
+tsup.config.ts
+jest.config.js
+.eslintrc.js
+.eslintignore
+index.d.ts

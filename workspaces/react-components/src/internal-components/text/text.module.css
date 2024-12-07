@@ -1,0 +1,15 @@
+.text {
+  font-family: var(--flows-font-family);
+  margin: 0;
+}
+
+.body {
+  font-size: var(--flows-base-font-size);
+  line-height: var(--flows-base-line-height);
+}
+
+.title {
+  font-size: var(--flows-title-font-size);
+  line-height: var(--flows-title-line-height);
+  font-weight: var(--flows-title-font-weight);
+}

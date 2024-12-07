@@ -2,7 +2,7 @@
   "extends": "@vercel/style-guide/typescript",
   "compilerOptions": {
     "noEmit": true,
-    "target": "ES2015",
+    "target": "ES2017",
     "moduleResolution": "Bundler",
     "module": "ESNext"
   },
