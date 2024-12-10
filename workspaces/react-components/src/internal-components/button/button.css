@@ -1,4 +1,4 @@
-.button {
+.flows_button {
   border-radius: var(--flows-borderRadius-small);
   cursor: pointer;
   transition:
@@ -13,21 +13,21 @@
   text-decoration: none;
 }
 
-.primary {
+.flows_button_primary {
   background-color: var(--flows-bg-primary);
   border: 1px solid var(--flows-bg-primary);
   color: var(--flows-fg-onPrimary);
 }
-.primary:hover {
+.flows_button_primary:hover {
   background-color: var(--flows-bg-primary-hover);
   border: 1px solid var(--flows-bg-primary-hover);
 }
 
-.secondary {
+.flows_button_secondary {
   background-color: var(--flows-bg-subtle);
   border: var(--flows-border);
   color: var(--flows-fg-default);
 }
-.secondary:hover {
+.flows_button_secondary:hover {
   background-color: var(--flows-bg-hover);
 }

@@ -1,4 +1,4 @@
-.root {
+.flows_tooltip_root {
   width: 100%;
   top: 0;
   left: 0;
@@ -6,12 +6,12 @@
   z-index: var(--flows-zIndex);
 }
 
-.overlay {
+.flows_tooltip_overlay {
   position: fixed;
   z-index: -1;
   pointer-events: none;
 }
-.overlay:after {
+.flows_tooltip_overlay:after {
   content: "";
   position: absolute;
   inset: 0;
@@ -20,7 +20,7 @@
   border-radius: var(--flows-tooltip-overlayBorderRadius);
 }
 
-.tooltip {
+.flows_tooltip_tooltip {
   background-color: var(--flows-bg-default);
   border: var(--flows-border);
   color: var(--flows-fg-default);
@@ -36,7 +36,7 @@
   min-width: var(--flows-tooltip-minWidth);
   max-width: min(var(--flows-tooltip-maxWidth), calc(100% - 16px));
 }
-.tooltip:before {
+.flows_tooltip_tooltip:before {
   box-shadow: var(--flows-shadow);
   border-radius: var(--flows-borderRadius-medium);
   content: "";
@@ -46,26 +46,26 @@
   pointer-events: none;
 }
 
-.arrow {
+.flows_tooltip_arrow {
   position: absolute;
   width: var(--flows-size-medium);
   height: var(--flows-size-medium);
   transform: rotate(45deg);
   border-radius: var(--flows-borderRadius-xSmall);
 }
-.arrow-bottom {
+.flows_tooltip_arrow-bottom {
   border: var(--flows-border);
   z-index: -1;
   box-shadow: var(--flows-shadow);
 }
-.arrow-top {
+.flows_tooltip_arrow-top {
   background-color: var(--flows-bg-default);
   border: var(--flows-border);
   border-color: rgba(0, 0, 0, 0);
   background-clip: padding-box;
 }
 
-.footer {
+.flows_tooltip_footer {
   margin-top: var(--flows-size-medium);
   display: flex;
   flex-wrap: wrap;
@@ -73,7 +73,7 @@
   gap: var(--flows-size-small);
 }
 
-.close {
+.flows_tooltip_close {
   position: absolute;
   top: var(--flows-tooltip-padding);
   right: var(--flows-tooltip-padding);

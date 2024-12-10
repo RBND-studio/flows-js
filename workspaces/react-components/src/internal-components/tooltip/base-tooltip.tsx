@@ -15,7 +15,6 @@ import classNames from "classnames";
 import { Text } from "../text/text";
 import { IconButton } from "../icon-button";
 import { Close16 } from "../../icons/close16";
-import classes from "./tooltip.module.css";
 
 const DISTANCE = 4;
 const ARROW_SIZE = 6;
@@ -98,21 +97,27 @@ export const BaseTooltip: FC<Props> = (props) => {
   }
 
   return (
-    <div className={classes.root}>
-      {props.overlay ? <div className={classes.overlay} ref={overlayRef} /> : null}
-      <div className={classes.tooltip} ref={refs.setFloating}>
+    <div className="flows_tooltip_root">
+      {props.overlay ? <div className="flows_tooltip_overlay" ref={overlayRef} /> : null}
+      <div className="flows_tooltip_tooltip" ref={refs.setFloating}>
         <Text variant="title">{props.title}</Text>
         <Text variant="body" dangerouslySetInnerHTML={{ __html: props.body }} />
 
-        <div className={classes.footer}>{props.buttons}</div>
+        <div className="flows_tooltip_footer">{props.buttons}</div>
         {props.onClose ? (
-          <IconButton className={classes.close} onClick={props.onClose}>
+          <IconButton className="flows_tooltip_close" onClick={props.onClose}>
             <Close16 />
           </IconButton>
         ) : null}
 
-        <div className={classNames(classes.arrow, classes["arrow-bottom"])} ref={bottomArrowRef} />
-        <div className={classNames(classes.arrow, classes["arrow-top"])} ref={topArrowRef} />
+        <div
+          className={classNames("flows_tooltip_arrow", "flows_tooltip_arrow-bottom")}
+          ref={bottomArrowRef}
+        />
+        <div
+          className={classNames("flows_tooltip_arrow", "flows_tooltip_arrow-top")}
+          ref={topArrowRef}
+        />
       </div>
     </div>
   );

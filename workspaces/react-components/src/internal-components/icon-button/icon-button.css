@@ -1,4 +1,4 @@
-.button {
+.flows_iconButton {
   border-radius: var(--flows-borderRadius-small);
   cursor: pointer;
   transition:
@@ -12,6 +12,6 @@
   display: grid;
   place-items: center;
 }
-.button:hover {
+.flows_iconButton:hover {
   background-color: var(--flows-bg-hover);
 }

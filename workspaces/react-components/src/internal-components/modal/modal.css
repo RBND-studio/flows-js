@@ -1,11 +1,11 @@
-.overlay {
+.flows_modal_overlay {
   position: fixed;
   inset: 0;
   background-color: var(--flows-modal-overlayBackground);
   pointer-events: none;
 }
 
-.wrapper {
+.flows_modal_wrapper {
   position: fixed;
   inset: 0;
   display: grid;
@@ -16,7 +16,7 @@
   z-index: var(--flows-zIndex);
 }
 
-.modal {
+.flows_modal_modal {
   pointer-events: auto;
   background-color: var(--flows-bg-default);
   border: var(--flows-border);
@@ -30,7 +30,7 @@
   max-width: var(--flows-modal-maxWidth);
 }
 
-.footer {
+.flows_modal_footer {
   margin-top: var(--flows-size-medium);
   display: flex;
   flex-wrap: wrap;
@@ -38,7 +38,7 @@
   gap: var(--flows-size-small);
 }
 
-.close {
+.flows_modal_close {
   position: absolute;
   top: var(--flows-modal-padding);
   right: var(--flows-modal-padding);
