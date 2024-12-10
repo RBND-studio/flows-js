@@ -12,6 +12,7 @@ export type TooltipProps = TourComponentProps<{
   showCloseButton: boolean;
   targetElement: string;
   placement?: Placement;
+  hideOverlay?: boolean;
 }>;
 
 export const Tooltip: FC<TooltipProps> = (props) => {
@@ -21,6 +22,7 @@ export const Tooltip: FC<TooltipProps> = (props) => {
       body={props.body}
       targetElement={props.targetElement}
       placement={props.placement}
+      overlay={!props.hideOverlay}
       onClose={props.showCloseButton ? props.cancel : undefined}
       buttons={
         <>

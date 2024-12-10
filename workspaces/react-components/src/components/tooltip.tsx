@@ -10,6 +10,7 @@ export interface TooltipProps {
   targetElement: string;
   showCloseButton: boolean;
   placement?: Placement;
+  hideOverlay?: boolean;
 
   continue: () => void;
   close: () => void;
@@ -22,6 +23,7 @@ export const Tooltip: FC<TooltipProps> = (props) => {
       body={props.body}
       targetElement={props.targetElement}
       placement={props.placement}
+      overlay={!props.hideOverlay}
       onClose={props.showCloseButton ? props.close : undefined}
       buttons={
         props.continueText ? (

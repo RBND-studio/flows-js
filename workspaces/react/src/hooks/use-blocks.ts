@@ -61,12 +61,10 @@ export const useBlocks = ({
       ...data.exitedBlockIds,
       ...data.updatedBlocks.map((b) => b.id),
     ]);
-    setBlocks((prevBlocks) => {
-      const filteredBlocks = prevBlocks.filter(
-        (block) => !exitedOrUpdatedBlockIdsSet.has(block.id),
-      );
-      return [...filteredBlocks, ...data.updatedBlocks];
-    });
+    setBlocks((prevBlocks) => [
+      ...prevBlocks.filter((block) => !exitedOrUpdatedBlockIdsSet.has(block.id)),
+      ...data.updatedBlocks,
+    ]);
   }, []);
   useWebsocket({ url, onMessage, onOpen: fetchBlocks });
 
