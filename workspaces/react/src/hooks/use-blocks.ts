@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { type UserProperties, type Block } from "../types";
+import { type UserProperties, type Block, type TourStep } from "../types";
 import { getApi } from "../api";
+import { log } from "../lib/log";
 import { useWebsocket } from "./use-websocket";
 
 interface Props {
@@ -56,19 +57,36 @@ export const useBlocks = ({
     // TODO: add debug logging
     // console.log("Message from server", event.data);
     const data = JSON.parse(event.data as string) as BlockUpdatesPayload;
-    const exitedBlockIdsSet = new Set(data.exitedBlockIds);
-    setBlocks((prevBlocks) => prevBlocks.filter((block) => !exitedBlockIdsSet.has(block.id)));
-    data.updatedBlocks.forEach((updatedBlock) => {
-      setBlocks((prevBlocks) => {
-        const index = prevBlocks.findIndex((block) => block.id === updatedBlock.id);
-        if (index === -1) return [...prevBlocks, updatedBlock];
-        const newBlocks = [...prevBlocks];
-        newBlocks[index] = updatedBlock;
-        return newBlocks;
-      });
+    const exitedOrUpdatedBlockIdsSet = new Set([
+      ...data.exitedBlockIds,
+      ...data.updatedBlocks.map((b) => b.id),
+    ]);
+    setBlocks((prevBlocks) => {
+      const filteredBlocks = prevBlocks.filter(
+        (block) => !exitedOrUpdatedBlockIdsSet.has(block.id),
+      );
+      return [...filteredBlocks, ...data.updatedBlocks];
     });
   }, []);
   useWebsocket({ url, onMessage, onOpen: fetchBlocks });
 
+  // Log error about slottable blocks without slotId
+  useEffect(() => {
+    blocks.forEach((b) => {
+      logSlottableError(b);
+
+      b.tourBlocks?.forEach((tb) => {
+        logSlottableError(tb);
+      });
+    });
+  }, [blocks]);
+
   return blocks;
+};
+
+const logSlottableError = (b: Block | TourStep): void => {
+  if (b.slottable && !b.slotId)
+    log.error(
+      `Encountered workflow block "${b.componentType}" that is slottable but has no slotId`,
+    );
 };

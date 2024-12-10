@@ -1,10 +1,10 @@
 import { createContext, useContext } from "react";
-import { type TourBlock, type Block, type Components, type TourComponents } from "./types";
+import { type TourStep, type Block, type Components, type TourComponents } from "./types";
 
 export interface RunningTour {
   block: Block;
   currentBlockIndex: number;
-  activeStep?: TourBlock;
+  activeStep?: TourStep;
   hidden: boolean;
   hide: () => void;
   previous: () => void;

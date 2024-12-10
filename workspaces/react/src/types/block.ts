@@ -11,22 +11,24 @@ export interface Block {
   data: Record<string, unknown>;
   exitNodes: string[];
 
+  slottable: boolean;
   slotId?: string;
   slotIndex?: number;
 
   page_targeting_operator?: string;
   page_targeting_values?: string[];
 
-  tourBlocks?: TourBlock[];
+  tourBlocks?: TourStep[];
   currentTourIndex?: number;
 }
 
-export interface TourBlock {
+export interface TourStep {
   id: string;
   type: string;
   componentType?: string;
   data: Record<string, unknown>;
 
+  slottable: boolean;
   slotId?: string;
   slotIndex?: number;
 

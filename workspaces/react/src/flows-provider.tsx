@@ -5,7 +5,6 @@ import { Block } from "./block";
 import { FlowsContext, type IFlowsContext } from "./flows-context";
 import { useRunningTours } from "./hooks/use-running-tours";
 import { useBlocks } from "./hooks/use-blocks";
-import { getSlot } from "./lib/selectors";
 import { TourBlock } from "./tour-block";
 import { PathnameProvider } from "./contexts/pathname-context";
 import { TourController } from "./tour-controller";
@@ -51,11 +50,17 @@ export const FlowsProvider: FC<Props> = ({
   const runningTours = useRunningTours({ blocks, sendEvent });
 
   const floatingBlocks = useMemo(
-    () => blocks.filter((b) => !getSlot(b) && b.componentType),
+    () =>
+      blocks.filter(
+        (b) =>
+          !b.slottable &&
+          // tour block doesn't have componentType
+          b.componentType,
+      ),
     [blocks],
   );
   const floatingTourBlocks = useMemo(
-    () => runningTours.filter((b) => !getSlot(b.activeStep)),
+    () => runningTours.filter((b) => b.activeStep && !b.activeStep.slottable),
     [runningTours],
   );
 
