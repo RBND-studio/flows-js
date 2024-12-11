@@ -5,6 +5,8 @@
   "scripts": {
     "e2e": "pnpm --filter e2e",
     "js": "pnpm --filter js",
+    "react": "pnpm --filter react",
+    "react-components": "pnpm --filter react-components",
     "tsc": "pnpm -r tsc",
     "test": "pnpm -r test",
     "lint": "pnpm -r lint",
@@ -15,11 +17,13 @@
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
+    "@commitlint/types": "^19.5.0",
     "@vercel/style-guide": "^6.0.0",
     "concurrently": "^9.0.1",
     "eslint": "^8.57.0",
     "husky": "^9.1.6",
+    "minimist": "^1.2.8",
     "prettier": "^3.3.3"
   },
-  "packageManager": "pnpm@9.12.2"
+  "packageManager": "pnpm@9.15.0"
 }
