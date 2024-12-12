@@ -1,0 +1,33 @@
+.flows_button {
+  border-radius: var(--flows-borderRadius-small);
+  cursor: pointer;
+  transition:
+    background-color 120ms ease-in-out,
+    border-color 120ms ease-in-out;
+  padding: 4px 8px;
+  font-family: var(--flows-font-family);
+  font-size: var(--flows-base-font-size);
+  line-height: var(--flows-base-line-height);
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.flows_button_primary {
+  background-color: var(--flows-bg-primary);
+  border: 1px solid var(--flows-bg-primary);
+  color: var(--flows-fg-onPrimary);
+}
+.flows_button_primary:hover {
+  background-color: var(--flows-bg-primary-hover);
+  border: 1px solid var(--flows-bg-primary-hover);
+}
+
+.flows_button_secondary {
+  background-color: var(--flows-bg-subtle);
+  border: var(--flows-border);
+  color: var(--flows-fg-default);
+}
+.flows_button_secondary:hover {
+  background-color: var(--flows-bg-hover);
+}
