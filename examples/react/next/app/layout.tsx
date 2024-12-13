@@ -6,6 +6,7 @@ import { FlowsProvider } from "@flows/react";
 import * as components from "@flows/react-components";
 import * as tourComponents from "@flows/react-components/tour";
 import "@flows/react-components/index.css";
+import { Banner } from "@/components/banner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,10 @@ export default function RootLayout({
           organizationId="YOUR_ORGANIZATION_ID"
           userId="YOUR_USER_ID"
           environment="production"
-          components={{ ...components }}
+          components={{
+            ...components,
+            Banner: Banner,
+          }}
           tourComponents={{ ...tourComponents }}
         >
           {children}

@@ -1,3 +1,4 @@
+import { FlowsSlot } from "@flows/react";
 import Image from "next/image";
 
 export default function Home() {
@@ -48,6 +49,15 @@ export default function Home() {
             Read our docs
           </a>
         </div>
+
+        <FlowsSlot
+          id="my-slot"
+          placeholder={
+            <div className="rounded border border-gray-700 p-4 w-full h-40">
+              <p className="text-sm text-gray-400">Slot content will be displayed here</p>
+            </div>
+          }
+        />
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a
@@ -56,13 +66,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
+          <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
           Learn
         </a>
         <a
@@ -71,13 +75,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
+          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
           Examples
         </a>
         <a
@@ -86,13 +84,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
+          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
           Go to nextjs.org →
         </a>
       </footer>
