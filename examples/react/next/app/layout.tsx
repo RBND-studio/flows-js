@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
 import { FlowsProvider } from "@flows/react";
 import * as components from "@flows/react-components";
 import * as tourComponents from "@flows/react-components/tour";
-
 import "@flows/react-components/index.css";
 
 const geistSans = Geist({

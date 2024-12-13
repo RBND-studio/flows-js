@@ -1,119 +1,40 @@
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+
 import { FlowsProvider } from "@flows/react";
 import * as components from "@flows/react-components";
 import * as tourComponents from "@flows/react-components/tour";
-import logo from "./assets/logo.svg";
-
-// Don't forget to import the CSS for @flows/react-components
 import "@flows/react-components/index.css";
 
 function App() {
+  const [count, setCount] = useState(0);
+
   return (
     <FlowsProvider
-      // TODO: remove
-      apiUrl="https://api.dev.flows-cloud.com"
-      // Replace with you own organizationId
-      organizationId="a96d1130-eeb6-4d67-81a8-55ba5db45c77"
-      // production environment is created by default
+      organizationId="YOUR_ORGANIZATION_ID"
+      userId="YOUR_USER_ID"
       environment="production"
-      // Pass your own userId to distinguish users
-      userId="your_user_id"
       components={{ ...components }}
       tourComponents={{ ...tourComponents }}
     >
-      <main>
-        <div className="header">
-          <div className="header-inner-wrap">
-            <div className="callout">
-              <h1>Flows React Next.js example</h1>
-              <p>
-                Get started at&nbsp;
-                <a
-                  href="https://flows.sh/?utm_source=demos&utm_campaign=next-js"
-                  target="_blank"
-                  className="link"
-                >
-                  flows.sh
-                </a>
-              </p>
-            </div>
-            <a
-              href="https://flows.sh/?utm_source=demos&utm_campaign=next-js"
-              target="_blank"
-              className="logo"
-            >
-              <img src={logo} alt="FlowsJS" height="28" />
-            </a>
-          </div>
-        </div>
-        <div className="main-wrapper">
-          <div className="flows-launch-wrapper">
-            <button id="start-cloud">Launch flow</button>
-          </div>
-          <div className="app-wrapper">
-            <div className="app-header">
-              <p className="app-logo">DropCrate</p>
-              <button className="btn-secondary" id="upload">
-                Upload file
-              </button>
-            </div>
-            <div className="app-content">
-              <p className="app-list-title">Your files</p>
-              <div className="app-files">
-                <div className="app-file-item" id="file1">
-                  FunnyCat.jpg
-                </div>
-                <div className="app-file-item" id="file2">
-                  ImportantDoc.pdf
-                </div>
-                <div className="app-file-item" id="file3">
-                  CoolVideo.mp4
-                </div>
-                <div className="app-file-item" id="file4">
-                  DankMeme.png
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="footer">
-          <div className="footer-inner-wrap">
-            <a
-              className="footer-link"
-              href="https://flows.sh/docs/?utm_source=demos&utm_campaign=next-js"
-              target="_blank"
-            >
-              <h2 className="footer-heading">Docs</h2>
-              <p className="footer-link-text">Learn how to use Flows to build user onboarding.</p>
-            </a>
-            <a
-              className="footer-link"
-              href="https://app.flows.sh/signup/?utm_source=demos&utm_campaign=next-js"
-              target="_blank"
-            >
-              <h2 className="footer-heading">Sign up</h2>
-              <p className="footer-link-text">Create a Flows account and start creating flows.</p>
-            </a>
-            <a
-              className="footer-link"
-              href="https://github.com/RBND-studio/flows-js/tree/main/examples"
-              target="_blank"
-            >
-              <h2 className="footer-heading">See other demos</h2>
-              <p className="footer-link-text">Visit our GitHub repo to see other examples.</p>
-            </a>
-            <a
-              className="footer-link"
-              href="https://github.com/RBND-studio/flows-js/tree/main/examples/react-nextjs"
-              target="_blank"
-            >
-              <h2 className="footer-heading">See source code</h2>
-              <p className="footer-link-text">
-                Visit our GitHub repo to what makes this example tick.
-              </p>
-            </a>
-          </div>
-        </div>
-      </main>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
     </FlowsProvider>
   );
 }
