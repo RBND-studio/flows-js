@@ -30,12 +30,18 @@ export const Tooltip: FC<TooltipProps> = (props) => {
             <Button variant="secondary" onClick={props.previous}>
               {props.previousText}
             </Button>
-          ) : null}
+          ) : (
+            // This div ensures elements are aligned correctly when there is no previous button
+            <div aria-hidden />
+          )}
           {props.continueText ? (
             <Button variant="primary" onClick={props.continue}>
               {props.continueText}
             </Button>
-          ) : null}
+          ) : (
+            // This div ensures elements are aligned correctly when there is no continue button
+            <div aria-hidden />
+          )}
         </>
       }
     />
