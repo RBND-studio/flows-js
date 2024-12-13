@@ -100,8 +100,14 @@ export const BaseTooltip: FC<Props> = (props) => {
     <div className="flows_tooltip_root">
       {props.overlay ? <div className="flows_tooltip_overlay" ref={overlayRef} /> : null}
       <div className="flows_tooltip_tooltip" ref={refs.setFloating}>
-        <Text variant="title">{props.title}</Text>
-        <Text variant="body" dangerouslySetInnerHTML={{ __html: props.body }} />
+        <Text className="flows_tooltip_title" variant="title">
+          {props.title}
+        </Text>
+        <Text
+          variant="body"
+          className="flows_tooltip_body"
+          dangerouslySetInnerHTML={{ __html: props.body }}
+        />
 
         <div className="flows_tooltip_footer">{props.buttons}</div>
         {props.onClose ? (
