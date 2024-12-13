@@ -8,7 +8,13 @@ In `layout.tsx` you can find how to implement `<FlowsProvider>` alongside the pr
 
 ## Custom component
 
-We have created one custom component `banner.tsx` that has two custom properties: `title` (string) and `body` (string). And one exit node: `close`.
+### Workflow block
+
+In `banner.tsx` you can find implementation of workflow block custom component that has two custom properties: `title` (string) and `body` (string). And one exit node: `close`.
+
+### Tour block
+
+In `tour-banner.tsx` you can find implementation of tour block custom component that has two custom properties: `title` (string) and `body` (string).
 
 ## Flows Slot
 

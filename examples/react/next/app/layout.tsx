@@ -6,7 +6,9 @@ import { FlowsProvider } from "@flows/react";
 import * as components from "@flows/react-components";
 import * as tourComponents from "@flows/react-components/tour";
 import "@flows/react-components/index.css";
+
 import { Banner } from "@/components/banner";
+import { TourBanner } from "@/components/tour-banner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,7 +41,10 @@ export default function RootLayout({
             ...components,
             Banner: Banner,
           }}
-          tourComponents={{ ...tourComponents }}
+          tourComponents={{
+            ...tourComponents,
+            Banner: TourBanner,
+          }}
         >
           {children}
         </FlowsProvider>
