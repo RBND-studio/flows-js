@@ -7,6 +7,8 @@ import { FlowsProvider, FlowsSlot } from "@flows/react";
 import * as components from "@flows/react-components";
 import * as tourComponents from "@flows/react-components/tour";
 import "@flows/react-components/index.css";
+import { Banner } from "./components/banner";
+import { TourBanner } from "./components/tour-banner";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -16,8 +18,14 @@ function App() {
       organizationId="YOUR_ORGANIZATION_ID"
       userId="YOUR_USER_ID"
       environment="production"
-      components={{ ...components }}
-      tourComponents={{ ...tourComponents }}
+      components={{
+        ...components,
+        Banner: Banner,
+      }}
+      tourComponents={{
+        ...tourComponents,
+        Banner: TourBanner,
+      }}
     >
       <div>
         <a href="https://vite.dev" target="_blank">
