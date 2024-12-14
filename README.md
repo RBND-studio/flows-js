@@ -1,35 +1,25 @@
 <p align="center">
   <img alt="Flows banner" src="./docs/github-banner.png">
 </p>
-<h1 align="center">Flows JS Library</h1>
-
-<p align="center">
-  <a href="https://www.npmjs.com/package/@flows/js">
-    <img alt="NPM Version" src="https://img.shields.io/npm/v/%40flows%2Fjs">
-  </a>
-  <a href="https://www.npmjs.com/package/@flows/js">
-    <img alt="NPM Downloads" src="https://img.shields.io/npm/dt/%40flows%2Fjs">
-  </a>
-  <a href="https://github.com/RBND-studio/flows-js">
-    <img alt="GitHub License" src="https://img.shields.io/github/license/RBND-studio/flows-js">
-  </a>
-  <a href="https://flows.sh/join-slack">
-    <img alt="Static Badge" src="https://img.shields.io/badge/Join_the_community-grey?logo=slack"">
-  </a>
-
-</p>
+<h1 align="center">Flows SDKs</h1>
 
 ## Getting started
 
-User onboarding for modern SaaS - Flows lets you build any onboarding you want. Guide users, increase feature adoption, and improve revenue.
+Build native product growth experiences, your way – Meet Flows, the flexible platform for building in-app experiences. Focus on your product, not creating one-off logic.
 
-- Create flows with a WYSIWYG editor or define them in your codebase
-- With Flows Cloud you can create and update flows on the fly without having to redeploy your app
-- Automatically track the performance of your flows
-- Use advanced step types like wait and conditional
-- Customize anything with CSS and JS
+- Build powerful in-app experiences to drive product growth
+- Embed components directly into your app
+- Create onboarding, product adoption, in-app messaging, growth experiments, and more
+- Bring your own UI components or use Flows' built-in components
 
 Visit our [website](https://flows.sh) to learn more about Flows
+
+## Packages
+
+This repository contains the SDKs for Flows and accompanying built-in components.
+
+- [React SDK](./workspaces/react)
+- [React components](./workspaces/react-components)
 
 ## Documentation
 
