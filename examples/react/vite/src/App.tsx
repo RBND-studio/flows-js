@@ -3,7 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
-import { FlowsProvider } from "@flows/react";
+import { FlowsProvider, FlowsSlot } from "@flows/react";
 import * as components from "@flows/react-components";
 import * as tourComponents from "@flows/react-components/tour";
 import "@flows/react-components/index.css";
@@ -34,6 +34,16 @@ function App() {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
+
+      <FlowsSlot
+        id="my-slot"
+        placeholder={
+          <div>
+            <p>Slot content will be displayed here</p>
+          </div>
+        }
+      />
+
       <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
     </FlowsProvider>
   );
