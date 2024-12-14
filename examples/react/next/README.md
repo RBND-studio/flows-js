@@ -4,18 +4,18 @@ This is example implementation of `@flows/react` and `@flows/react-components` b
 
 ## Flows Provider
 
-In `layout.tsx` you can find how to implement `<FlowsProvider>` alongside the prebuilt components.
+In [`layout.tsx`](./app/layout.tsx) you can find how to implement `<FlowsProvider>` alongside the prebuilt components.
 
 ## Custom component
 
 ### Workflow block
 
-In `banner.tsx` you can find implementation of workflow block custom component that has two custom properties: `title` (string) and `body` (string). And one exit node: `close`.
+In [`banner.tsx`](./components/banner.tsx) you can find implementation of workflow block custom component that has two custom properties: `title` (string) and `body` (string). And one exit node: `close`.
 
 ### Tour block
 
-In `tour-banner.tsx` you can find implementation of tour block custom component that has two custom properties: `title` (string) and `body` (string).
+In [`tour-banner.tsx`](./components/tour-banner.tsx) you can find implementation of tour block custom component that has two custom properties: `title` (string) and `body` (string).
 
 ## Flows Slot
 
-In `page.tsx` you can find how to implement `<FlowsSlot>` with optional placeholder UI.
+In [`page.tsx`](./app/page.tsx) you can find how to implement `<FlowsSlot>` with optional placeholder UI.
