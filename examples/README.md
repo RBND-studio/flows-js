@@ -4,8 +4,8 @@ This directory contains examples of flows that can be used as a starting point f
 
 ## Examples
 
-- [React Next.js](./react-nextjs) - A simple example of how to use Flows with React and Next.js.
-- [JavaScript](./javascript) - A simple example of how to use Flows with vanilla JavaScript.
+- [React Next.js](./react/next) - A simple example of how to use Flows with React and Next.js.
+- [React Vite](./react/vite/) - A simple example of how to use Flows with React and Vite.
 
 ## Reporting Issues
 
