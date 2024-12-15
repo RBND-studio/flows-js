@@ -1,4 +1,4 @@
-# Flows example - `@flows/react` and NextJS
+# Flows React NextJS example
 
 An example project showcasing how to use Flows with NextJS to build native product growth experiences.
 
@@ -20,7 +20,7 @@ The `@flows/react-components` package includes ready-to-use components to build 
 
 Extend Flows by creating your own components for workflows and tours:
 
-- **Workflow block:** The [`banner.tsx`](./components/banner.tsx) file demonstrates a custom `Banner` component with `title`, `body`, and an `close` prop connected to an exit node.
+- **Workflow block:** The [`banner.tsx`](./components/banner.tsx) file demonstrates a custom `Banner` component with `title`, `body`, and a `close` prop connected to an exit node.
 - **Tour block:** The [`tour-banner.tsx`](./components/tour-banner.tsx) file shows how to build a `TourBanner` component. It accepts `title` and `body` props, as well as `continue`, `previous` and `cancel` for navigation between tour steps.
 
 For detailed instructions on building custom components, see the [custom components documentation](https://flows.sh/docs/blocks/create-custom-components).
@@ -31,4 +31,4 @@ The `<FlowsSlot>` component lets you render Flows UI elements dynamically within
 
 ## Documentation
 
-Learn more about Flows and how to use its features in the [official Flows documentation](https://docs.flows.sh/).
+Learn more about Flows and how to use its features in the [official Flows documentation](https://flows.sh/docs).
