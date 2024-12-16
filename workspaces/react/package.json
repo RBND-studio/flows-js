@@ -15,7 +15,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RBND-studio/flows-js.git"
+    "url": "git+https://github.com/RBND-studio/flows-sdk.git"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
