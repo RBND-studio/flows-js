@@ -1,6 +1,6 @@
 {
   "name": "@flows/react",
-  "version": "0.0.2-canary.8",
+  "version": "0.0.2-canary.9",
   "description": "",
   "scripts": {
     "dev": "tsup --watch --env.NODE_ENV development",
