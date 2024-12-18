@@ -50,7 +50,7 @@ export const useBlocks = ({
 
   const url = useMemo(() => {
     const baseUrl = apiUrl.replace("https://", "wss://").replace("http://", "ws://");
-    return `${baseUrl}/sdk/block-updates?${new URLSearchParams(params).toString()}`;
+    return `${baseUrl}/ws/sdk/block-updates?${new URLSearchParams(params).toString()}`;
   }, [apiUrl, params]);
 
   const onMessage = useCallback((event: MessageEvent<unknown>) => {
