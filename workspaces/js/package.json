@@ -24,7 +24,7 @@
   "version": "0.4.3",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RBND-studio/flows-js.git"
+    "url": "git+https://github.com/RBND-studio/flows-sdk.git"
   },
   "license": "MIT",
   "main": "./dist/index.js",
