@@ -1,7 +1,7 @@
 {
   "name": "@flows/react-components",
   "version": "0.0.2-canary.9",
-  "description": "",
+  "description": "Built-in components for Flows React SDK",
   "scripts": {
     "dev": "tsup --watch --env.NODE_ENV development",
     "build": "tsup --env.NODE_ENV production && pnpm tsc -p tsconfig.dist.json",

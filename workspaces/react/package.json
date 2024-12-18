@@ -1,7 +1,7 @@
 {
   "name": "@flows/react",
   "version": "0.0.2-canary.8",
-  "description": "",
+  "description": "Flows React SDK – Build native product growth experiences, your way",
   "scripts": {
     "dev": "tsup --watch --env.NODE_ENV development",
     "build": "tsup --env.NODE_ENV production && pnpm tsc -p tsconfig.dist.json",
