@@ -23,7 +23,7 @@
     "eslint": "^8.57.0",
     "husky": "^9.1.6",
     "minimist": "^1.2.8",
-    "prettier": "^3.3.3"
+    "prettier": "^3.4.2"
   },
   "packageManager": "pnpm@9.15.0"
 }
