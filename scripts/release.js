@@ -18,7 +18,6 @@ const main = async () => {
   else await exec(`pnpm ${package} version ${release}`);
 
   await exec(`pnpm ${package} build`);
-  await exec(`cp README.md workspaces/${package}`);
 
   const currentVersion = require(`../workspaces/${package}/package.json`).version;
   const packageAndVersion = `@flows/${package}@${currentVersion}`;
